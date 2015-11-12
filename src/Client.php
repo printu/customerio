@@ -25,7 +25,7 @@ class Client extends GuzzleClient
         // Apply some defaults.
         $config = Collection::fromConfig(
             $config,
-            ['max_retries' => 3, 'description_path' => __DIR__ . '/services/description.php',],
+            ['max_retries' => 3, 'description_path' => __DIR__ . '/services/description.php'],
             ['api_key', 'site_id']
         );
 
