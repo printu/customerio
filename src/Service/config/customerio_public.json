@@ -1,0 +1,10 @@
+{
+    "name": "Customer.io API",
+    "apiVersion": "1",
+    "baseUrl": "https://track.customer.io/",
+    "description": "The Customer.io API",
+    "includes": [
+        "intercom_public_events.json",
+        "intercom_public_customers.json"
+    ]
+}
