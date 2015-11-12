@@ -11,9 +11,9 @@ use GuzzleHttp\Subscriber\Retry\RetrySubscriber;
 /**
  * Client used to interact with **Customer.io RESTful API**
  *
- * @method array addContact(array $config = [])
- * @method array updateContact(array $config = [])
- * @method array deleteContact(array $config = [])
+ * @method array addCustomer(array $config = [])
+ * @method array updateCustomer(array $config = [])
+ * @method array deleteCustomer(array $config = [])
  */
 class Client extends GuzzleClient
 {

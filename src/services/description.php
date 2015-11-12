@@ -4,7 +4,7 @@
     'description' => 'The Customer.io API',
     'baseUrl' => 'https://track.customer.io/',
     'operations' => [
-        'addContact' => [
+        'addCustomer' => [
             'httpMethod' => 'PUT',
             'uri' => '/api/v{ApiVersion}/customers/{id}',
             'responseModel' => 'Result',
@@ -29,7 +29,7 @@
                 'location' => 'json'
             ]
         ],
-        'updateContact' => [
+        'updateCustomer' => [
             'httpMethod' => 'PUT',
             'uri' => '/api/v{ApiVersion}/customers/{id}',
             'responseModel' => 'Result',
@@ -51,7 +51,7 @@
                 ]
             ]
         ],
-        'deleteContact' => [
+        'deleteCustomer' => [
             'httpMethod' => 'DELETE',
             'uri' => '/api/v{ApiVersion}/customers/{id}',
             'summary' => 'Deletes a contact given id',
