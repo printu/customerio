@@ -1,7 +1,0 @@
-{
-    "name": "Customerio API",
-    "description": "The Customer.io API",
-    "includes": [
-        "customerio_public.json"
-    ]
-}

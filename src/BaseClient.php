@@ -7,7 +7,7 @@ use GuzzleHttp\Command\Guzzle\Description;
 use GuzzleHttp\Command\Guzzle\GuzzleClient;
 use GuzzleHttp\Subscriber\Retry\RetrySubscriber;
 
-class Client extends GuzzleClient
+abstract class BaseClient extends GuzzleClient
 {
     /**
      * @param array $config
@@ -69,6 +69,7 @@ class Client extends GuzzleClient
         }
 
         // Load service description data.
+        /** @noinspection PhpIncludeInspection */
         $data = is_readable($config['description_path'])
             ? include $config['description_path']
             : null;
