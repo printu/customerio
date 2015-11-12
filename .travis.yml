@@ -19,4 +19,4 @@ script:
   - phpunit $PHPUNIT_FLAGS
 
 after_script:
-  - if [ $TRAVIS_PHP_VERSION = '7.0' ]; then php vendor/bin/coveralls; fi
+  - ./vendor/bin/test-reporter
