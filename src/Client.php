@@ -23,10 +23,11 @@ class Client extends GuzzleClient
     public function __construct(array $config = [])
     {
         // Apply some defaults.
-        $config = Collection::fromConfig($config, [
-            'max_retries' => 3,
-            'description_path' => __DIR__ . '/services/description.php',
-        ], ['api_key', 'site_id']);
+        $config = Collection::fromConfig(
+            $config,
+            ['max_retries' => 3, 'description_path' => __DIR__ . '/services/description.php',],
+            ['api_key', 'site_id']
+        );
 
         // Create the client.
         $this->handleHttpClientOptions($config);
@@ -42,10 +43,7 @@ class Client extends GuzzleClient
         $this->handleCredentialsOptions($config);
 
         // Ensure that ApiVersion is set.
-        $this->setConfig(
-            'defaults/ApiVersion',
-            $this->getDescription()->getApiVersion()
-        );
+        $this->setConfig('defaults/ApiVersion', $this->getDescription()->getApiVersion());
     }
 
     /**
