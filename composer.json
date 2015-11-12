@@ -1,5 +1,5 @@
 {
-    "name": "freshmindpl/customerio",
+    "name": "printu/customerio",
     "description": "PHP API for Customer.io",
     "keywords": ["http", "rest", "customer.io", "customerio", "api", "client"],
     "type": "library",
