@@ -4,7 +4,7 @@
     "keywords": ["http", "rest", "customer.io", "customerio", "api", "client"],
     "type": "library",
     "license": "MIT",
-    "homepage": "https://customer.io",
+    "homepage": "http://customer.io/",
     "authors": [
         {
             "name": "Paweł Krzaczkowski",
