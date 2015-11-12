@@ -89,7 +89,6 @@ class ClientTest extends \PHPUnit_Framework_TestCase
     private function createClient($mock, History $history, $config = [])
     {
         $path = sprintf('%s/fixtures/%s', __DIR__, $mock);
-        print_r($path);
 
         $config['api_key'] = 'key';
         $config['site_id'] = 'site_id';
