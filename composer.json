@@ -1,14 +1,15 @@
 {
     "name": "freshmindpl/customerio",
     "description": "PHP API for Customer.io",
-    "keywords": ["customer.io", "customerio", "php", "php", "api"],
+    "keywords": ["http", "rest", "customer.io", "customerio", "api", "client"],
     "type": "library",
     "license": "MIT",
     "homepage": "https://customer.io",
     "authors": [
         {
             "name": "Paweł Krzaczkowski",
-            "email": "pawel@freshmind.pl"
+            "email": "pawel@freshmind.pl",
+            "homepage": "https://github.com/krzaczek"
         }
     ],
     "minimum-stability": "stable",
