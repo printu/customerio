@@ -38,9 +38,6 @@ class CustomerioException extends CommandException
                 $label = 'Server error response';
                 $class = __NAMESPACE__ . '\\ServerErrorResponseException';
                 $unavailableError = 'Service Unavailable: Back-end server is at capacity';
-            } else {
-                $label = 'Unsuccessful response';
-                $class = __CLASS__;
             }
         } elseif (static::isClientError($statusCode)) {
             $label = 'Client error response';
