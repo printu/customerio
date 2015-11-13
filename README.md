@@ -46,7 +46,7 @@ use Customerio\Client;
 
 $client = new Client([
     'api_key' => 'YOUR_API_KEY',
-    'site_id' => 'YOUS_SITE_ID'
+    'site_id' => 'YOUR_SITE_ID'
 ]);
 ?>
 ```
