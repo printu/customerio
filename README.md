@@ -17,7 +17,7 @@ In your composer.json file:
 ```js
 {
     "require": {
-        "printu/customerio": "~0.1.0"
+        "printu/customerio": "~1.0"
     }
 }
 ```
