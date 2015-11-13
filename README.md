@@ -17,7 +17,7 @@ In your composer.json file:
 ```js
 {
     "require": {
-      "printu/customerio": "~0.1.0"
+        "printu/customerio": "~0.1.0"
     }
 }
 ```
@@ -33,7 +33,6 @@ Remember to include the Composer autoloader in your application:
 ### Examples
 
 
-License
-======================
+## License
 
 MIT license. See the [LICENSE](LICENSE) file for more details.
