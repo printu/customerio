@@ -30,6 +30,31 @@ The client uses [Guzzle](http://docs.guzzlephp.org/en/5.3/clients.html).
 
 Remember to include the Composer autoloader in your application:
 
+```php
+<?php
+require_once 'vendor/autoload.php';
+
+// Application code...
+?>
+```
+
+Configure your access credentials when creating a client:
+
+```php
+<?php
+use Customerio\Client;
+
+$client = new Client([
+    'api_key' => 'YOUR_API_KEY',
+    'site_id' => 'YOUS_SITE_ID'
+]);
+?>
+```
+
+### Local Testing
+
+Run `phpunit` from the project root to start all tests.
+
 ### Examples
 
 
