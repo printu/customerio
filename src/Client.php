@@ -120,7 +120,7 @@ class Client extends GuzzleClient
     {
         $emitter = $this->getEmitter();
         $emitter->on('process', function (ProcessEvent $e) {
-            if (!($exception = $e->getException())) {
+            if (!$e->getException()) {
                 return;
             }
             // Stop other events from firing when you override 401 responses
