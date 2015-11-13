@@ -84,6 +84,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
     /**
      * @param $mock
      * @param History $history
+     * @param array $config
      * @return Client
      */
     private function createClient($mock, History $history, $config = [])

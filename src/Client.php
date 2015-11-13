@@ -2,8 +2,10 @@
 
 namespace Customerio;
 
+use Customerio\Exception\CustomerioException;
 use GuzzleHttp\Client as HttpClient;
 use GuzzleHttp\Collection;
+use GuzzleHttp\Command\Event\ProcessEvent;
 use GuzzleHttp\Command\Guzzle\Description;
 use GuzzleHttp\Command\Guzzle\GuzzleClient;
 use GuzzleHttp\Subscriber\Retry\RetrySubscriber;
@@ -44,6 +46,8 @@ class Client extends GuzzleClient
             $config->toArray()
         );
 
+        $this->handleErrors();
+
         // Ensure that the credentials are set.
         $this->handleCredentialsOptions($config);
 
@@ -61,6 +65,7 @@ class Client extends GuzzleClient
             return;
         }
         $client = new HttpClient($config['http_client_options'] ?: []);
+
         // Attach request retry logic
         $client->getEmitter()->attach(new RetrySubscriber([
             'max' => $config['max_retries'],
@@ -104,5 +109,26 @@ class Client extends GuzzleClient
                 $config['api_key'],
             ]);
         }
+    }
+
+    /**
+     * Overrides the error handling in Guzzle so that when errors are encountered we throw
+     * Customerio errors, not Guzzle ones.
+     *
+     */
+    private function handleErrors()
+    {
+        $emitter = $this->getEmitter();
+        $emitter->on('process', function (ProcessEvent $e) {
+            if (!($exception = $e->getException())) {
+                return;
+            }
+            // Stop other events from firing when you override 401 responses
+            $e->stopPropagation();
+            if ($e->getResponse()->getStatusCode() >= 400 && $e->getResponse()->getStatusCode() < 600) {
+                $e = CustomerioException::factory($e->getRequest(), $e->getResponse(), $e);
+                throw $e;
+            }
+        });
     }
 }
