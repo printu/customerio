@@ -38,4 +38,21 @@ class EventsTest extends AbstractTest
         $this->assertSame('https://track.customer.io/api/v1/events', $history->getLastRequest()->getUrl());
         $this->assertSame('POST', $history->getLastRequest()->getMethod());
     }
+
+    public function testPageView()
+    {
+        $history = new History();
+        $client = $this->createClient('okResponse', $history);
+        $response = $client->pageView([
+            'id' => 1,
+            'url' => 'http://example.pl/login',
+            'data' => [
+                'referrer' => 'http://example.com'
+            ]
+        ]);
+
+        $this->assertSame($response['statusCode'], 200);
+        $this->assertSame('https://track.customer.io/api/v1/customers/1/events', $history->getLastRequest()->getUrl());
+        $this->assertSame('POST', $history->getLastRequest()->getMethod());
+    }
 }
