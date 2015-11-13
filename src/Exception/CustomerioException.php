@@ -16,7 +16,7 @@ class CustomerioException extends CommandException
     private $errors = [];
 
     /**
-     * Simple exception factory for creating Intercom standardised exceptions
+     * Simple exception factory for creating Customer.io standardised exceptions
      *
      * @param RequestInterface $request The Request
      * @param ResponseInterface $response The response
