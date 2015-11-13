@@ -98,6 +98,29 @@
                     'location' => 'json'
                 ]
             ]
+        ],
+        'anonymousEvent' => [
+            'httpMethod' => 'POST',
+            'uri' => '/api/v{ApiVersion}/events',
+            'summary' => 'Records anonymous events',
+            'responseModel' => 'Result',
+            'parameters' => [
+                'ApiVersion' => [
+                    'required' => true,
+                    'type' => 'string',
+                    'location' => 'uri',
+                ],
+                'name' => [
+                    'required' => true,
+                    'type' => 'string',
+                    'location' => 'json'
+                ],
+                'data' => [
+                    'required' => false,
+                    'type' => 'object',
+                    'location' => 'json'
+                ]
+            ]
         ]
     ],
     'models' => [
