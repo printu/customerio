@@ -121,6 +121,47 @@
                     'location' => 'json'
                 ]
             ]
+        ],
+        'pageView' => [
+            'httpMethod' => 'POST',
+            'uri' => '/api/v{ApiVersion}/customers/{id}/events',
+            'summary' => 'Records pageview event',
+            'responseModel' => 'Result',
+            'parameters' => [
+                'ApiVersion' => [
+                    'required' => true,
+                    'type' => 'string',
+                    'location' => 'uri',
+                ],
+                'id' => [
+                    'required' => true,
+                    'type' => 'string',
+                    'location' => 'uri'
+                ],
+                'email' => [
+                    'required' => false,
+                    'type' => 'string',
+                    'location' => 'json'
+                ],
+                'type' => [
+                    'required' => true,
+                    'default' => 'page',
+                    'location' => 'json',
+                    'static' => true,
+                    'type' => 'string'
+                ],
+                'url' => [
+                    'required' => true,
+                    'location' => 'json',
+                    'sentAs' => 'name',
+                    'type' => 'string'
+                ],
+                'data' => [
+                    'required' => false,
+                    'type' => 'object',
+                    'location' => 'json'
+                ]
+            ]
         ]
     ],
     'models' => [
