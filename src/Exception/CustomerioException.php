@@ -25,15 +25,19 @@ class CustomerioException extends CommandException
      */
     public static function factory(RequestInterface $request, ResponseInterface $response, CommandEvent $event)
     {
-        $response_json = $response->json();
-        $unavailable_error = null;
+        $responseJson = $response->json();
+        $unavailableError = null;
         $statusCode = $response->getStatusCode();
 
-        if (!static::isValidError($response_json)) {
+        // Set defaults
+        $label = 'Unsuccessful response';
+        $class = __CLASS__;
+
+        if (!static::isValidError($responseJson)) {
             if (static::isServerError($statusCode)) {
                 $label = 'Server error response';
                 $class = __NAMESPACE__ . '\\ServerErrorResponseException';
-                $unavailable_error = 'Service Unavailable: Back-end server is at capacity';
+                $unavailableError = 'Service Unavailable: Back-end server is at capacity';
             } else {
                 $label = 'Unsuccessful response';
                 $class = __CLASS__;
@@ -44,9 +48,6 @@ class CustomerioException extends CommandException
         } elseif (static::isServerError($statusCode)) {
             $label = 'Server error response';
             $class = __NAMESPACE__ . '\\ServerErrorResponseException';
-        } else {
-            $label = 'Unsuccessful response';
-            $class = __CLASS__;
         }
 
         $message = $label . PHP_EOL . implode(
@@ -58,38 +59,38 @@ class CustomerioException extends CommandException
             )
         );
 
-        /** @var CustomerioException $e */
-        $e = new $class($message, $event->getTransaction());
+        /** @var CustomerioException $exception */
+        $exception = new $class($message, $event->getTransaction());
 
         // Sets the errors if the error response is the standard Customer.io error type
-        if (static::isValidError($response_json)) {
-            $e->setErrors([
+        if (static::isValidError($responseJson)) {
+            $exception->setErrors([
                 array(
                     'code' => $statusCode,
-                    'message' => $response_json['meta']['error']
+                    'message' => $responseJson['meta']['error']
                 )
             ]);
-        } elseif ($unavailable_error != null) {
-            $e->setErrors([
+        } elseif ($unavailableError != null) {
+            $exception->setErrors([
                 array(
                     'code' => 'service_unavailable',
-                    'message' => $unavailable_error
+                    'message' => $unavailableError
                 )
             ]);
         }
 
-        return $e;
+        return $exception;
     }
 
     /**
      * Verifies that a response body is a standard Customerio error
-     * @param $response_body
+     * @param $responseBody
      * @return bool
      */
-    private static function isValidError($response_body)
+    private static function isValidError($responseBody)
     {
-        if (array_key_exists('meta', $response_body) &&
-            array_key_exists('error', $response_body['meta'])
+        if (array_key_exists('meta', $responseBody) &&
+            array_key_exists('error', $responseBody['meta'])
         ) {
             return true;
         }
