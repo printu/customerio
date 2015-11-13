@@ -24,7 +24,7 @@ class Client extends GuzzleClient
      */
     public function __construct(array $config = [])
     {
-        $default_config = [
+        $defaultConfig = [
             'max_retries' => 3,
             'description_path' => __DIR__ . '/services/description.php'
         ];
@@ -32,7 +32,7 @@ class Client extends GuzzleClient
         // Apply some defaults.
         $config = Collection::fromConfig(
             $config,
-            $default_config,
+            $defaultConfig,
             ['api_key', 'site_id']
         );
 
