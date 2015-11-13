@@ -1,0 +1,159 @@
+HTTP/1.1 404 Not Found
+Content-Type: application/json; charset=utf-8
+Status: 404 Not Found
+Date: Fri, 13 Nov 2015 10:10:31 GMT
+Transfer-Encoding: chunked
+Access-Control-Allow-Origin: *
+
+{
+  "meta": {
+    "greeting": "Welcome to Customer.io's edge event collection service. Enjoy your stay."
+  },
+  "request_endpoints": [
+    {
+      "POST /api/v1/events": {
+        "description": "Records events",
+        "parameters": [
+          "name - string (required) - name of the event to record",
+          "data - hash - hash of attributes specific to the event"
+        ]
+      }
+    },
+    {
+      "GET /e/c/{payload}/{token}": {
+        "description": "Tracks email link clicks and redirects to destination.",
+        "parameters": [
+          "payload - string (required) - hash of tracked link information",
+          "token - string - URL validation token"
+        ]
+      }
+    },
+    {
+      "POST /sendgrid/events": {
+        "description": "Processes webhooks from a third-party service.",
+        "parameters": []
+      }
+    },
+    {
+      "POST /unsubscribe/{delivery_id}": {
+        "description": "Unsubscribes a user from Customer.io.",
+        "parameters": [
+          "delivery_id - string (required) - id of delivery to unsubscribe."
+        ]
+      }
+    },
+    {
+      "POST /api/v1/customers/{customer_id}/events": {
+        "description": "Records events",
+        "parameters": [
+          "customer_id - string (required) - id of the user who performed the event",
+          "name - string (required) - name of the event to record",
+          "data - hash - hash of attributes specific to the event"
+        ]
+      }
+    },
+    {
+      "DELETE /api/v1/customers/{customer_id}": {
+        "description": "Deletes a user from Customer.io.",
+        "parameters": [
+          "customer_id - string (required) - id of the user to delete."
+        ]
+      }
+    },
+    {
+      "GET /e/c/{payload}": {
+        "description": "Tracks email link clicks and redirects to destination.",
+        "parameters": [
+          "payload - string (required) - hash of tracked link information",
+          "token - string - URL validation token"
+        ]
+      }
+    },
+    {
+      "GET /e/o/{payload}": {
+        "description": "Tracks email opens and returns a pixel.",
+        "parameters": [
+          "payload - string (required) - hash of tracked email information"
+        ]
+      }
+    },
+    {
+      "PUT /api/v1/customers/{customer_id}": {
+        "description": "Identifies and updates user attributes.",
+        "parameters": [
+          "customer_id - string (required) - id of the user to update"
+        ]
+      }
+    },
+    {
+      "GET /events/identify.gif": {
+        "description": "Responds to identifies from Customer.io's JavaScript tracker, returns a pixel.",
+        "parameters": [
+          "site_id - string (required) - valid site_id for your Customer.io environment"
+        ]
+      }
+    },
+    {
+      "GET /events/page.gif": {
+        "description": "Responds to pageviews and events from Customer.io's JavaScript tracker, returns a pixel.",
+        "parameters": [
+          "site_id - string (required) - valid site_id for your Customer.io environment"
+        ]
+      }
+    },
+    {
+      "GET /deliveries/{delivery_id}": {
+        "description": "View a delivery if publicly viewable.",
+        "parameters": [
+          "delivery_id - string (required) - id of delivery to view"
+        ]
+      }
+    },
+    {
+      "POST /mandrill/events": {
+        "description": "Processes webhooks from a third-party service.",
+        "parameters": []
+      }
+    },
+    {
+      "POST /stripe/events": {
+        "description": "Processes webhooks from a third-party service.",
+        "parameters": []
+      }
+    },
+    {
+      "GET /unsubscribe": {
+        "description": "Show an example unsubscribe page",
+        "parameters": []
+      }
+    },
+    {
+      "GET /unsubscribe/{delivery_id}": {
+        "description": "Unsubscribes a user from Customer.io.",
+        "parameters": [
+          "delivery_id - string (required) - id of delivery to unsubscribe."
+        ]
+      }
+    },
+    {
+      "GET /events/event.gif": {
+        "description": "Responds to pageviews and events from Customer.io's JavaScript tracker, returns a pixel.",
+        "parameters": [
+          "site_id - string (required) - valid site_id for your Customer.io environment"
+        ]
+      }
+    },
+    {
+      "POST /mailgun/events": {
+        "description": "Processes webhooks from a third-party service.",
+        "parameters": []
+      }
+    },
+    {
+      "GET /auth": {
+        "description": "Validates HTTP Basic auth credentials.",
+        "parameters": []
+      }
+    }
+  ]
+}

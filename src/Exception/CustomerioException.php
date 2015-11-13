@@ -63,12 +63,17 @@ class CustomerioException extends CommandException
 
         // Sets the errors if the error response is the standard Customer.io error type
         if (static::isValidError($response_json)) {
-            $e->setErrors($response_json['meta']['error']);
+            $e->setErrors([
+                array(
+                    'code' => $statusCode,
+                    'message' => $response_json['meta']['error']
+                )
+            ]);
         } elseif ($unavailable_error != null) {
             $e->setErrors([
                 array(
                     'code' => 'service_unavailable',
-                    "message" => $unavailable_error
+                    'message' => $unavailable_error
                 )
             ]);
         }
