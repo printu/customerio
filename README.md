@@ -57,6 +57,118 @@ Run `phpunit` from the project root to start all tests.
 
 ### Examples
 
+#### Customers
+
+```php
+<?php
+// Create customer
+try {
+    $client->addCustomer(
+        [
+            'id' => 1,
+            'email' => 'user@example.com',
+            'data' => [
+                'plan' => 'free',
+                'created_at' => time()
+            ]
+        ]
+    );
+} catch (CustomerioException $e) {
+    // Handle the error appropriately. Simple example is below
+    $request = $e->getRequest();
+    $url = $request->getUrl();
+    $body = $request->getBody();
+    error_log("[API SERVER ERROR] Status Code: {$url} | Body: {$body}");
+
+    $response = $e->getResponse();
+    $code = $response->getStatusCode();
+    $body = $response->getBody();
+    error_log("[API SERVER ERROR] Status Code: {$code} | Body: {$body}");
+}
+
+// Update customer
+try {
+    $client->updateCustomer(
+        [
+            'id' => 1,
+            'email' => 'user@example.com',
+            'data' => [
+                'plan' => 'premium'
+            ]
+        ]
+    );
+} catch (CustomerioException $e) {
+    // Handle the error   
+}
+
+// Delete customer
+try {
+    $client->deleteCustomer(
+        [
+            'id' => 1,
+        ]
+    );
+} catch (CustomerioException $e) {
+    // Handle the error   
+}
+```
+
+#### Events
+
+```php
+<?php
+// Add customer event
+try {
+    $client->addEvent(
+        [
+            'id' => 1,
+            'name' => 'test-event',
+            'data' => [
+                'event-metadata-1' => 'test',
+                'event-metadata-2' => 'test-2'
+            ]
+        ]
+    );
+} catch (CustomerioException $e) {
+    // Handle the error
+}
+
+// Add anonymous event
+try {
+    $client->anonymousEvent(
+        [
+            'name' => 'invite-friend',
+            'data' => [
+                'recipient' => 'invitee@example.com'
+            ]
+        ]
+    );
+} catch (CustomerioException $e) {
+    // Handle the error
+}
+```
+
+Anonymous event [example](http://customer.io/docs/invitation-emails.html) usage.
+
+#### PageView
+
+```php
+<?php
+// Add page view
+try {
+    $result = $client->pageView(
+        [
+            'id' => 1,
+            'url' => 'http://example.com/login',
+            'data' => [
+                'referrer' => 'http://example/com'
+            ]
+        ]
+    );
+} catch (CustomerioException $e) {
+    // Handle the error
+}
+```
 
 ## License
 
