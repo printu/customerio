@@ -161,7 +161,7 @@ try {
             'id' => 1,
             'url' => 'http://example.com/login',
             'data' => [
-                'referrer' => 'http://example/com'
+                'referrer' => 'http://example.com'
             ]
         ]
     );
