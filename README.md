@@ -4,10 +4,10 @@ PHP bindings for the Customer.io API (https://track.customer.io/).
 
 [API Documentation](http://customer.io/docs/api/rest.html)
 
+[![Latest Stable Version](https://poser.pugx.org/printu/customerio/v/stable)](https://packagist.org/packages/printu/customerio)
 [![Build Status](https://travis-ci.org/printu/customerio.svg?branch=master)](https://travis-ci.org/printu/customerio)
 [![Code Climate](https://codeclimate.com/github/printu/customerio/badges/gpa.svg)](https://codeclimate.com/github/printu/customerio)
 [![Test Coverage](https://codeclimate.com/github/printu/customerio/badges/coverage.svg)](https://codeclimate.com/github/printu/customerio/coverage)
-[![Dependency Status](https://www.versioneye.com/user/projects/564996f8cc00b0001d000001/badge.svg?style=flat)](https://www.versioneye.com/user/projects/564996f8cc00b0001d000001)
 
 ## Installation
 
