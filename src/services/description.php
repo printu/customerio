@@ -94,8 +94,9 @@
                 ],
                 'data' => [
                     'required' => false,
-                    'type' => 'object',
-                    'location' => 'json'
+                    'type' => 'array',
+                    'location' => 'json',
+                    'minItems' => 1
                 ]
             ]
         ],
@@ -117,8 +118,9 @@
                 ],
                 'data' => [
                     'required' => false,
-                    'type' => 'object',
-                    'location' => 'json'
+                    'type' => 'array',
+                    'location' => 'json',
+                    'minItems' => 1
                 ]
             ]
         ],
@@ -158,8 +160,9 @@
                 ],
                 'data' => [
                     'required' => false,
-                    'type' => 'object',
-                    'location' => 'json'
+                    'type' => 'array',
+                    'location' => 'json',
+                    'minItems' => 1
                 ]
             ]
         ]
