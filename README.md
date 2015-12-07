@@ -68,10 +68,8 @@ try {
         [
             'id' => 1,
             'email' => 'user@example.com',
-            'data' => [
-                'plan' => 'free',
-                'created_at' => time()
-            ]
+            'plan' => 'free',
+            'created_at' => time()
         ]
     );
 } catch (CustomerioException $e) {
@@ -93,9 +91,7 @@ try {
         [
             'id' => 1,
             'email' => 'user@example.com',
-            'data' => [
-                'plan' => 'premium'
-            ]
+            'plan' => 'premium'
         ]
     );
 } catch (CustomerioException $e) {

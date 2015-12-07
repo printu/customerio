@@ -51,6 +51,9 @@
                     'type' => 'string',
                     'location' => 'json'
                 ]
+            ],
+            'additionalParameters' => [
+                'location' => 'json'
             ]
         ],
         'deleteCustomer' => [
