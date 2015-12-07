@@ -76,6 +76,21 @@ class ClientTest extends AbstractTest
         }
     }
 
+    public function testServerMalformedJsonResponse()
+    {
+        $history = new History();
+        $client = $this->createClient('jsonError', $history);
+
+        try {
+            $client->addCustomer([
+                'id' => 45,
+                'email' => 'test@example.com'
+            ]);
+        } catch (CustomerioException $e) {
+            $this->assertSame($e->getResponse()->getStatusCode(), 502);
+        }
+    }
+
     public function testServiceUnaviable()
     {
         $history = new History();

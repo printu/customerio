@@ -25,7 +25,12 @@ class CustomerioException extends CommandException
      */
     public static function factory(RequestInterface $request, ResponseInterface $response, CommandEvent $event)
     {
-        $responseJson = $response->json();
+        try {
+            $responseJson = $response->json();
+        } catch (\Exception $e) {
+            $responseJson = [];
+        }
+
         $unavailableError = null;
         $statusCode = $response->getStatusCode();
 

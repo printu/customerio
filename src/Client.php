@@ -8,6 +8,8 @@ use GuzzleHttp\Collection;
 use GuzzleHttp\Command\Event\ProcessEvent;
 use GuzzleHttp\Command\Guzzle\Description;
 use GuzzleHttp\Command\Guzzle\GuzzleClient;
+use GuzzleHttp\Event\CompleteEvent;
+use GuzzleHttp\Exception\ParseException;
 use GuzzleHttp\Subscriber\Retry\RetrySubscriber;
 
 /**
@@ -121,11 +123,32 @@ class Client extends GuzzleClient
      */
     private function handleErrors()
     {
+        $this->getHttpClient()->getEmitter()->on('complete', function (CompleteEvent $e) {
+            if (!$e->getResponse()) {
+                return;
+            }
+
+            if (!$e->getResponse()->getBody()->getSize()) {
+                return;
+            }
+
+            try {
+                $e->getResponse()->json();
+            } catch (ParseException $exception) {
+                //JSON is invalid - mock 502 response
+                $response = $exception->getResponse();
+                $response->setStatusCode(502);
+                $response->setReasonPhrase($exception->getMessage());
+                throw new ParseException($exception->getMessage(), $response);
+            }
+        });
+
         $emitter = $this->getEmitter();
         $emitter->on('process', function (ProcessEvent $e) {
             if (!$e->getException()) {
                 return;
             }
+
             // Stop other events from firing when you override 401 responses
             $e->stopPropagation();
             if ($e->getResponse()->getStatusCode() >= 400 && $e->getResponse()->getStatusCode() < 600) {
