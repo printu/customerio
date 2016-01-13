@@ -6,7 +6,10 @@ use Customerio\Exception\CustomerioException;
 use Customerio\Exception\ServerErrorResponseException;
 use GuzzleHttp\Client;
 use GuzzleHttp\Command\Guzzle\Description;
+use GuzzleHttp\Exception\ConnectException;
+use GuzzleHttp\Message\Request;
 use GuzzleHttp\Subscriber\History;
+use GuzzleHttp\Subscriber\Mock;
 
 /**
  * Class ClientTest
@@ -119,5 +122,35 @@ class ClientTest extends AbstractTest
         } catch (CustomerioException $e) {
             $this->assertSame($e->getResponse()->getStatusCode(), 404);
         }
+    }
+
+    /**
+     * @expectedException \Customerio\Exception\CustomerioException
+     */
+    public function testTimeoutResponse()
+    {
+        $history = new History();
+
+        $config['api_key'] = 'key';
+        $config['site_id'] = 'site_id';
+
+        $client = new \Customerio\Client($config);
+        $httpClient = $client->getHttpClient();
+
+        $mock = new Mock();
+        $mock->addException(
+            new ConnectException(
+                'addCustomer',
+                new Request('post', '/')
+            )
+        );
+
+        $httpClient->getEmitter()->attach($mock);
+        $httpClient->getEmitter()->attach($history);
+
+        $client->addCustomer([
+            'id' => 45,
+            'email' => 'test@example.com'
+        ]);
     }
 }

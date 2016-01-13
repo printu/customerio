@@ -91,6 +91,10 @@ class CustomerioException extends CommandException
      */
     private static function isValidError($responseBody)
     {
+        if (!$responseBody || !is_array($responseBody)) {
+            return false;
+        }
+
         if (array_key_exists('meta', $responseBody) &&
             array_key_exists('error', $responseBody['meta'])
         ) {

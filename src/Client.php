@@ -10,6 +10,7 @@ use GuzzleHttp\Command\Guzzle\Description;
 use GuzzleHttp\Command\Guzzle\GuzzleClient;
 use GuzzleHttp\Event\CompleteEvent;
 use GuzzleHttp\Exception\ParseException;
+use GuzzleHttp\Message\Response;
 use GuzzleHttp\Subscriber\Retry\RetrySubscriber;
 
 /**
@@ -151,6 +152,14 @@ class Client extends GuzzleClient
 
             // Stop other events from firing when you override 401 responses
             $e->stopPropagation();
+
+            if (!$e->getResponse()) {
+                $response = new Response(502, [], null);
+                $response->setReasonPhrase($e->getException()->getMessage());
+                $e = CustomerioException::factory($e->getRequest(), $response, $e);
+                throw $e;
+            }
+
             if ($e->getResponse()->getStatusCode() >= 400 && $e->getResponse()->getStatusCode() < 600) {
                 $e = CustomerioException::factory($e->getRequest(), $e->getResponse(), $e);
                 throw $e;
