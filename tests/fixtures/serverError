@@ -1,8 +1,0 @@
-HTTP/1.1 502 Bad Gateway
-Content-Type: application/json; charset=utf-8
-Status: 502 Bad Gateway
-Date: Thu, 12 Nov 2015 16:22:12 GMT
-Content-Length: 3
-Access-Control-Allow-Origin: *
-
-{}
