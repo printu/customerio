@@ -2,48 +2,114 @@
 
 namespace Customerio\Tests;
 
-use GuzzleHttp\Subscriber\History;
+use Customerio\Endpoint\Customers;
 
-class CustomersTest extends AbstractTest
+class CustomersTest extends \PHPUnit_Framework_TestCase
 {
-    public function testCreateCustomer()
+    public function testUserCreate()
     {
-        $history = new History();
-        $client = $this->createClient('okResponse', $history);
-        $response = $client->addCustomer([
-            'id' => 45,
-            'email' => 'test@example.com'
-        ]);
-
-        $this->assertSame($response['statusCode'], 200);
-        $this->assertSame('https://track.customer.io/api/v1/customers/45', $history->getLastRequest()->getUrl());
-        $this->assertSame('PUT', $history->getLastRequest()->getMethod());
+        $stub = $this->getMockBuilder('Customerio\Client')->disableOriginalConstructor()->getMock();
+        $stub->method('put')->willReturn('foo');
+        $customer = new Customers($stub);
+        $this->assertEquals('foo', $customer->add([
+            'id' => 1,
+            'email' => 'test@customer.io',
+            'plan' => 'free',
+        ]));
     }
 
-    public function testUpdateCustomer()
+    /**
+     * @expectedException \InvalidArgumentException
+     */
+    public function testUserCreateIdMissing()
     {
-        $history = new History();
-        $client = $this->createClient('okResponse', $history);
-        $response = $client->updateCustomer([
-            'id' => 45,
-            'email' => 'test@example.com'
-        ]);
-
-        $this->assertSame($response['statusCode'], 200);
-        $this->assertSame('https://track.customer.io/api/v1/customers/45', $history->getLastRequest()->getUrl());
-        $this->assertSame('PUT', $history->getLastRequest()->getMethod());
+        $stub = $this->getMockBuilder('Customerio\Client')->disableOriginalConstructor()->getMock();
+        $stub->method('put')->willReturn('foo');
+        $customer = new Customers($stub);
+        $this->assertEquals('foo', $customer->add([
+            'email' => 'test@customer.io',
+        ]));
     }
 
-    public function testDeleteCustomer()
+    /**
+     * @expectedException \InvalidArgumentException
+     */
+    public function testUserCreateEmailMissing()
     {
-        $history = new History();
-        $client = $this->createClient('okResponse', $history);
-        $response = $client->deleteCustomer([
-            'id' => 45
-        ]);
+        $stub = $this->getMockBuilder('Customerio\Client')->disableOriginalConstructor()->getMock();
+        $stub->method('put')->willReturn('foo');
+        $customer = new Customers($stub);
+        $this->assertEquals('foo', $customer->add([
+            'id' => 1,
+        ]));
+    }
 
-        $this->assertSame($response['statusCode'], 200);
-        $this->assertSame('https://track.customer.io/api/v1/customers/45', $history->getLastRequest()->getUrl());
-        $this->assertSame('DELETE', $history->getLastRequest()->getMethod());
+    public function testUserUpdate()
+    {
+        $stub = $this->getMockBuilder('Customerio\Client')->disableOriginalConstructor()->getMock();
+        $stub->method('put')->willReturn('foo');
+        $customer = new Customers($stub);
+        $this->assertEquals('foo', $customer->update([
+            'id' => 1,
+            'email' => 'test@customer.io',
+        ]));
+    }
+
+    public function testUserDelete()
+    {
+        $stub = $this->getMockBuilder('Customerio\Client')->disableOriginalConstructor()->getMock();
+        $stub->method('delete')->willReturn('foo');
+        $customer = new Customers($stub);
+        $this->assertEquals('foo', $customer->delete([
+            'id' => 1,
+        ]));
+    }
+
+    /**
+     * @expectedException \InvalidArgumentException
+     */
+    public function testUserDeleteIdMissing()
+    {
+        $stub = $this->getMockBuilder('Customerio\Client')->disableOriginalConstructor()->getMock();
+        $stub->method('delete')->willReturn('foo');
+        $customer = new Customers($stub);
+        $this->assertEquals('foo', $customer->delete([]));
+    }
+
+    public function testUserEvent()
+    {
+        $stub = $this->getMockBuilder('Customerio\Client')->disableOriginalConstructor()->getMock();
+        $stub->method('post')->willReturn('foo');
+        $customer = new Customers($stub);
+        $this->assertEquals('foo', $customer->event([
+            'id' => 1,
+            'name' => 'testing-123',
+        ]));
+    }
+
+    /**
+     * @expectedException \InvalidArgumentException
+     */
+    public function testCustomerEventIdMissing()
+    {
+        $stub = $this->getMockBuilder('Customerio\Client')->disableOriginalConstructor()->getMock();
+        $stub->method('post')->willReturn('foo');
+        $customer = new Customers($stub);
+        $this->assertEquals('foo', $customer->event([
+            'name' => 'testing-123',
+        ]));
+    }
+
+    /**
+     * @expectedException \InvalidArgumentException
+     */
+    public function testCustomerEventNameMissing()
+    {
+        $stub = $this->getMockBuilder('Customerio\Client')->disableOriginalConstructor()->getMock();
+        $stub->method('post')->willReturn('foo');
+        $customer = new Customers($stub);
+        $this->assertEquals('foo', $customer->event([
+            'id' => 1,
+        ]));
     }
 }

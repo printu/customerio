@@ -17,14 +17,14 @@ In your composer.json file:
 ```js
 {
     "require": {
-        "printu/customerio": "~1.0"
+        "printu/customerio": "~2.0"
     }
 }
 ```
 
 Once the composer.json file is created you can run `composer install` for the initial package install and `composer update` to update to the latest version of the API client.
 
-The client uses [Guzzle](http://docs.guzzlephp.org/en/5.3/clients.html).
+The client uses [Guzzle](http://docs.guzzlephp.org/en/stable/).
 
 ## Basic Usage
 
@@ -44,10 +44,7 @@ Configure your access credentials when creating a client:
 <?php
 use Customerio\Client;
 
-$client = new Client([
-    'api_key' => 'YOUR_API_KEY',
-    'site_id' => 'YOUR_SITE_ID'
-]);
+$client = new Client('YOUR_API_KEY', 'YOUR_SITE_ID');
 ?>
 ```
 
@@ -63,7 +60,7 @@ Run `phpunit` from the project root to start all tests.
 <?php
 // Create customer
 try {
-    $client->addCustomer(
+    $client->customers->add(
         [
             'id' => 1,
             'email' => 'user@example.com',
@@ -71,40 +68,31 @@ try {
             'created_at' => time()
         ]
     );
-} catch (CustomerioException $e) {
-    // Handle the error appropriately. Simple example is below
-    $request = $e->getRequest();
-    $url = $request->getUrl();
-    $body = $request->getBody();
-    error_log("[API SERVER ERROR] Status Code: {$url} | Body: {$body}");
-
-    $response = $e->getResponse();
-    $code = $response->getStatusCode();
-    $body = $response->getBody();
-    error_log("[API SERVER ERROR] Status Code: {$code} | Body: {$body}");
+} catch (GuzzleException $e) {
+    // Handle the error
 }
 
 // Update customer
 try {
-    $client->updateCustomer(
+    $client->customers->update(
         [
             'id' => 1,
             'email' => 'user@example.com',
             'plan' => 'premium'
         ]
     );
-} catch (CustomerioException $e) {
+} catch (GuzzleException $e) {
     // Handle the error   
 }
 
 // Delete customer
 try {
-    $client->deleteCustomer(
+    $client->customer->delete(
         [
             'id' => 1,
         ]
     );
-} catch (CustomerioException $e) {
+} catch (GuzzleException $e) {
     // Handle the error   
 }
 ```
@@ -115,7 +103,7 @@ try {
 <?php
 // Add customer event
 try {
-    $client->addEvent(
+    $client->customers->event(
         [
             'id' => 1,
             'name' => 'test-event',
@@ -125,13 +113,13 @@ try {
             ]
         ]
     );
-} catch (CustomerioException $e) {
+} catch (GuzzleException $e) {
     // Handle the error
 }
 
 // Add anonymous event
 try {
-    $client->anonymousEvent(
+    $client->event->add(
         [
             'name' => 'invite-friend',
             'data' => [
@@ -139,7 +127,7 @@ try {
             ]
         ]
     );
-} catch (CustomerioException $e) {
+} catch (GuzzleException $e) {
     // Handle the error
 }
 ```
@@ -152,7 +140,7 @@ Anonymous event [example](http://customer.io/docs/invitation-emails.html) usage.
 <?php
 // Add page view
 try {
-    $result = $client->pageView(
+    $result = $client->page->view(
         [
             'id' => 1,
             'url' => 'http://example.com/login',
@@ -161,7 +149,7 @@ try {
             ]
         ]
     );
-} catch (CustomerioException $e) {
+} catch (GuzzleException $e) {
     // Handle the error
 }
 ```
