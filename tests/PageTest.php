@@ -18,7 +18,7 @@ class PageTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \InvalidArgumentException
+     * @expectedException \GuzzleHttp\Exception\GuzzleException
      */
     public function testEventIdException()
     {
@@ -29,7 +29,7 @@ class PageTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \InvalidArgumentException
+     * @expectedException \GuzzleHttp\Exception\GuzzleException
      */
     public function testEventUrlException()
     {

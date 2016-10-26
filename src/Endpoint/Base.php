@@ -3,6 +3,8 @@
 namespace Customerio\Endpoint;
 
 use Customerio\Client;
+use GuzzleHttp\Exception\RequestException;
+use GuzzleHttp\Psr7\Request;
 
 class Base
 {
@@ -25,5 +27,14 @@ class Base
     protected function customerPath($customerId)
     {
         return "customers/".$customerId;
+    }
+
+    /**
+     * @param $message
+     * @param $method
+     */
+    protected function mockException($message, $method)
+    {
+        throw new RequestException($message, (new Request($method, '/')));
     }
 }

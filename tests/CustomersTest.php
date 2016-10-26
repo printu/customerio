@@ -19,7 +19,7 @@ class CustomersTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \InvalidArgumentException
+     * @expectedException \GuzzleHttp\Exception\GuzzleException
      */
     public function testUserCreateIdMissing()
     {
@@ -32,7 +32,7 @@ class CustomersTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \InvalidArgumentException
+     * @expectedException \GuzzleHttp\Exception\GuzzleException
      */
     public function testUserCreateEmailMissing()
     {
@@ -66,7 +66,7 @@ class CustomersTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \InvalidArgumentException
+     * @expectedException \GuzzleHttp\Exception\GuzzleException
      */
     public function testUserDeleteIdMissing()
     {
@@ -88,7 +88,7 @@ class CustomersTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \InvalidArgumentException
+     * @expectedException \GuzzleHttp\Exception\GuzzleException
      */
     public function testCustomerEventIdMissing()
     {
@@ -101,7 +101,7 @@ class CustomersTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \InvalidArgumentException
+     * @expectedException \GuzzleHttp\Exception\GuzzleException
      */
     public function testCustomerEventNameMissing()
     {

@@ -14,11 +14,11 @@ class Page extends Base
     public function view(array $options)
     {
         if (!isset($options['id'])) {
-            throw new \InvalidArgumentException('User id is required!');
+            $this->mockException('User id is required!', 'POST');
         }
 
         if (!isset($options['url'])) {
-            throw new \InvalidArgumentException('URL is required!');
+            $this->mockException('URL is required!', 'POST');
         }
 
         $options['name'] = $options['url'];

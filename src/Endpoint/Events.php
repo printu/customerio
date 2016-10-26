@@ -14,7 +14,7 @@ class Events extends Base
     public function anonymous(array $options)
     {
         if (!isset($options['name'])) {
-            throw new \InvalidArgumentException('Name is required!');
+            $this->mockException('Name is required!', 'POST');
         }
 
         return $this->client->post("events", $options);

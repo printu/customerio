@@ -17,7 +17,7 @@ class EventsTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \InvalidArgumentException
+     * @expectedException \GuzzleHttp\Exception\GuzzleException
      */
     public function testEventAnonymousException()
     {

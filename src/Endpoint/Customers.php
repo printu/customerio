@@ -13,11 +13,11 @@ class Customers extends Base
     public function event(array $options)
     {
         if (!isset($options['id'])) {
-            throw new \InvalidArgumentException('User id is required!');
+            $this->mockException('User id is required!', 'POST');
         }
 
         if (!isset($options['name'])) {
-            throw new \InvalidArgumentException('Name is required!');
+            $this->mockException('Name is required!', 'POST');
         }
 
         $path = $this->customerPath($options['id']);
@@ -34,11 +34,11 @@ class Customers extends Base
     public function add(array $options)
     {
         if (!isset($options['id'])) {
-            throw new \InvalidArgumentException('User id is required!');
+            $this->mockException('User id is required!', 'PUT');
         }
 
         if (!isset($options['email'])) {
-            throw new \InvalidArgumentException('Email is required!');
+            $this->mockException('Email is required!', 'PUT');
         }
 
         $path = $this->customerPath($options['id']);
@@ -60,7 +60,7 @@ class Customers extends Base
     public function delete(array $options)
     {
         if (!isset($options['id'])) {
-            throw new \InvalidArgumentException('User id is required!');
+            $this->mockException('User id is required!', 'DELETE');
         }
 
         $path = $this->customerPath($options['id']);
