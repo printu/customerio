@@ -2,57 +2,28 @@
 
 namespace Customerio\Tests;
 
-use GuzzleHttp\Subscriber\History;
+use Customerio\Endpoint\Events;
 
-class EventsTest extends AbstractTest
+class EventsTest extends \PHPUnit_Framework_TestCase
 {
-    public function testAddEvent()
+    public function testEventAnonymous()
     {
-        $history = new History();
-        $client = $this->createClient('okResponse', $history);
-        $response = $client->addEvent([
-            'id' => 45,
-            'name' => 'test-event',
-            'data' => [
-                'test-data' => 1
-            ]
-        ]);
-
-        $this->assertSame($response['statusCode'], 200);
-        $this->assertSame('https://track.customer.io/api/v1/customers/45/events', $history->getLastRequest()->getUrl());
-        $this->assertSame('POST', $history->getLastRequest()->getMethod());
+        $stub = $this->getMockBuilder('Customerio\Client')->disableOriginalConstructor()->getMock();
+        $stub->method('post')->willReturn('foo');
+        $events = new Events($stub);
+        $this->assertEquals('foo', $events->anonymous([
+            'name' => 'test-event'
+        ]));
     }
 
-    public function testAnonymousEvent()
+    /**
+     * @expectedException \InvalidArgumentException
+     */
+    public function testEventAnonymousException()
     {
-        $history = new History();
-        $client = $this->createClient('okResponse', $history);
-        $response = $client->anonymousEvent([
-            'name' => 'test-event-anonymous',
-            'data' => [
-                'test-data' => 1
-            ]
-        ]);
-
-        $this->assertSame($response['statusCode'], 200);
-        $this->assertSame('https://track.customer.io/api/v1/events', $history->getLastRequest()->getUrl());
-        $this->assertSame('POST', $history->getLastRequest()->getMethod());
-    }
-
-    public function testPageView()
-    {
-        $history = new History();
-        $client = $this->createClient('okResponse', $history);
-        $response = $client->pageView([
-            'id' => 1,
-            'url' => 'http://example.pl/login',
-            'data' => [
-                'referrer' => 'http://example.com'
-            ]
-        ]);
-
-        $this->assertSame($response['statusCode'], 200);
-        $this->assertSame('https://track.customer.io/api/v1/customers/1/events', $history->getLastRequest()->getUrl());
-        $this->assertSame('POST', $history->getLastRequest()->getMethod());
+        $stub = $this->getMockBuilder('Customerio\Client')->disableOriginalConstructor()->getMock();
+        $stub->method('post')->willReturn('foo');
+        $events = new Events($stub);
+        $this->assertEquals('foo', $events->anonymous([]));
     }
 }

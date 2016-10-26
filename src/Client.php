@@ -2,168 +2,143 @@
 
 namespace Customerio;
 
-use Customerio\Exception\CustomerioException;
-use GuzzleHttp\Client as HttpClient;
-use GuzzleHttp\Collection;
-use GuzzleHttp\Command\Event\ProcessEvent;
-use GuzzleHttp\Command\Guzzle\Description;
-use GuzzleHttp\Command\Guzzle\GuzzleClient;
-use GuzzleHttp\Event\CompleteEvent;
-use GuzzleHttp\Exception\ParseException;
-use GuzzleHttp\Message\Response;
-use GuzzleHttp\Subscriber\Retry\RetrySubscriber;
+use GuzzleHttp\Client as BaseClient;
+use GuzzleHttp\Psr7\Response;
+use function GuzzleHttp\Psr7\stream_for;
 
-/**
- * Client used to interact with **Customer.io RESTful API**
- *
- * @method array addCustomer(array $config = [])
- * @method array updateCustomer(array $config = [])
- * @method array deleteCustomer(array $config = [])
- * @method array addEvent(array $config = [])
- * @method array anonymousEvent(array $config = [])
- * @method array pageView(array $config = [])
- */
-class Client extends GuzzleClient
+class Client
 {
+    const API_ENDPOINT = 'https://track.customer.io/api/v1/';
+
+    /** @var BaseClient $httpClient */
+    private $httpClient;
+
+    /** @var string API key */
+    protected $apiKey;
+
+    /** @var string site ID */
+    protected $siteId;
+
+    /** @var Endpoint\Events $events */
+    public $events;
+
+    /** @var Endpoint\Customers $customers */
+    public $customers;
+
+    /** @var Endpoint\Page $page */
+    public $page;
+
     /**
-     * @param array $config
+     * Client constructor.
+     * @param string $apiKey Api Key
+     * @param string $siteId Site ID.
      */
-    public function __construct(array $config = [])
+    public function __construct($apiKey, $siteId)
     {
-        $defaultConfig = [
-            'max_retries' => 3,
-            'description_path' => __DIR__ . '/services/description.php'
-        ];
+        $this->setDefaultClient();
+        $this->events = new Endpoint\Events($this);
+        $this->customers = new Endpoint\Customers($this);
+        $this->page = new Endpoint\Page($this);
 
-        // Apply some defaults.
-        $config = Collection::fromConfig(
-            $config,
-            $defaultConfig,
-            ['api_key', 'site_id']
-        );
-
-        // Create the client.
-        $this->handleHttpClientOptions($config);
-        $this->handleDescriptionOptions($config);
-
-        parent::__construct(
-            $config['http_client'],
-            $config['description'],
-            $config->toArray()
-        );
-
-        $this->handleErrors();
-
-        // Ensure that the credentials are set.
-        $this->handleCredentialsOptions($config);
-
-        // Ensure that ApiVersion is set.
-        $this->setConfig('defaults/ApiVersion', $this->getDescription()->getApiVersion());
+        $this->apiKey = $apiKey;
+        $this->siteId = $siteId;
     }
 
     /**
-     * @param Collection $config
+     * Set default client
      */
-    private function handleHttpClientOptions(Collection $config)
+    private function setDefaultClient()
     {
-        if ($config['http_client']) {
-            // HTTP client was injected
-            return;
-        }
-        $client = new HttpClient($config['http_client_options'] ?: []);
-
-        // Attach request retry logic
-        $client->getEmitter()->attach(new RetrySubscriber([
-            'max' => $config['max_retries'],
-            'filter' => RetrySubscriber::createChainFilter([
-                RetrySubscriber::createStatusFilter(),
-                RetrySubscriber::createCurlFilter(),
-            ]),
-        ]));
-        $config['http_client'] = $client;
+        $this->httpClient = new BaseClient();
     }
 
     /**
-     * @param Collection $config
-     *
-     * @throws \InvalidArgumentException
+     * Sets GuzzleHttp client.
+     * @param BaseClient $client
      */
-    private function handleDescriptionOptions(Collection $config)
+    public function setClient($client)
     {
-        if ($config['description']) {
-            // Service description was injected
-            return;
-        }
-        // Load service description data
-        $path = $config['description_path'];
-        /** @noinspection PhpIncludeInspection */
-        $data = file_exists($path) ? include $path : null;
-        if (!is_array($data)) {
-            throw new \InvalidArgumentException('Invalid description');
-        }
-        $config['description'] = new Description($data);
+        $this->httpClient = $client;
     }
 
     /**
-     * @param Collection $config
+     * Sends POST request to Customer.io API.
+     * @param string $endpoint
+     * @param string $json
+     * @return mixed
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    private function handleCredentialsOptions(Collection $config)
+    public function post($endpoint, $json)
     {
-        if (!$this->getHttpClient()->getDefaultOption('auth')) {
-            $this->getHttpClient()->setDefaultOption('auth', [
-                $config['site_id'],
-                $config['api_key'],
-            ]);
-        }
+        $response = $this->httpClient->request('POST', self::API_ENDPOINT.$endpoint, [
+            'json' => $json,
+            'auth' => $this->getAuth(),
+            'headers' => [
+                'Accept' => 'application/json',
+            ],
+        ]);
+
+        return $this->handleResponse($response);
     }
 
     /**
-     * Overrides the error handling in Guzzle so that when errors are encountered we throw
-     * Customerio errors, not Guzzle ones.
-     *
+     * Sends DELETE request to Customer.io API.
+     * @param string $endpoint
+     * @param string $json
+     * @return mixed
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    private function handleErrors()
+    public function delete($endpoint, $json)
     {
-        $this->getHttpClient()->getEmitter()->on('complete', function (CompleteEvent $e) {
-            if (!$e->getResponse()) {
-                return;
-            }
+        $response = $this->httpClient->request('DELETE', self::API_ENDPOINT.$endpoint, [
+            'json' => $json,
+            'auth' => $this->getAuth(),
+            'headers' => [
+                'Accept' => 'application/json',
+            ],
+        ]);
 
-            if (!$e->getResponse()->getBody()->getSize()) {
-                return;
-            }
+        return $this->handleResponse($response);
+    }
 
-            try {
-                $e->getResponse()->json();
-            } catch (ParseException $exception) {
-                //JSON is invalid - mock 502 response
-                $response = $exception->getResponse();
-                $response->setStatusCode(502);
-                $response->setReasonPhrase($exception->getMessage());
-                throw new ParseException($exception->getMessage(), $response);
-            }
-        });
+    /**
+     * Sends PUT request to Customer.io API.
+     * @param string $endpoint
+     * @param string $json
+     * @return mixed
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    public function put($endpoint, $json)
+    {
+        $response = $this->httpClient->request('PUT', self::API_ENDPOINT.$endpoint, [
+            'json' => $json,
+            'auth' => $this->getAuth(),
+            'headers' => [
+                'Accept' => 'application/json',
+            ],
+        ]);
 
-        $emitter = $this->getEmitter();
-        $emitter->on('process', function (ProcessEvent $e) {
-            if (!$e->getException()) {
-                return;
-            }
+        return $this->handleResponse($response);
+    }
 
-            // Stop other events from firing when you override 401 responses
-            $e->stopPropagation();
+    /**
+     * Returns authentication parameters.
+     * @return array
+     */
+    public function getAuth()
+    {
+        return [$this->siteId, $this->apiKey];
+    }
 
-            if (!$e->getResponse()) {
-                $response = new Response(502, [], null);
-                $response->setReasonPhrase($e->getException()->getMessage());
-                $e = CustomerioException::factory($e->getRequest(), $response, $e);
-                throw $e;
-            }
+    /**
+     * @param Response $response
+     * @return mixed
+     */
+    private function handleResponse(Response $response)
+    {
+        $stream = stream_for($response->getBody());
+        $data = json_decode($stream->getContents());
 
-            if ($e->getResponse()->getStatusCode() >= 400 && $e->getResponse()->getStatusCode() < 600) {
-                $e = CustomerioException::factory($e->getRequest(), $e->getResponse(), $e);
-                throw $e;
-            }
-        });
+        return $data;
     }
 }
