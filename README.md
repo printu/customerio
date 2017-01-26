@@ -14,7 +14,7 @@ The API client can be installed via [Composer](https://github.com/composer/compo
 
 In your composer.json file:
 
-```js
+```json
 {
     "require": {
         "printu/customerio": "~2.0"
@@ -87,7 +87,7 @@ try {
 
 // Delete customer
 try {
-    $client->customer->delete(
+    $client->customers->delete(
         [
             'id' => 1,
         ]
