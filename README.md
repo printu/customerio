@@ -119,7 +119,7 @@ try {
 
 // Add anonymous event
 try {
-    $client->event->add(
+    $client->events->anonymous(
         [
             'name' => 'invite-friend',
             'data' => [
