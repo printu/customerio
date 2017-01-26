@@ -68,7 +68,7 @@ try {
             'created_at' => time()
         ]
     );
-} catch (GuzzleException $e) {
+} catch (\GuzzleHttp\Exception\GuzzleException $e) {
     // Handle the error
 }
 
@@ -81,7 +81,7 @@ try {
             'plan' => 'premium'
         ]
     );
-} catch (GuzzleException $e) {
+} catch (\GuzzleHttp\Exception\GuzzleException $e) {
     // Handle the error   
 }
 
@@ -92,7 +92,7 @@ try {
             'id' => 1,
         ]
     );
-} catch (GuzzleException $e) {
+} catch (\GuzzleHttp\Exception\GuzzleException $e) {
     // Handle the error   
 }
 ```
@@ -113,7 +113,7 @@ try {
             ]
         ]
     );
-} catch (GuzzleException $e) {
+} catch (\GuzzleHttp\Exception\GuzzleException $e) {
     // Handle the error
 }
 
@@ -127,7 +127,7 @@ try {
             ]
         ]
     );
-} catch (GuzzleException $e) {
+} catch (\GuzzleHttp\Exception\GuzzleException $e) {
     // Handle the error
 }
 ```
@@ -149,7 +149,7 @@ try {
             ]
         ]
     );
-} catch (GuzzleException $e) {
+} catch (\GuzzleHttp\Exception\GuzzleException $e) {
     // Handle the error
 }
 ```
