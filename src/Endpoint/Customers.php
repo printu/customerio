@@ -42,11 +42,6 @@ class Customers extends Base
         }
 
         $path = $this->customerPath($options['id']);
-        $data = array_diff_key($options, array_flip((array) ['id', 'email']));
-
-        if ($data && !empty($data)) {
-            $options['data'] = $data;
-        }
 
         return $this->client->put($path, $options);
     }
