@@ -1,5 +1,7 @@
 # Customer.io API Client
 
+[![Join the chat at https://gitter.im/printu/customerio](https://badges.gitter.im/printu/customerio.svg)](https://gitter.im/printu/customerio?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 PHP bindings for the Customer.io API (https://track.customer.io/).
 
 [API Documentation](http://customer.io/docs/api/rest.html)
