@@ -76,6 +76,8 @@ class Client
             'headers' => [
                 'Accept' => 'application/json',
             ],
+            'connect_timeout' => 2,
+            'timeout' => 5,
         ]);
 
         return $this->handleResponse($response);
@@ -96,6 +98,8 @@ class Client
             'headers' => [
                 'Accept' => 'application/json',
             ],
+            'connect_timeout' => 2,
+            'timeout' => 5,
         ]);
 
         return $this->handleResponse($response);
@@ -116,6 +120,8 @@ class Client
             'headers' => [
                 'Accept' => 'application/json',
             ],
+            'connect_timeout' => 2,
+            'timeout' => 5,
         ]);
 
         return $this->handleResponse($response);
