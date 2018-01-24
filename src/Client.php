@@ -28,6 +28,9 @@ class Client
     /** @var Endpoint\Page $page */
     public $page;
 
+    /** @var Endpoint\Campaigns */
+    public $campaigns;
+
     /**
      * Client constructor.
      * @param string $apiKey Api Key
@@ -39,6 +42,7 @@ class Client
         $this->events = new Endpoint\Events($this);
         $this->customers = new Endpoint\Customers($this);
         $this->page = new Endpoint\Page($this);
+        $this->campaigns = new Endpoint\Campaigns($this);
 
         $this->apiKey = $apiKey;
         $this->siteId = $siteId;
@@ -64,7 +68,7 @@ class Client
     /**
      * Sends POST request to Customer.io API.
      * @param string $endpoint
-     * @param string $json
+     * @param array $json
      * @return mixed
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
@@ -86,7 +90,7 @@ class Client
     /**
      * Sends DELETE request to Customer.io API.
      * @param string $endpoint
-     * @param string $json
+     * @param array $json
      * @return mixed
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
@@ -108,7 +112,7 @@ class Client
     /**
      * Sends PUT request to Customer.io API.
      * @param string $endpoint
-     * @param string $json
+     * @param array $json
      * @return mixed
      * @throws \GuzzleHttp\Exception\GuzzleException
      */

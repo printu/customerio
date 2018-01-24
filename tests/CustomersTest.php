@@ -6,6 +6,9 @@ use Customerio\Endpoint\Customers;
 
 class CustomersTest extends \PHPUnit_Framework_TestCase
 {
+    /**
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
     public function testUserCreate()
     {
         $stub = $this->getMockBuilder('Customerio\Client')->disableOriginalConstructor()->getMock();
@@ -44,6 +47,9 @@ class CustomersTest extends \PHPUnit_Framework_TestCase
         ]));
     }
 
+    /**
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
     public function testUserUpdate()
     {
         $stub = $this->getMockBuilder('Customerio\Client')->disableOriginalConstructor()->getMock();
@@ -55,6 +61,9 @@ class CustomersTest extends \PHPUnit_Framework_TestCase
         ]));
     }
 
+    /**
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
     public function testUserDelete()
     {
         $stub = $this->getMockBuilder('Customerio\Client')->disableOriginalConstructor()->getMock();
@@ -76,6 +85,9 @@ class CustomersTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('foo', $customer->delete([]));
     }
 
+    /**
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
     public function testUserEvent()
     {
         $stub = $this->getMockBuilder('Customerio\Client')->disableOriginalConstructor()->getMock();

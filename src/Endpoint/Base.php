@@ -21,12 +21,21 @@ class Base
     }
 
     /**
-     * @param $customerId
+     * @param int $customerId
      * @return string
      */
     protected function customerPath($customerId)
     {
         return "customers/".$customerId;
+    }
+
+    /**
+     * @param int $campaignId
+     * @return string
+     */
+    protected function campaignPath($campaignId)
+    {
+        return "campaigns/".$campaignId;
     }
 
     /**
