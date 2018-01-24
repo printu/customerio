@@ -74,15 +74,7 @@ class Client
      */
     public function post($endpoint, $json)
     {
-        $response = $this->httpClient->request('POST', self::API_ENDPOINT.$endpoint, [
-            'json' => $json,
-            'auth' => $this->getAuth(),
-            'headers' => [
-                'Accept' => 'application/json',
-            ],
-            'connect_timeout' => 2,
-            'timeout' => 5,
-        ]);
+        $response = $this->request('POST', $endpoint, $json);
 
         return $this->handleResponse($response);
     }
@@ -96,15 +88,7 @@ class Client
      */
     public function delete($endpoint, $json)
     {
-        $response = $this->httpClient->request('DELETE', self::API_ENDPOINT.$endpoint, [
-            'json' => $json,
-            'auth' => $this->getAuth(),
-            'headers' => [
-                'Accept' => 'application/json',
-            ],
-            'connect_timeout' => 2,
-            'timeout' => 5,
-        ]);
+        $response = $this->request('DELETE', $endpoint, $json);
 
         return $this->handleResponse($response);
     }
@@ -118,7 +102,20 @@ class Client
      */
     public function put($endpoint, $json)
     {
-        $response = $this->httpClient->request('PUT', self::API_ENDPOINT.$endpoint, [
+        $response = $this->request('PUT', $endpoint, $json);
+
+        return $this->handleResponse($response);
+    }
+
+    /**
+     * @param string $method
+     * @param string $endpoint
+     * @param array $json
+     * @return mixed|\Psr\Http\Message\ResponseInterface
+     */
+    protected function request($method, $endpoint, $json)
+    {
+        $response = $this->httpClient->request($method, self::API_ENDPOINT.$endpoint, [
             'json' => $json,
             'auth' => $this->getAuth(),
             'headers' => [
@@ -128,7 +125,7 @@ class Client
             'timeout' => 5,
         ]);
 
-        return $this->handleResponse($response);
+        return $response;
     }
 
     /**
