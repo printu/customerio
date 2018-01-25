@@ -2,7 +2,7 @@
 
 PHP bindings for the Customer.io API (https://track.customer.io/).
 
-[API Documentation](http://customer.io/docs/api/rest.html)
+[API Documentation](https://learn.customer.io/api/#apiintroduction)
 
 [![Build Status](https://travis-ci.org/printu/customerio.svg?branch=master)](https://travis-ci.org/printu/customerio)
 [![Code Climate](https://codeclimate.com/github/printu/customerio/badges/gpa.svg)](https://codeclimate.com/github/printu/customerio)
@@ -17,7 +17,7 @@ In your composer.json file:
 ```json
 {
     "require": {
-        "printu/customerio": "~2.0"
+        "printu/customerio": "~2.1"
     }
 }
 ```
@@ -153,6 +153,34 @@ try {
     // Handle the error
 }
 ```
+
+#### Campaigns
+
+```php
+<?php
+// Trigger broadcast campaign
+try {
+    $result = $client->campaigns->trigger(
+        [
+            'id' => 1,
+            'data' => [
+                'headline' => 'Roadrunner spotted in Albuquerque!',
+                'date' => 'January 24, 2018', 
+                'text' => 'We\'ve received reports of a roadrunner in your immediate area! Head to your dashboard to view more information!' 
+            ],
+            'recipients' => [
+                'segments' => [
+                    'id' => 1
+                ]
+            ]
+        ]
+    );
+} catch (\GuzzleHttp\Exception\GuzzleException $e) {
+    // Handle the error
+}
+```
+
+See [here](https://learn.customer.io/documentation/api-triggered-data-format.html) for more examples of API Triggered Broadcasts
 
 ## License
 
