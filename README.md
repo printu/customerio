@@ -154,6 +154,34 @@ try {
 }
 ```
 
+#### Campaigns
+
+```php
+<?php
+// Trigger broadcast campaign
+try {
+    $result = $client->campaigns->trigger(
+        [
+            'id' => 1,
+            'data' => [
+                'headline' => 'Roadrunner spotted in Albuquerque!',
+                'date' => 'January 24, 2018', 
+                'text' => 'We\'ve received reports of a roadrunner in your immediate area! Head to your dashboard to view more information!' 
+            ],
+            'recipients' => [
+                'segments' => [
+                    'id' => 1
+                ]
+            ]
+        ]
+    );
+} catch (\GuzzleHttp\Exception\GuzzleException $e) {
+    // Handle the error
+}
+```
+
+See [here](https://learn.customer.io/documentation/api-triggered-data-format.html) for more examples of API Triggered Broadcasts
+
 ## License
 
 MIT license. See the [LICENSE](LICENSE) file for more details.
