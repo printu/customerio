@@ -4,7 +4,7 @@ namespace Customerio\Tests;
 
 use Customerio\Endpoint\Events;
 
-class EventsTest extends \PHPUnit_Framework_TestCase
+class EventsTest extends \PHPUnit\Framework\TestCase
 {
     public function testEventAnonymous()
     {

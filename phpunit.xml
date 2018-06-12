@@ -4,10 +4,9 @@
          convertNoticesToExceptions="true"
          convertWarningsToExceptions="true"
          convertErrorsToExceptions="true"
-         syntaxCheck="true"
          verbose="true">
     <testsuites>
-        <testsuite>
+        <testsuite name="main">
             <directory>tests</directory>
         </testsuite>
     </testsuites>

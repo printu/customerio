@@ -4,7 +4,7 @@ namespace Customerio\Tests;
 
 use Customerio\Endpoint\Page;
 
-class PageTest extends \PHPUnit_Framework_TestCase
+class PageTest extends \PHPUnit\Framework\TestCase
 {
     public function testEventAnonymous()
     {

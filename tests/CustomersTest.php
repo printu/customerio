@@ -4,7 +4,7 @@ namespace Customerio\Tests;
 
 use Customerio\Endpoint\Customers;
 
-class CustomersTest extends \PHPUnit_Framework_TestCase
+class CustomersTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @throws \GuzzleHttp\Exception\GuzzleException
