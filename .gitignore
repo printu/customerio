@@ -6,3 +6,4 @@ composer.lock
 test.php
 *.phar
 /build/
+composer.phar
