@@ -72,6 +72,17 @@ try {
     // Handle the error
 }
 
+// Get customer
+try {
+    $client->customers->get(
+        [
+            'email' => 'user@example.com',        
+        ]
+    );
+} catch (\GuzzleHttp\Exception\GuzzleException $e) {
+    // Handle the error
+}
+
 // Update customer
 try {
     $client->customers->update(
