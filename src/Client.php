@@ -2,13 +2,13 @@
 
 namespace Customerio;
 
-use Customerio\Endpoint\Exports;
 use GuzzleHttp\Client as BaseClient;
 use GuzzleHttp\Psr7\Response;
 use function GuzzleHttp\Psr7\stream_for;
 
 class Client
 {
+    const API_ENDPOINT_TRACK = 'https://track.customer.io/api/v1/';
     const API_ENDPOINT = 'https://api.customer.io/v1/api/';
     const API_ENDPOINT_BETA = 'https://beta-api.customer.io/v1/api/';
 
@@ -157,12 +157,12 @@ class Client
      */
     protected function request($method, $endpoint, $json)
     {
-        $apiEndpoint = self::API_ENDPOINT.$endpoint;
+        $apiEndpoint = self::API_ENDPOINT_TRACK.$endpoint;
         $options = $this->getDefaultParams();
 
-        if (isset($json['beta'])) {
-            $apiEndpoint = self::API_ENDPOINT_BETA.$endpoint;
-            unset($json['beta']);
+        if (isset($json['endpoint'])) {
+            $apiEndpoint = $json['endpoint'].$endpoint;
+            unset($json['endpoint']);
         }
 
         $options['json'] = $json;
@@ -199,6 +199,7 @@ class Client
     protected function getDefaultParams()
     {
         return [
+            'debug' => 1,
             'auth' => $this->getAuth(),
             'headers' => [
                 'Accept' => 'application/json',

@@ -2,6 +2,8 @@
 
 namespace Customerio\Endpoint;
 
+use Customerio\Client;
+
 class Campaigns extends Base
 {
     /**
@@ -97,6 +99,8 @@ class Campaigns extends Base
 
         $path = $this->campaignPath($options['id'], ['triggers']);
         unset($options['id']);
+
+        $options['endpoint'] = Client::API_ENDPOINT;
 
         return $this->client->post($path, $options);
     }

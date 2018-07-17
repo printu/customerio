@@ -2,6 +2,8 @@
 
 namespace Customerio\Endpoint;
 
+use Customerio\Client;
+
 class Customers extends Base
 {
     /**
@@ -104,7 +106,7 @@ class Customers extends Base
         }
 
         $path = $this->customerPath();
-        $options['beta'] = true;
+        $options['endpoint'] = Client::API_ENDPOINT_BETA;
 
         return $this->client->post($path, $options);
     }
