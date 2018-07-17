@@ -21,21 +21,73 @@ class Base
     }
 
     /**
-     * @param int $customerId
+     * @param null $id
+     * @param array $extra
      * @return string
      */
-    protected function customerPath($customerId)
+    protected function customerPath($id = null, array $extra = [])
     {
-        return "customers/".$customerId;
+        return $this->generatePath('customers', $id, $extra);
     }
 
     /**
-     * @param int $campaignId
+     * @param null $id
+     * @param array $extra
      * @return string
      */
-    protected function campaignPath($campaignId)
+    protected function campaignPath($id = null, array $extra = [])
     {
-        return "campaigns/".$campaignId;
+        return $this->generatePath('campaigns', $id, $extra);
+    }
+
+    /**
+     * @param null $id
+     * @param array $extra
+     * @return string
+     */
+    protected function messagesPath($id = null, array $extra = [])
+    {
+        return $this->generatePath('messages', $id, $extra);
+    }
+
+    /**
+     * @param $id
+     * @param array $extra
+     * @return string
+     */
+    protected function messagesTemplatesPath($id, array $extra = [])
+    {
+        return $this->generatePath('msg_templates', $id, $extra);
+    }
+
+    /**
+     * @param int $id
+     * @param array $extra
+     * @return string
+     */
+    protected function newslettersPath($id = null, array $extra = [])
+    {
+        return $this->generatePath('newsletters', $id, $extra);
+    }
+
+    /**
+     * @param int $id
+     * @param array $extra
+     * @return string
+     */
+    protected function segmentsPath($id = null, array $extra = [])
+    {
+        return $this->generatePath('segments', $id, $extra);
+    }
+
+    /**
+     * @param int $id
+     * @param array $extra
+     * @return string
+     */
+    protected function exportsPath($id = null, array $extra = [])
+    {
+        return $this->generatePath('exports', $id, $extra);
     }
 
     /**
@@ -45,5 +97,28 @@ class Base
     protected function mockException($message, $method)
     {
         throw new RequestException($message, (new Request($method, '/')));
+    }
+
+    /**
+     * @param $prefix
+     * @param null $id
+     * @param array $extra
+     * @return string
+     */
+    private function generatePath($prefix, $id = null, array $extra = [])
+    {
+        $path = [
+            $prefix,
+        ];
+
+        if (!empty($id)) {
+            $path[] = (int)$id;
+        }
+
+        if (!empty($extra)) {
+            $path = array_merge($path, $extra);
+        }
+
+        return implode('/', $path);
     }
 }

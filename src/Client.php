@@ -8,7 +8,9 @@ use function GuzzleHttp\Psr7\stream_for;
 
 class Client
 {
-    const API_ENDPOINT = 'https://track.customer.io/api/v1/';
+    const API_ENDPOINT_TRACK = 'https://track.customer.io/api/v1/';
+    const API_ENDPOINT = 'https://api.customer.io/v1/api/';
+    const API_ENDPOINT_BETA = 'https://beta-api.customer.io/v1/api/';
 
     /** @var BaseClient $httpClient */
     private $httpClient;
@@ -31,6 +33,21 @@ class Client
     /** @var Endpoint\Campaigns */
     public $campaigns;
 
+    /** @var Endpoint\Messages */
+    public $messages;
+
+    /** @var Endpoint\MessageTemplates */
+    public $messageTemplates;
+
+    /** @var Endpoint\Newsletters */
+    public $newsletters;
+
+    /** @var Endpoint\Segments */
+    public $segments;
+
+    /** @var Endpoint\Exports */
+    public $exports;
+
     /**
      * Client constructor.
      * @param string $apiKey Api Key
@@ -43,6 +60,11 @@ class Client
         $this->customers = new Endpoint\Customers($this);
         $this->page = new Endpoint\Page($this);
         $this->campaigns = new Endpoint\Campaigns($this);
+        $this->messages = new Endpoint\Messages($this);
+        $this->messageTemplates = new Endpoint\MessageTemplates($this);
+        $this->newsletters = new Endpoint\Newsletters($this);
+        $this->segments = new Endpoint\Segments($this);
+        $this->exports = new Endpoint\Exports($this);
 
         $this->apiKey = $apiKey;
         $this->siteId = $siteId;
@@ -63,6 +85,25 @@ class Client
     public function setClient($client)
     {
         $this->httpClient = $client;
+    }
+
+    /**
+     * Sends GET request to Customer.io API.
+     * @param string $endpoint
+     * @param array $params
+     * @return mixed
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    public function get($endpoint, array $params = [])
+    {
+        $options = $this->getDefaultParams();
+        if (!empty($params)) {
+            $options['query'] = $params;
+        }
+
+        $response = $this->httpClient->request('GET', self::API_ENDPOINT_BETA.$endpoint, $options);
+
+        return $this->handleResponse($response);
     }
 
     /**
@@ -111,19 +152,21 @@ class Client
      * @param string $method
      * @param string $endpoint
      * @param array $json
-     * @return mixed|\Psr\Http\Message\ResponseInterface
+     * @return \Psr\Http\Message\ResponseInterface|mixed
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     protected function request($method, $endpoint, $json)
     {
-        $response = $this->httpClient->request($method, self::API_ENDPOINT.$endpoint, [
-            'json' => $json,
-            'auth' => $this->getAuth(),
-            'headers' => [
-                'Accept' => 'application/json',
-            ],
-            'connect_timeout' => 2,
-            'timeout' => 5,
-        ]);
+        $apiEndpoint = self::API_ENDPOINT_TRACK.$endpoint;
+        $options = $this->getDefaultParams();
+
+        if (isset($json['endpoint'])) {
+            $apiEndpoint = $json['endpoint'].$endpoint;
+            unset($json['endpoint']);
+        }
+
+        $options['json'] = $json;
+        $response = $this->httpClient->request($method, $apiEndpoint, $options);
 
         return $response;
     }
@@ -147,5 +190,21 @@ class Client
         $data = json_decode($stream->getContents());
 
         return $data;
+    }
+
+    /**
+     * Get default Guzzle options
+     * @return array
+     */
+    protected function getDefaultParams()
+    {
+        return [
+            'auth' => $this->getAuth(),
+            'headers' => [
+                'Accept' => 'application/json',
+            ],
+            'connect_timeout' => 2,
+            'timeout' => 5,
+        ];
     }
 }

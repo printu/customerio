@@ -15,7 +15,7 @@ class Events extends Base
     {
         if (!isset($options['name'])) {
             $this->mockException('Name is required!', 'POST');
-        }
+        } // @codeCoverageIgnore
 
         return $this->client->post("events", $options);
     }
