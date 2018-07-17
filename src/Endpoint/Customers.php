@@ -73,4 +73,85 @@ class Customers extends Base
     {
         return $this->add($options);
     }
+
+    /**
+     * Get customer by email address
+     * @param array $options
+     * @return mixed
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    public function get(array $options)
+    {
+        if (!isset($options['email'])) {
+            $this->mockException('Email is required!', 'GET');
+        }
+
+        return $this->client->get('customers', $options);
+    }
+
+    /**
+     * Search customers
+     * @param array $options
+     * @return mixed
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    public function search(array $options)
+    {
+        if (!isset($options['filter'])) {
+            $this->mockException('Filter is required!', 'POST');
+        }
+
+        return $this->client->post('customers', $options);
+    }
+
+    /**
+     * List customer attributes
+     * @param array $options
+     * @return mixed
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    public function attributes(array $options)
+    {
+        if (!isset($options['id'])) {
+            $this->mockException('User id is required!', 'DELETE');
+        }
+
+        $path = $this->customerPath($options['id']);
+
+        return $this->client->get($path.'/attributes', $options);
+    }
+
+    /**
+     * List customer segments
+     * @param array $options
+     * @return mixed
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    public function segments(array $options)
+    {
+        if (!isset($options['id'])) {
+            $this->mockException('User id is required!', 'DELETE');
+        }
+
+        $path = $this->customerPath($options['id']);
+
+        return $this->client->get($path.'/segments', $options);
+    }
+
+    /**
+     * Get metadata about messages sent to a customer
+     * @param array $options
+     * @return mixed
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    public function messages(array $options)
+    {
+        if (!isset($options['id'])) {
+            $this->mockException('User id is required!', 'DELETE');
+        }
+
+        $path = $this->customerPath($options['id']);
+
+        return $this->client->get($path.'/messages', $options);
+    }
 }

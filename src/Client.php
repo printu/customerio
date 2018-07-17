@@ -8,7 +8,7 @@ use function GuzzleHttp\Psr7\stream_for;
 
 class Client
 {
-    const API_ENDPOINT = 'https://track.customer.io/api/v1/';
+    const API_ENDPOINT = 'https://beta-api.customer.io/v1/api/';
 
     /** @var BaseClient $httpClient */
     private $httpClient;
@@ -66,6 +66,25 @@ class Client
     }
 
     /**
+     * Sends GET request to Customer.io API.
+     * @param string $endpoint
+     * @param array $params
+     * @return mixed
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    public function get($endpoint, array $params = [])
+    {
+        $options = $this->getDefaultParams();
+        if (!empty($params)) {
+            $options['query'] = $params;
+        }
+
+        $response = $this->httpClient->request('GET', self::API_ENDPOINT.$endpoint, $options);
+
+        return $this->handleResponse($response);
+    }
+
+    /**
      * Sends POST request to Customer.io API.
      * @param string $endpoint
      * @param array $json
@@ -111,19 +130,15 @@ class Client
      * @param string $method
      * @param string $endpoint
      * @param array $json
-     * @return mixed|\Psr\Http\Message\ResponseInterface
+     * @return \Psr\Http\Message\ResponseInterface|mixed
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     protected function request($method, $endpoint, $json)
     {
-        $response = $this->httpClient->request($method, self::API_ENDPOINT.$endpoint, [
-            'json' => $json,
-            'auth' => $this->getAuth(),
-            'headers' => [
-                'Accept' => 'application/json',
-            ],
-            'connect_timeout' => 2,
-            'timeout' => 5,
-        ]);
+        $options = $this->getDefaultParams();
+        $options['json'] = $json;
+
+        $response = $this->httpClient->request($method, self::API_ENDPOINT.$endpoint, $options);
 
         return $response;
     }
@@ -147,5 +162,21 @@ class Client
         $data = json_decode($stream->getContents());
 
         return $data;
+    }
+
+    /**
+     * Get default Guzzle options
+     * @return array
+     */
+    protected function getDefaultParams()
+    {
+        return [
+            'auth' => $this->getAuth(),
+            'headers' => [
+                'Accept' => 'application/json',
+            ],
+            'connect_timeout' => 2,
+            'timeout' => 5,
+        ];
     }
 }
