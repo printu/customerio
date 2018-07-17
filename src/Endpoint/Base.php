@@ -75,6 +75,28 @@ class Base
     }
 
     /**
+     * @param int $id
+     * @param array $extra
+     * @return string
+     */
+    protected function newslettersPath($id = null, $extra = [])
+    {
+        $path = [
+            'newsletters',
+        ];
+
+        if (!empty($id)) {
+            $path[] = (int)$id;
+        }
+
+        if (!empty($extra)) {
+            $path = array_merge($path, $extra);
+        }
+
+        return implode('/', $path);
+    }
+
+    /**
      * @param $message
      * @param $method
      */
