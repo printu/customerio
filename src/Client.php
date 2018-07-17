@@ -199,7 +199,6 @@ class Client
     protected function getDefaultParams()
     {
         return [
-            'debug' => 1,
             'auth' => $this->getAuth(),
             'headers' => [
                 'Accept' => 'application/json',
