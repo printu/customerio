@@ -56,6 +56,25 @@ class Base
     }
 
     /**
+     * @param int $messageId
+     * @param array $extra
+     * @return string
+     */
+    protected function messagesTemplatesPath($messageId, $extra = [])
+    {
+        $path = [
+            'msg_templates',
+            (int)$messageId
+        ];
+
+        if (!empty($extra)) {
+            $path = array_merge($path, $extra);
+        }
+
+        return implode('/', $path);
+    }
+
+    /**
      * @param $message
      * @param $method
      */

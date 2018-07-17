@@ -27,7 +27,7 @@ class Messages extends Base
     public function get(array $options)
     {
         if (!isset($options['id'])) {
-            $this->mockException('Campaign id is required!', 'GET');
+            $this->mockException('Message id is required!', 'GET');
         }
 
         $path = $this->messagesPath($options['id']);
