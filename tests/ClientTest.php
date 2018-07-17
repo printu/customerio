@@ -5,15 +5,17 @@ namespace Customerio\Tests;
 use Customerio\Client as CustomerIoClient;
 use GuzzleHttp\Client;
 use GuzzleHttp\Handler\MockHandler;
-use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Middleware;
+use GuzzleHttp\Psr7\Response;
+use PHPUnit\Framework\TestCase;
 
-class ClientTest extends \PHPUnit\Framework\TestCase
+class ClientTest extends TestCase
 {
     public function testBasicClient()
     {
         $mock = new MockHandler([
+            new Response(200, ['X-Foo' => 'Bar'], "{\"foo\":\"bar\"}"),
             new Response(200, ['X-Foo' => 'Bar'], "{\"foo\":\"bar\"}"),
             new Response(200, ['X-Foo' => 'Bar'], "{\"foo\":\"bar\"}"),
             new Response(200, ['X-Foo' => 'Bar'], "{\"foo\":\"bar\"}"),
@@ -25,6 +27,9 @@ class ClientTest extends \PHPUnit\Framework\TestCase
         $http_client = new Client(['handler' => $stack]);
         $client = new CustomerIoClient('u', 'p');
         $client->setClient($http_client);
+        $client->customers->get([
+            'email' => 'test@customer.io',
+        ]);
         $client->customers->add([
             'id' => 10,
             'email' => 'test@customer.io',
@@ -32,6 +37,7 @@ class ClientTest extends \PHPUnit\Framework\TestCase
         $client->customers->event([
             'id' => 10,
             'name' => 'test-event',
+            'endpoint' => CustomerIoClient::API_ENDPOINT
         ]);
         $client->customers->delete([
             'id' => 10,
