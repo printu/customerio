@@ -39,6 +39,23 @@ class Base
     }
 
     /**
+     * @param string $messageId
+     * @return string
+     */
+    protected function messagesPath($messageId = null)
+    {
+        $path = [
+            'messages'
+        ];
+
+        if (!empty($messageId)) {
+            $path[] = $messageId;
+        }
+
+        return implode('/', $path);
+    }
+
+    /**
      * @param $message
      * @param $method
      */

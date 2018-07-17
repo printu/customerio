@@ -32,6 +32,9 @@ class Client
     /** @var Endpoint\Campaigns */
     public $campaigns;
 
+    /** @var Endpoint\Messages */
+    public $messages;
+
     /**
      * Client constructor.
      * @param string $apiKey Api Key
@@ -44,6 +47,7 @@ class Client
         $this->customers = new Endpoint\Customers($this);
         $this->page = new Endpoint\Page($this);
         $this->campaigns = new Endpoint\Campaigns($this);
+        $this->messages = new Endpoint\Messages($this);
 
         $this->apiKey = $apiKey;
         $this->siteId = $siteId;
