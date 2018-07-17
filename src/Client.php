@@ -41,6 +41,9 @@ class Client
     /** @var Endpoint\Newsletters */
     public $newsletters;
 
+    /** @var Endpoint\Segments */
+    public $segments;
+
     /**
      * Client constructor.
      * @param string $apiKey Api Key
@@ -56,6 +59,7 @@ class Client
         $this->messages = new Endpoint\Messages($this);
         $this->messageTemplates = new Endpoint\MessageTemplates($this);
         $this->newsletters = new Endpoint\Newsletters($this);
+        $this->segments = new Endpoint\Segments($this);
 
         $this->apiKey = $apiKey;
         $this->siteId = $siteId;

@@ -97,6 +97,28 @@ class Base
     }
 
     /**
+     * @param int $id
+     * @param array $extra
+     * @return string
+     */
+    protected function segmentsPath($id = null, $extra = [])
+    {
+        $path = [
+            'segments',
+        ];
+
+        if (!empty($id)) {
+            $path[] = (int)$id;
+        }
+
+        if (!empty($extra)) {
+            $path = array_merge($path, $extra);
+        }
+
+        return implode('/', $path);
+    }
+
+    /**
      * @param $message
      * @param $method
      */
