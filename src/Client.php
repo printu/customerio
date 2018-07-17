@@ -8,7 +8,8 @@ use function GuzzleHttp\Psr7\stream_for;
 
 class Client
 {
-    const API_ENDPOINT = 'https://beta-api.customer.io/v1/api/';
+    const API_ENDPOINT = 'https://api.customer.io/v1/api/';
+    const API_ENDPOINT_BETA = 'https://beta-api.customer.io/v1/api/';
 
     /** @var BaseClient $httpClient */
     private $httpClient;
@@ -79,7 +80,7 @@ class Client
             $options['query'] = $params;
         }
 
-        $response = $this->httpClient->request('GET', self::API_ENDPOINT.$endpoint, $options);
+        $response = $this->httpClient->request('GET', self::API_ENDPOINT_BETA.$endpoint, $options);
 
         return $this->handleResponse($response);
     }
@@ -135,10 +136,16 @@ class Client
      */
     protected function request($method, $endpoint, $json)
     {
+        $apiEndpoint = self::API_ENDPOINT.$endpoint;
         $options = $this->getDefaultParams();
-        $options['json'] = $json;
 
-        $response = $this->httpClient->request($method, self::API_ENDPOINT.$endpoint, $options);
+        if (isset($json['beta'])) {
+            $apiEndpoint = self::API_ENDPOINT_BETA.$endpoint;
+            unset($json['beta']);
+        }
+
+        $options['json'] = $json;
+        $response = $this->httpClient->request($method, $apiEndpoint, $options);
 
         return $response;
     }

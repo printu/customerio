@@ -101,6 +101,8 @@ class Customers extends Base
             $this->mockException('Filter is required!', 'POST');
         }
 
+        $options['beta'] = true;
+
         return $this->client->post('customers', $options);
     }
 
@@ -113,10 +115,11 @@ class Customers extends Base
     public function attributes(array $options)
     {
         if (!isset($options['id'])) {
-            $this->mockException('User id is required!', 'DELETE');
+            $this->mockException('User id is required!', 'GET');
         }
 
         $path = $this->customerPath($options['id']);
+        unset($options['id']);
 
         return $this->client->get($path.'/attributes', $options);
     }
@@ -130,10 +133,11 @@ class Customers extends Base
     public function segments(array $options)
     {
         if (!isset($options['id'])) {
-            $this->mockException('User id is required!', 'DELETE');
+            $this->mockException('User id is required!', 'GET');
         }
 
         $path = $this->customerPath($options['id']);
+        unset($options['id']);
 
         return $this->client->get($path.'/segments', $options);
     }
@@ -147,10 +151,11 @@ class Customers extends Base
     public function messages(array $options)
     {
         if (!isset($options['id'])) {
-            $this->mockException('User id is required!', 'DELETE');
+            $this->mockException('User id is required!', 'GET');
         }
 
         $path = $this->customerPath($options['id']);
+        unset($options['id']);
 
         return $this->client->get($path.'/messages', $options);
     }
