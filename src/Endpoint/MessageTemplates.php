@@ -15,7 +15,7 @@ class MessageTemplates extends Base
     {
         if (!isset($options['id'])) {
             $this->mockException('Message Template id is required!', 'GET');
-        }
+        } // @codeCoverageIgnore
 
         $path = $this->messagesTemplatesPath($options['id']);
         unset($options['id']);
@@ -34,7 +34,7 @@ class MessageTemplates extends Base
     {
         if (!isset($options['id'])) {
             $this->mockException('Message Template id is required!', 'GET');
-        }
+        } // @codeCoverageIgnore
 
         $path = $this->messagesTemplatesPath($options['id'], ['metrics']);
         unset($options['id']);

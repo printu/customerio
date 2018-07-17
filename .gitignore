@@ -6,3 +6,4 @@ composer.lock
 test.php
 *.phar
 /build/
+docker-compose.yml

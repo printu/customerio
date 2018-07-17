@@ -28,7 +28,7 @@ class Exports extends Base
     {
         if (!isset($options['id'])) {
             $this->mockException('Exports id is required!', 'GET');
-        }
+        } // @codeCoverageIgnore
 
         $path = $this->exportsPath($options['id']);
         unset($options['id']);
@@ -47,7 +47,7 @@ class Exports extends Base
     {
         if (!isset($options['id'])) {
             $this->mockException('Exports id is required!', 'GET');
-        }
+        } // @codeCoverageIgnore
 
         $path = $this->exportsPath($options['id'], ['download']);
         unset($options['id']);

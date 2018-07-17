@@ -28,7 +28,7 @@ class Segments extends Base
     {
         if (!isset($options['id'])) {
             $this->mockException('Segments id is required!', 'GET');
-        }
+        } // @codeCoverageIgnore
 
         $path = $this->segmentsPath($options['id']);
         unset($options['id']);
@@ -47,7 +47,7 @@ class Segments extends Base
     {
         if (!isset($options['id'])) {
             $this->mockException('Segments id is required!', 'GET');
-        }
+        } // @codeCoverageIgnore
 
         $path = $this->segmentsPath($options['id'], ['used_by']);
         unset($options['id']);
@@ -66,7 +66,7 @@ class Segments extends Base
     {
         if (!isset($options['id'])) {
             $this->mockException('Segments id is required!', 'GET');
-        }
+        } // @codeCoverageIgnore
 
         $path = $this->segmentsPath($options['id'], ['customer_count']);
         unset($options['id']);
@@ -85,7 +85,7 @@ class Segments extends Base
     {
         if (!isset($options['id'])) {
             $this->mockException('Segments id is required!', 'GET');
-        }
+        } // @codeCoverageIgnore
 
         $path = $this->segmentsPath($options['id'], ['membership']);
         unset($options['id']);

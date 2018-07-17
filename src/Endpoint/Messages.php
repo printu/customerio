@@ -28,7 +28,7 @@ class Messages extends Base
     {
         if (!isset($options['id'])) {
             $this->mockException('Message id is required!', 'GET');
-        }
+        } // @codeCoverageIgnore
 
         $path = $this->messagesPath($options['id']);
         unset($options['id']);

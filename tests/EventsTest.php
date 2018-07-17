@@ -3,8 +3,9 @@
 namespace Customerio\Tests;
 
 use Customerio\Endpoint\Events;
+use PHPUnit\Framework\TestCase;
 
-class EventsTest extends \PHPUnit_Framework_TestCase
+class EventsTest extends TestCase
 {
     public function testEventAnonymous()
     {

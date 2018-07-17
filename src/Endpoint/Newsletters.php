@@ -28,7 +28,7 @@ class Newsletters extends Base
     {
         if (!isset($options['id'])) {
             $this->mockException('Newsletter id is required!', 'GET');
-        }
+        } // @codeCoverageIgnore
 
         $path = $this->newslettersPath($options['id']);
         unset($options['id']);
@@ -47,7 +47,7 @@ class Newsletters extends Base
     {
         if (!isset($options['id'])) {
             $this->mockException('Newsletter id is required!', 'GET');
-        }
+        } // @codeCoverageIgnore
 
         $path = $this->newslettersPath($options['id'], ['metrics']);
         unset($options['id']);
@@ -66,7 +66,7 @@ class Newsletters extends Base
     {
         if (!isset($options['id'])) {
             $this->mockException('Newsletter id is required!', 'GET');
-        }
+        } // @codeCoverageIgnore
 
         $path = $this->newslettersPath($options['id'], ['messages']);
         unset($options['id']);

@@ -15,11 +15,11 @@ class Page extends Base
     {
         if (!isset($options['id'])) {
             $this->mockException('User id is required!', 'POST');
-        }
+        } // @codeCoverageIgnore
 
         if (!isset($options['url'])) {
             $this->mockException('URL is required!', 'POST');
-        }
+        } // @codeCoverageIgnore
 
         $options['name'] = $options['url'];
         unset($options['url']);

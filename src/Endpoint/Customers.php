@@ -16,11 +16,11 @@ class Customers extends Base
     {
         if (!isset($options['id'])) {
             $this->mockException('User id is required!', 'POST');
-        }
+        } // @codeCoverageIgnore
 
         if (!isset($options['name'])) {
             $this->mockException('Name is required!', 'POST');
-        }
+        } // @codeCoverageIgnore
 
         $path = $this->customerPath($options['id']);
 
@@ -37,11 +37,11 @@ class Customers extends Base
     {
         if (!isset($options['id'])) {
             $this->mockException('User id is required!', 'PUT');
-        }
+        } // @codeCoverageIgnore
 
         if (!isset($options['email'])) {
             $this->mockException('Email is required!', 'PUT');
-        }
+        } // @codeCoverageIgnore
 
         $path = $this->customerPath($options['id']);
 
@@ -58,7 +58,7 @@ class Customers extends Base
     {
         if (!isset($options['id'])) {
             $this->mockException('User id is required!', 'DELETE');
-        }
+        } // @codeCoverageIgnore
 
         $path = $this->customerPath($options['id']);
 
@@ -86,7 +86,7 @@ class Customers extends Base
     {
         if (!isset($options['email'])) {
             $this->mockException('Email is required!', 'GET');
-        }
+        } // @codeCoverageIgnore
 
         $path = $this->customerPath();
 
@@ -103,7 +103,7 @@ class Customers extends Base
     {
         if (!isset($options['filter'])) {
             $this->mockException('Filter is required!', 'POST');
-        }
+        } // @codeCoverageIgnore
 
         $path = $this->customerPath();
         $options['endpoint'] = Client::API_ENDPOINT_BETA;
@@ -121,7 +121,7 @@ class Customers extends Base
     {
         if (!isset($options['id'])) {
             $this->mockException('User id is required!', 'GET');
-        }
+        } // @codeCoverageIgnore
 
         $path = $this->customerPath($options['id'], ['attributes']);
         unset($options['id']);
@@ -139,7 +139,7 @@ class Customers extends Base
     {
         if (!isset($options['id'])) {
             $this->mockException('User id is required!', 'GET');
-        }
+        } // @codeCoverageIgnore
 
         $path = $this->customerPath($options['id'], ['segments']);
         unset($options['id']);
@@ -157,7 +157,7 @@ class Customers extends Base
     {
         if (!isset($options['id'])) {
             $this->mockException('User id is required!', 'GET');
-        }
+        } // @codeCoverageIgnore
 
         $path = $this->customerPath($options['id'], ['messages']);
         unset($options['id']);

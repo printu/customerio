@@ -15,7 +15,8 @@ class Campaigns extends Base
      */
     public function search(array $options)
     {
-        return $this->client->get('campaigns', $options);
+        $path = $this->campaignPath();
+        return $this->client->get($path, $options);
     }
 
     /**
@@ -29,7 +30,7 @@ class Campaigns extends Base
     {
         if (!isset($options['id'])) {
             $this->mockException('Campaign id is required!', 'GET');
-        }
+        } // @codeCoverageIgnore
 
         $path = $this->campaignPath($options['id']);
         unset($options['id']);
@@ -49,7 +50,7 @@ class Campaigns extends Base
     {
         if (!isset($options['id'])) {
             $this->mockException('Campaign id is required!', 'GET');
-        }
+        } // @codeCoverageIgnore
 
         $extra = [];
         if (isset($options['trigger_id'])) {
@@ -58,9 +59,9 @@ class Campaigns extends Base
             unset($options['trigger_id']);
         }
         $extra[] = 'metrics';
+        $path = $this->campaignPath($options['id'], $extra);
         unset($options['id']);
 
-        $path = $this->campaignPath($options['id'], $extra);
         return $this->client->get($path, $options);
     }
 
@@ -75,7 +76,7 @@ class Campaigns extends Base
     {
         if (!isset($options['id'])) {
             $this->mockException('Campaign id is required!', 'GET');
-        }
+        } // @codeCoverageIgnore
 
         $path = $this->campaignPath($options['id'], ['triggers']);
         unset($options['id']);
@@ -95,7 +96,7 @@ class Campaigns extends Base
     {
         if (!isset($options['id'])) {
             $this->mockException('Campaign id is required!', 'POST');
-        }
+        } // @codeCoverageIgnore
 
         $path = $this->campaignPath($options['id'], ['triggers']);
         unset($options['id']);
@@ -116,7 +117,7 @@ class Campaigns extends Base
     {
         if (!isset($options['id'])) {
             $this->mockException('Campaign id is required!', 'GET');
-        }
+        } // @codeCoverageIgnore
 
         $path = $this->campaignPath($options['id'], ['messages']);
         unset($options['id']);
