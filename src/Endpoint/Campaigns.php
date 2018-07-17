@@ -49,16 +49,17 @@ class Campaigns extends Base
             $this->mockException('Campaign id is required!', 'GET');
         }
 
-        $path = $this->campaignPath($options['id']);
-
+        $extra = [];
         if (isset($options['trigger_id'])) {
-            $path .= '/triggers/'.$options['trigger_id'];
+            $extra[] = 'triggers';
+            $extra[] = $options['trigger_id'];
             unset($options['trigger_id']);
         }
-
+        $extra[] = 'metrics';
         unset($options['id']);
 
-        return $this->client->get($path.'/metrics', $options);
+        $path = $this->campaignPath($options['id'], $extra);
+        return $this->client->get($path, $options);
     }
 
     /**
@@ -74,10 +75,10 @@ class Campaigns extends Base
             $this->mockException('Campaign id is required!', 'GET');
         }
 
-        $path = $this->campaignPath($options['id']);
+        $path = $this->campaignPath($options['id'], ['triggers']);
         unset($options['id']);
 
-        return $this->client->get($path.'/triggers', $options);
+        return $this->client->get($path, $options);
     }
 
     /**
@@ -94,10 +95,10 @@ class Campaigns extends Base
             $this->mockException('Campaign id is required!', 'POST');
         }
 
-        $path = $this->campaignPath($options['id']);
+        $path = $this->campaignPath($options['id'], ['triggers']);
         unset($options['id']);
 
-        return $this->client->post($path."/triggers", $options);
+        return $this->client->post($path, $options);
     }
 
     /**
@@ -113,9 +114,9 @@ class Campaigns extends Base
             $this->mockException('Campaign id is required!', 'GET');
         }
 
-        $path = $this->campaignPath($options['id']);
+        $path = $this->campaignPath($options['id'], ['messages']);
         unset($options['id']);
 
-        return $this->client->get($path.'/messages', $options);
+        return $this->client->get($path, $options);
     }
 }

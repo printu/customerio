@@ -86,7 +86,9 @@ class Customers extends Base
             $this->mockException('Email is required!', 'GET');
         }
 
-        return $this->client->get('customers', $options);
+        $path = $this->customerPath();
+
+        return $this->client->get($path, $options);
     }
 
     /**
@@ -101,9 +103,10 @@ class Customers extends Base
             $this->mockException('Filter is required!', 'POST');
         }
 
+        $path = $this->customerPath();
         $options['beta'] = true;
 
-        return $this->client->post('customers', $options);
+        return $this->client->post($path, $options);
     }
 
     /**
@@ -118,10 +121,10 @@ class Customers extends Base
             $this->mockException('User id is required!', 'GET');
         }
 
-        $path = $this->customerPath($options['id']);
+        $path = $this->customerPath($options['id'], ['attributes']);
         unset($options['id']);
 
-        return $this->client->get($path.'/attributes', $options);
+        return $this->client->get($path, $options);
     }
 
     /**
@@ -136,10 +139,10 @@ class Customers extends Base
             $this->mockException('User id is required!', 'GET');
         }
 
-        $path = $this->customerPath($options['id']);
+        $path = $this->customerPath($options['id'], ['segments']);
         unset($options['id']);
 
-        return $this->client->get($path.'/segments', $options);
+        return $this->client->get($path, $options);
     }
 
     /**
@@ -154,9 +157,9 @@ class Customers extends Base
             $this->mockException('User id is required!', 'GET');
         }
 
-        $path = $this->customerPath($options['id']);
+        $path = $this->customerPath($options['id'], ['messages']);
         unset($options['id']);
 
-        return $this->client->get($path.'/messages', $options);
+        return $this->client->get($path, $options);
     }
 }

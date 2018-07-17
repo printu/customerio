@@ -2,6 +2,7 @@
 
 namespace Customerio;
 
+use Customerio\Endpoint\Exports;
 use GuzzleHttp\Client as BaseClient;
 use GuzzleHttp\Psr7\Response;
 use function GuzzleHttp\Psr7\stream_for;
@@ -44,6 +45,9 @@ class Client
     /** @var Endpoint\Segments */
     public $segments;
 
+    /** @var Endpoint\Exports */
+    public $exports;
+
     /**
      * Client constructor.
      * @param string $apiKey Api Key
@@ -60,6 +64,7 @@ class Client
         $this->messageTemplates = new Endpoint\MessageTemplates($this);
         $this->newsletters = new Endpoint\Newsletters($this);
         $this->segments = new Endpoint\Segments($this);
+        $this->exports = new Endpoint\Exports($this);
 
         $this->apiKey = $apiKey;
         $this->siteId = $siteId;

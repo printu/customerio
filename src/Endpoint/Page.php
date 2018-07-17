@@ -24,8 +24,8 @@ class Page extends Base
         $options['name'] = $options['url'];
         unset($options['url']);
 
-        $path = $this->customerPath($options['id']);
+        $path = $this->customerPath($options['id'], ['events']);
 
-        return $this->client->post($path."/events", array_merge(["type" => "page"], $options));
+        return $this->client->post($path, array_merge(["type" => "page"], $options));
     }
 }

@@ -21,57 +21,43 @@ class Base
     }
 
     /**
-     * @param int $customerId
-     * @return string
-     */
-    protected function customerPath($customerId)
-    {
-        return "customers/".$customerId;
-    }
-
-    /**
-     * @param int $campaignId
-     * @return string
-     */
-    protected function campaignPath($campaignId)
-    {
-        return "campaigns/".$campaignId;
-    }
-
-    /**
-     * @param string $messageId
-     * @return string
-     */
-    protected function messagesPath($messageId = null)
-    {
-        $path = [
-            'messages'
-        ];
-
-        if (!empty($messageId)) {
-            $path[] = $messageId;
-        }
-
-        return implode('/', $path);
-    }
-
-    /**
-     * @param int $messageId
+     * @param null $id
      * @param array $extra
      * @return string
      */
-    protected function messagesTemplatesPath($messageId, $extra = [])
+    protected function customerPath($id = null, array $extra = [])
     {
-        $path = [
-            'msg_templates',
-            (int)$messageId
-        ];
+        return $this->generatePath('customers', $id, $extra);
+    }
 
-        if (!empty($extra)) {
-            $path = array_merge($path, $extra);
-        }
+    /**
+     * @param null $id
+     * @param array $extra
+     * @return string
+     */
+    protected function campaignPath($id = null, array $extra = [])
+    {
+        return $this->generatePath('campaigns', $id, $extra);
+    }
 
-        return implode('/', $path);
+    /**
+     * @param null $id
+     * @param array $extra
+     * @return string
+     */
+    protected function messagesPath($id = null, array $extra = [])
+    {
+        return $this->generatePath('messages', $id, $extra);
+    }
+
+    /**
+     * @param $id
+     * @param array $extra
+     * @return string
+     */
+    protected function messagesTemplatesPath($id, array $extra = [])
+    {
+        return $this->generatePath('msg_templates', $id, $extra);
     }
 
     /**
@@ -79,21 +65,9 @@ class Base
      * @param array $extra
      * @return string
      */
-    protected function newslettersPath($id = null, $extra = [])
+    protected function newslettersPath($id = null, array $extra = [])
     {
-        $path = [
-            'newsletters',
-        ];
-
-        if (!empty($id)) {
-            $path[] = (int)$id;
-        }
-
-        if (!empty($extra)) {
-            $path = array_merge($path, $extra);
-        }
-
-        return implode('/', $path);
+        return $this->generatePath('newsletters', $id, $extra);
     }
 
     /**
@@ -101,21 +75,19 @@ class Base
      * @param array $extra
      * @return string
      */
-    protected function segmentsPath($id = null, $extra = [])
+    protected function segmentsPath($id = null, array $extra = [])
     {
-        $path = [
-            'segments',
-        ];
+        return $this->generatePath('segments', $id, $extra);
+    }
 
-        if (!empty($id)) {
-            $path[] = (int)$id;
-        }
-
-        if (!empty($extra)) {
-            $path = array_merge($path, $extra);
-        }
-
-        return implode('/', $path);
+    /**
+     * @param int $id
+     * @param array $extra
+     * @return string
+     */
+    protected function exportsPath($id = null, array $extra = [])
+    {
+        return $this->generatePath('exports', $id, $extra);
     }
 
     /**
@@ -125,5 +97,28 @@ class Base
     protected function mockException($message, $method)
     {
         throw new RequestException($message, (new Request($method, '/')));
+    }
+
+    /**
+     * @param $prefix
+     * @param null $id
+     * @param array $extra
+     * @return string
+     */
+    private function generatePath($prefix, $id = null, array $extra = [])
+    {
+        $path = [
+            $prefix,
+        ];
+
+        if (!empty($id)) {
+            $path[] = (int)$id;
+        }
+
+        if (!empty($extra)) {
+            $path = array_merge($path, $extra);
+        }
+
+        return implode('/', $path);
     }
 }
