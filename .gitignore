@@ -7,4 +7,3 @@ test.php
 *.phar
 /build/
 composer.phar
-docker-compose.yml
