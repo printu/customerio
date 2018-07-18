@@ -8,6 +8,22 @@ PHP bindings for the Customer.io API (https://track.customer.io/).
 [![Code Climate](https://codeclimate.com/github/printu/customerio/badges/gpa.svg)](https://codeclimate.com/github/printu/customerio)
 [![Test Coverage](https://codeclimate.com/github/printu/customerio/badges/coverage.svg)](https://codeclimate.com/github/printu/customerio/coverage)
 
+There are two primary API hosts available for to integrate with:
+
+**Behavioral Tracking**
+
+https://track.customer.io/api/v1/ \
+Behavioral Tracking API is used to identify and track customer data with Customer.io.
+
+**API**
+
+https://api.customer.io/v1/api/ \
+API allows you to read data from your Customer.io account for use in custom workflows in your backend system or for reporting purposes.
+
+**API (BETA)**
+
+https://beta-api.customer.io/v1/api/ \
+Beta API features should be used with caution, and should be expected to change with little notice. Please refer to [this](https://learn.customer.io/api/#apibeta-apiintroduction) documentation for available endpoints.
 ## Installation
 
 The API client can be installed via [Composer](https://github.com/composer/composer).
@@ -134,6 +150,23 @@ try {
 
 Anonymous event [example](http://customer.io/docs/invitation-emails.html) usage.
 
+#### Segments
+```php
+<?php
+// Get segment data
+try {
+    $client->segments->get(
+        [
+            'id' => 1
+        ]
+    );
+} catch (\GuzzleHttp\Exception\GuzzleException $e) {
+    // Handle the error
+}
+```
+
+Check for other available methods [here](https://learn.customer.io/api/#apibeta-apisegmentssegments_list)
+
 #### PageView
 
 ```php
@@ -155,6 +188,22 @@ try {
 ```
 
 #### Campaigns
+
+```php
+<?php
+// Get campaigns data
+try {
+    $client->campaigns->get(
+        [
+            'id' => 1
+        ]
+    );
+} catch (\GuzzleHttp\Exception\GuzzleException $e) {
+    // Handle the error
+}
+```
+
+Check for other available methods [here](https://learn.customer.io/api/#apibeta-apicampaignscampaigns_list)
 
 ```php
 <?php
