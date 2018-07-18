@@ -1,8 +1,8 @@
 # Customer.io API Client
 
-PHP bindings for the Customer.io API (https://track.customer.io/).
+PHP bindings for the Customer.io API.
 
-[API Documentation](https://learn.customer.io/api/#apiintroduction)
+[API Documentation](https://learn.customer.io/api/)
 
 [![Build Status](https://travis-ci.org/printu/customerio.svg?branch=master)](https://travis-ci.org/printu/customerio)
 [![Code Climate](https://codeclimate.com/github/printu/customerio/badges/gpa.svg)](https://codeclimate.com/github/printu/customerio)
