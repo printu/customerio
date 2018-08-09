@@ -51,6 +51,9 @@ class Client
     /** @var Endpoint\Activities */
     public $activities;
 
+    /** @var Endpoint\SenderIdentities */
+    public $senderIdentities;
+
     /**
      * Client constructor.
      * @param string $apiKey Api Key
@@ -69,6 +72,7 @@ class Client
         $this->segments = new Endpoint\Segments($this);
         $this->exports = new Endpoint\Exports($this);
         $this->activities = new Endpoint\Activities($this);
+        $this->senderIdentities = new Endpoint\SenderIdentities($this);
 
         $this->apiKey = $apiKey;
         $this->siteId = $siteId;
