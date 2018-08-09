@@ -91,6 +91,16 @@ class Base
     }
 
     /**
+     * @param int $id
+     * @param array $extra
+     * @return string
+     */
+    protected function activitiesPath($id = null, array $extra = [])
+    {
+        return $this->generatePath('activities', $id, $extra);
+    }
+
+    /**
      * @param $message
      * @param $method
      */

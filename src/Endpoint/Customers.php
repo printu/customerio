@@ -164,4 +164,22 @@ class Customers extends Base
 
         return $this->client->get($path, $options);
     }
+
+    /**
+     * Get data about activities performed by or for a customer
+     * @param array $options
+     * @return mixed
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    public function activities(array $options)
+    {
+        if (!isset($options['id'])) {
+            $this->mockException('User id is required!', 'GET');
+        } // @codeCoverageIgnore
+
+        $path = $this->customerPath($options['id'], ['activities']);
+        unset($options['id']);
+
+        return $this->client->get($path, $options);
+    }
 }
