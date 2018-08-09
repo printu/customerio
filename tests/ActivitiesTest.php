@@ -10,7 +10,7 @@ class ActivitiesTest extends TestCase
     public function testActivitiesSearch()
     {
         $stub = $this->getMockBuilder('Customerio\Client')->disableOriginalConstructor()->getMock();
-        $stub->method('post')->willReturn('foo');
+        $stub->method('get')->willReturn('foo');
         $activities = new Activities($stub);
         $this->assertEquals('foo', $activities->search([]));
     }

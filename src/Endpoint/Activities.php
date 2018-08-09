@@ -15,8 +15,7 @@ class Activities extends Base
     public function search(array $options)
     {
         $path = $this->activitiesPath();
-        $options['endpoint'] = Client::API_ENDPOINT_BETA;
 
-        return $this->client->post($path, $options);
+        return $this->client->get($path, $options);
     }
 }
