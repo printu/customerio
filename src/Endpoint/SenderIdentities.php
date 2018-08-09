@@ -2,8 +2,6 @@
 
 namespace Customerio\Endpoint;
 
-use Customerio\Client;
-
 class SenderIdentities extends Base
 {
     /**
