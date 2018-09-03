@@ -133,7 +133,7 @@ class Base
         ];
 
         if (!empty($id)) {
-            $path[] = (int)$id;
+            $path[] = (string)$id;
         }
 
         if (!empty($extra)) {
