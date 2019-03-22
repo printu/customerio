@@ -119,7 +119,6 @@ class Base
         throw new RequestException($message, (new Request($method, '/')));
     }
 
-
     /**
      * @param $prefix
      * @param null $id
