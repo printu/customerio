@@ -110,7 +110,7 @@ class DevicesTest extends TestCase
     /**
      * @expectedException \GuzzleHttp\Exception\GuzzleException
      */
-    public function testDevviceDeleteDeviceIdMissing()
+    public function testDeviceDeleteDeviceIdMissing()
     {
         $stub = $this->getMockBuilder('Customerio\Client')->disableOriginalConstructor()->getMock();
         $stub->method('delete')->willReturn('foo');
