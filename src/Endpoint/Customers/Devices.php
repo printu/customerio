@@ -44,7 +44,7 @@ class Devices extends Base
         } // @codeCoverageIgnore
 
         if (!isset($options['device_id'])) {
-            $this->mockException('Device id is required!', 'PUT');
+            $this->mockException('Device id is required!', 'DELETE');
         } // @codeCoverageIgnore
 
         $path = $this->customerPath($options['id'], ['devices', $options['device_id']]);
