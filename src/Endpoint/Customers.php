@@ -6,6 +6,16 @@ use Customerio\Client;
 
 class Customers extends Base
 {
+    /** @var Customers\Devices */
+    public $devices;
+
+
+    public function __construct($client)
+    {
+        parent::__construct($client);
+        $this->devices = new Customers\Devices($client);
+    }
+
     /**
      * Register customer event
      * @param array $options
