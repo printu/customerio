@@ -91,6 +91,26 @@ class Base
     }
 
     /**
+     * @param int $id
+     * @param array $extra
+     * @return string
+     */
+    protected function activitiesPath($id = null, array $extra = [])
+    {
+        return $this->generatePath('activities', $id, $extra);
+    }
+
+    /**
+     * @param null $id
+     * @param array $extra
+     * @return string
+     */
+    protected function senderIdentitiesPath($id = null, array $extra = [])
+    {
+        return $this->generatePath('sender_identities', $id, $extra);
+    }
+
+    /**
      * @param $message
      * @param $method
      */
@@ -112,7 +132,7 @@ class Base
         ];
 
         if (!empty($id)) {
-            $path[] = (int)$id;
+            $path[] = (string)$id;
         }
 
         if (!empty($extra)) {

@@ -206,7 +206,7 @@ class CustomersTest extends TestCase
     /**
      * @expectedException \GuzzleHttp\Exception\GuzzleException
      */
-    public function testCustomerGetSegmentssEmailMissing()
+    public function testCustomerGetSegmentsEmailMissing()
     {
         $stub = $this->getMockBuilder('Customerio\Client')->disableOriginalConstructor()->getMock();
         $stub->method('get')->willReturn('foo');
@@ -234,6 +234,28 @@ class CustomersTest extends TestCase
         $stub->method('get')->willReturn('foo');
         $customer = new Customers($stub);
         $this->assertEquals('foo', $customer->messages([
+        ]));
+    }
+
+    public function testCustomerGetActivities()
+    {
+        $stub = $this->getMockBuilder('Customerio\Client')->disableOriginalConstructor()->getMock();
+        $stub->method('get')->willReturn('foo');
+        $customer = new Customers($stub);
+        $this->assertEquals('foo', $customer->activities([
+            'id' => 1
+        ]));
+    }
+
+    /**
+     * @expectedException \GuzzleHttp\Exception\GuzzleException
+     */
+    public function testCustomerGetActivitiesIdMissing()
+    {
+        $stub = $this->getMockBuilder('Customerio\Client')->disableOriginalConstructor()->getMock();
+        $stub->method('get')->willReturn('foo');
+        $customer = new Customers($stub);
+        $this->assertEquals('foo', $customer->activities([
         ]));
     }
 }
