@@ -19,7 +19,6 @@ class CustomersTest extends TestCase
             'id' => 1,
             'email' => 'test@customer.io',
             'plan' => 'free',
-            'last_used' => 1514764800
         ]));
     }
 
