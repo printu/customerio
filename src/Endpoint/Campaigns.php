@@ -16,6 +16,7 @@ class Campaigns extends Base
     public function search(array $options)
     {
         $path = $this->campaignPath();
+
         return $this->client->get($path, $options);
     }
 
@@ -121,6 +122,73 @@ class Campaigns extends Base
 
         $path = $this->campaignPath($options['id'], ['messages']);
         unset($options['id']);
+
+        return $this->client->get($path, $options);
+    }
+
+    /**
+     * List campaign actions
+     * @see https://customer.io/docs/api/#apibeta-apicampaignscampaigns_index_actions
+     * @param array $options
+     * @return mixed
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    public function actions(array $options)
+    {
+        if (!isset($options['id'])) {
+            $this->mockException('Campaign id is required!', 'GET');
+        } // @codeCoverageIgnore
+
+        $path = $this->campaignPath($options['id'], ['actions']);
+        unset($options['id']);
+
+        return $this->client->get($path, $options);
+    }
+
+    /**
+     * Get action of a campaign by id.
+     * @see https://customer.io/docs/api/#apibeta-apicampaignscampaigns_get_action
+     * @param array $options
+     * @return mixed
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    public function getAction(array $options)
+    {
+        if (!isset($options['id'])) {
+            $this->mockException('Campaign id is required!', 'GET');
+        } // @codeCoverageIgn
+
+        if (!isset($options['action_id'])) {
+            $this->mockException('Action id is required!', 'GET');
+        } // @codeCoverageIgn
+
+        $path = $this->campaignPath($options['id'], ['actions', $options['action_id']]);
+        unset($options['id']);
+        unset($options['action_id']);
+
+        return $this->client->get($path, $options);
+    }
+
+    /**
+     * Get action metrics of a campaign
+     * @see https://customer.io/docs/api/#apibeta-apicampaignscampaign_action_metrics
+     * @param array $options
+     * @return mixed
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    public function getActionMetrics(array $options)
+    {
+        if (!isset($options['id'])) {
+            $this->mockException('Campaign id is required!', 'GET');
+        } // @codeCoverageIgn
+
+        if (!isset($options['action_id'])) {
+            $this->mockException('Action id is required!', 'GET');
+        } // @codeCoverageIgn
+
+        $path = $this->campaignPath($options['id'], ['actions', $options['action_id'], 'metrics']);
+        unset($options['id']);
+        unset($options['action_id']);
 
         return $this->client->get($path, $options);
     }
