@@ -7,6 +7,28 @@ use PHPUnit\Framework\TestCase;
 
 class SegmentsTest extends TestCase
 {
+    public function testSegmentsCreate()
+    {
+        $stub = $this->getMockBuilder('Customerio\Client')->disableOriginalConstructor()->getMock();
+        $stub->method('post')->willReturn('foo');
+        $segments = new Segments($stub);
+        $this->assertEquals('foo', $segments->create([
+            'name' => 'example'
+        ]));
+    }
+
+    /**
+     * @expectedException \GuzzleHttp\Exception\GuzzleException
+     */
+    public function testSegmentsCreateMissingName()
+    {
+        $stub = $this->getMockBuilder('Customerio\Client')->disableOriginalConstructor()->getMock();
+        $stub->method('post')->willReturn('foo');
+        $segments = new Segments($stub);
+        $this->assertEquals('foo', $segments->create([
+        ]));
+    }
+
     public function testExportsSearch()
     {
         $stub = $this->getMockBuilder('Customerio\Client')->disableOriginalConstructor()->getMock();
@@ -101,6 +123,28 @@ class SegmentsTest extends TestCase
         $stub->method('get')->willReturn('foo');
         $segments = new Segments($stub);
         $this->assertEquals('foo', $segments->membership([
+        ]));
+    }
+
+    public function testSegmentsDelete()
+    {
+        $stub = $this->getMockBuilder('Customerio\Client')->disableOriginalConstructor()->getMock();
+        $stub->method('delete')->willReturn('foo');
+        $segments = new Segments($stub);
+        $this->assertEquals('foo', $segments->delete([
+            'id' => 10
+        ]));
+    }
+
+    /**
+     * @expectedException \GuzzleHttp\Exception\GuzzleException
+     */
+    public function testSegmentsDeleteMissingId()
+    {
+        $stub = $this->getMockBuilder('Customerio\Client')->disableOriginalConstructor()->getMock();
+        $stub->method('delete')->willReturn('foo');
+        $segments = new Segments($stub);
+        $this->assertEquals('foo', $segments->delete([
         ]));
     }
 }
