@@ -2,8 +2,31 @@
 
 namespace Customerio\Endpoint;
 
+use Customerio\Client;
+
 class Segments extends Base
 {
+
+    /**
+     * Create manual segment
+     * @see https://customer.io/docs/api/#apibeta-apisegmentssegment_create
+     * @param array $options
+     * @return mixed
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    public function create(array $options)
+    {
+        if (!isset($options['name'])) {
+            $this->mockException('Segments name is required!', 'POST');
+        } // @codeCoverageIgnore
+
+        $path = $this->segmentsPath();
+        $json = ['segment' => $options];
+        $json['endpoint'] = Client::API_ENDPOINT_BETA;
+
+        return $this->client->post($path, $json);
+    }
+
     /**
      * List segments
      * @see https://learn.customer.io/api/#apibeta-apisegmentssegments_list
@@ -14,6 +37,7 @@ class Segments extends Base
     public function search(array $options)
     {
         $path = $this->segmentsPath();
+
         return $this->client->get($path, $options);
     }
 
@@ -91,5 +115,71 @@ class Segments extends Base
         unset($options['id']);
 
         return $this->client->get($path, $options);
+    }
+
+    /**
+     * Delete an existing manual segment by id
+     * @see https://customer.io/docs/api/#apibeta-apisegmentssegment_delete
+     * @param array $options
+     * @return mixed
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    public function delete(array $options)
+    {
+        if (!isset($options['id'])) {
+            $this->mockException('Segments id is required!', 'DELETE');
+        } // @codeCoverageIgnore
+
+        $path = $this->segmentsPath($options['id']);
+        unset($options['id']);
+        $options['endpoint'] = Client::API_ENDPOINT_BETA;
+
+        return $this->client->delete($path, $options);
+    }
+
+    /**
+     * Add people to a manual segment
+     * @see https://customer.io/docs/api/#apitracksegmentsadd_customers
+     * @param array $options
+     * @return mixed
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    public function addCustomers(array $options)
+    {
+        if (!isset($options['id'])) {
+            $this->mockException('Segments id is required!', 'POST');
+        } // @codeCoverageIgnore
+
+        if (!isset($options['ids']) || !is_array($options['ids'])) {
+            $this->mockException('Customer ids are required!', 'POST');
+        } // @codeCoverageIgnores
+
+        $path = $this->segmentsPath($options['id'], ['add_customers']);
+        unset($options['id']);
+
+        return $this->client->post($path, $options);
+    }
+
+    /**
+     * Remove people from a manual segment
+     * @see https://customer.io/docs/api/#apitracksegmentsremove_customers
+     * @param array $options
+     * @return mixed
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    public function removeCustomers(array $options)
+    {
+        if (!isset($options['id'])) {
+            $this->mockException('Segments id is required!', 'POST');
+        } // @codeCoverageIgnore
+
+        if (!isset($options['ids']) || !is_array($options['ids'])) {
+            $this->mockException('Customer ids are required!', 'POST');
+        } // @codeCoverageIgnores
+
+        $path = $this->segmentsPath($options['id'], ['remove_customers']);
+        unset($options['id']);
+
+        return $this->client->post($path, $options);
     }
 }
