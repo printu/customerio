@@ -26,6 +26,7 @@ class ClientTest extends TestCase
         $stack->push($history);
         $http_client = new Client(['handler' => $stack]);
         $client = new CustomerIoClient('u', 'p');
+        $client->setAppAPIKey('t');
         $client->setClient($http_client);
         $client->customers->get([
             'email' => 'test@customer.io',
@@ -37,7 +38,7 @@ class ClientTest extends TestCase
         $client->customers->event([
             'id' => 10,
             'name' => 'test-event',
-            'endpoint' => CustomerIoClient::API_ENDPOINT
+            'endpoint' => CustomerIoClient::API_ENDPOINT,
         ]);
         $client->customers->delete([
             'id' => 10,
@@ -45,8 +46,34 @@ class ClientTest extends TestCase
         foreach ($container as $transaction) {
             /** @var \GuzzleHttp\Psr7\Request $request */
             $request = $transaction['request'];
-            $basic = $request->getHeaders()['Authorization'][0];
-            $this->assertTrue($basic == "Basic cDp1");
+            $auth = $request->getHeaders()['Authorization'][0];
+            switch ($request->getMethod()) {
+                case 'GET':
+                    $this->assertTrue($auth == "Bearer t");
+                    break;
+                default:
+                    $this->assertTrue($auth == "Basic cDp1");
+            }
         }
+    }
+
+    /**
+     * @expectedException \InvalidArgumentException
+     */
+    public function testBasicClientNoAppKey()
+    {
+        $mock = new MockHandler([
+            new Response(200, ['X-Foo' => 'Bar'], "{\"foo\":\"bar\"}"),
+        ]);
+        $container = [];
+        $history = Middleware::history($container);
+        $stack = HandlerStack::create($mock);
+        $stack->push($history);
+        $http_client = new Client(['handler' => $stack]);
+        $client = new CustomerIoClient('u', 'p');
+        $client->setClient($http_client);
+        $client->customers->get([
+            'email' => 'test@customer.io',
+        ]);
     }
 }
