@@ -258,4 +258,48 @@ class CustomersTest extends TestCase
         $this->assertEquals('foo', $customer->activities([
         ]));
     }
+
+    public function testCustomerSuppress()
+    {
+        $stub = $this->getMockBuilder('Customerio\Client')->disableOriginalConstructor()->getMock();
+        $stub->method('post')->willReturn('foo');
+        $customer = new Customers($stub);
+        $this->assertEquals('foo', $customer->suppress([
+            'id' => 1
+        ]));
+    }
+
+    /**
+     * @expectedException \GuzzleHttp\Exception\GuzzleException
+     */
+    public function testCustomerSuppressIdMissing()
+    {
+        $stub = $this->getMockBuilder('Customerio\Client')->disableOriginalConstructor()->getMock();
+        $stub->method('post')->willReturn('foo');
+        $customer = new Customers($stub);
+        $this->assertEquals('foo', $customer->suppress([
+        ]));
+    }
+
+    public function testCustomerUnSuppress()
+    {
+        $stub = $this->getMockBuilder('Customerio\Client')->disableOriginalConstructor()->getMock();
+        $stub->method('post')->willReturn('foo');
+        $customer = new Customers($stub);
+        $this->assertEquals('foo', $customer->unsuppress([
+            'id' => 1
+        ]));
+    }
+
+    /**
+     * @expectedException \GuzzleHttp\Exception\GuzzleException
+     */
+    public function testCustomerUnSuppressIdMissing()
+    {
+        $stub = $this->getMockBuilder('Customerio\Client')->disableOriginalConstructor()->getMock();
+        $stub->method('post')->willReturn('foo');
+        $customer = new Customers($stub);
+        $this->assertEquals('foo', $customer->unsuppress([
+        ]));
+    }
 }

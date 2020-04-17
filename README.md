@@ -23,7 +23,7 @@ API allows you to read data from your Customer.io account for use in custom work
 **API (BETA)**
 
 https://beta-api.customer.io/v1/api/ \
-Beta API features should be used with caution, and should be expected to change with little notice. Please refer to [this](https://learn.customer.io/api/#apibeta-apiintroduction) documentation for available endpoints.
+Beta API features should be used with caution, and should be expected to change with little notice. Please refer to [this](https://customer.io/docs/api/#apitrackintroduction) documentation for available endpoints.
 ## Installation
 
 The API client can be installed via [Composer](https://github.com/composer/composer).
@@ -176,7 +176,7 @@ try {
 }
 ```
 
-Check for other available methods [here](https://learn.customer.io/api/#apibeta-apisegmentssegments_list)
+Check for other available methods [here](https://customer.io/docs/api/#apibeta-apisegmentssegments_list)
 
 #### PageView
 
@@ -214,7 +214,7 @@ try {
 }
 ```
 
-Check for other available methods [here](https://learn.customer.io/api/#apibeta-apicampaignscampaigns_list)
+Check for other available methods [here](https://customer.io/docs/api/#apibeta-apicampaignscampaigns_get)
 
 ```php
 <?php

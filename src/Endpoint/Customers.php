@@ -3,6 +3,7 @@
 namespace Customerio\Endpoint;
 
 use Customerio\Client;
+use GuzzleHttp\Exception\GuzzleException;
 
 class Customers extends Base
 {
@@ -23,7 +24,7 @@ class Customers extends Base
      * Register customer event
      * @param array $options
      * @return mixed
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
     public function event(array $options)
     {
@@ -44,7 +45,7 @@ class Customers extends Base
      * Add new customer
      * @param array $options
      * @return mixed
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
     public function add(array $options)
     {
@@ -65,7 +66,7 @@ class Customers extends Base
      * Delete customer
      * @param array $options
      * @return mixed
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
     public function delete(array $options)
     {
@@ -82,7 +83,7 @@ class Customers extends Base
      * Update new customer
      * @param array $options
      * @return mixed
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
     public function update(array $options)
     {
@@ -93,7 +94,7 @@ class Customers extends Base
      * Get customer by email address
      * @param array $options
      * @return mixed
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
     public function get(array $options)
     {
@@ -110,7 +111,7 @@ class Customers extends Base
      * Search customers
      * @param array $options
      * @return mixed
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
     public function search(array $options)
     {
@@ -128,7 +129,7 @@ class Customers extends Base
      * List customer attributes
      * @param array $options
      * @return mixed
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
     public function attributes(array $options)
     {
@@ -146,7 +147,7 @@ class Customers extends Base
      * List customer segments
      * @param array $options
      * @return mixed
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
     public function segments(array $options)
     {
@@ -164,7 +165,7 @@ class Customers extends Base
      * Get metadata about messages sent to a customer
      * @param array $options
      * @return mixed
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
     public function messages(array $options)
     {
@@ -182,7 +183,7 @@ class Customers extends Base
      * Get data about activities performed by or for a customer
      * @param array $options
      * @return mixed
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
     public function activities(array $options)
     {
@@ -194,5 +195,41 @@ class Customers extends Base
         unset($options['id']);
 
         return $this->client->get($path, $options);
+    }
+
+    /**
+     * Suppress a customer
+     * @param array $options
+     * @return mixed
+     * @throws GuzzleException
+     */
+    public function suppress(array $options)
+    {
+        if (!isset($options['id'])) {
+            $this->mockException('User id is required!', 'GET');
+        } // @codeCoverageIgnore
+
+        $path = $this->customerPath($options['id'], ['suppress']);
+        unset($options['id']);
+
+        return $this->client->post($path, $options);
+    }
+
+    /**
+     * Unsuppress a customer
+     * @param array $options
+     * @return mixed
+     * @throws GuzzleException
+     */
+    public function unsuppress(array $options)
+    {
+        if (!isset($options['id'])) {
+            $this->mockException('User id is required!', 'GET');
+        } // @codeCoverageIgnore
+
+        $path = $this->customerPath($options['id'], ['unsuppress']);
+        unset($options['id']);
+
+        return $this->client->post($path, $options);
     }
 }

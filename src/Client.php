@@ -4,6 +4,7 @@ namespace Customerio;
 
 use GuzzleHttp\Client as BaseClient;
 use GuzzleHttp\Psr7\Response;
+use InvalidArgumentException;
 use function GuzzleHttp\Psr7\stream_for;
 
 class Client
@@ -20,6 +21,9 @@ class Client
 
     /** @var string site ID */
     protected $siteId;
+
+    /** @var string App API key */
+    protected $appKey;
 
     /** @var Endpoint\Events $events */
     public $events;
@@ -79,6 +83,14 @@ class Client
     }
 
     /**
+     * @param string $appKey
+     */
+    public function setAppAPIKey($appKey)
+    {
+        $this->appKey = $appKey;
+    }
+
+    /**
      * Set default client
      */
     private function setDefaultClient()
@@ -104,7 +116,7 @@ class Client
      */
     public function get($endpoint, array $params = [])
     {
-        $options = $this->getDefaultParams();
+        $options = $this->getDefaultParams(self::API_ENDPOINT_BETA);
         if (!empty($params)) {
             $options['query'] = $params;
         }
@@ -158,23 +170,25 @@ class Client
 
     /**
      * @param string $method
-     * @param string $endpoint
+     * @param string $path
      * @param array $json
      * @return \Psr\Http\Message\ResponseInterface|mixed
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    protected function request($method, $endpoint, $json)
+    protected function request($method, $path, $json)
     {
-        $apiEndpoint = self::API_ENDPOINT_TRACK.$endpoint;
-        $options = $this->getDefaultParams();
+        $apiEndpoint = self::API_ENDPOINT_TRACK;
 
         if (isset($json['endpoint'])) {
-            $apiEndpoint = $json['endpoint'].$endpoint;
+            $apiEndpoint = $json['endpoint'];
             unset($json['endpoint']);
         }
 
+        $options = $this->getDefaultParams($apiEndpoint);
+        $url = $apiEndpoint.$path;
+
         $options['json'] = $json;
-        $response = $this->httpClient->request($method, $apiEndpoint, $options);
+        $response = $this->httpClient->request($method, $url, $options);
 
         return $response;
     }
@@ -186,6 +200,18 @@ class Client
     public function getAuth()
     {
         return [$this->siteId, $this->apiKey];
+    }
+
+    /**
+     * @return string
+     */
+    public function getToken()
+    {
+        if (empty($this->appKey)) {
+            throw new InvalidArgumentException("App API Key not set!");
+        }
+
+        return $this->appKey;
     }
 
     /**
@@ -202,17 +228,31 @@ class Client
 
     /**
      * Get default Guzzle options
+     * @param $endpoint
      * @return array
      */
-    protected function getDefaultParams()
+    protected function getDefaultParams($endpoint)
     {
-        return [
-            'auth' => $this->getAuth(),
-            'headers' => [
-                'Accept' => 'application/json',
-            ],
-            'connect_timeout' => 2,
-            'timeout' => 5,
-        ];
+        switch ($endpoint) {
+            case self::API_ENDPOINT_BETA:
+                return [
+                    'headers' => [
+                        'Authorization' => 'Bearer ' . $this->getToken(),
+                        'Accept' => 'application/json',
+                    ],
+                    'connect_timeout' => 2,
+                    'timeout' => 5,
+                ];
+                break;
+            default:
+                return [
+                    'auth' => $this->getAuth(),
+                    'headers' => [
+                        'Accept' => 'application/json',
+                    ],
+                    'connect_timeout' => 2,
+                    'timeout' => 5,
+                ];
+        }
     }
 }
