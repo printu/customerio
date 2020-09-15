@@ -3,6 +3,7 @@
 namespace Customerio\Tests;
 
 use Customerio\Endpoint\Page;
+use GuzzleHttp\Exception\GuzzleException;
 use PHPUnit\Framework\TestCase;
 
 class PageTest extends TestCase
@@ -18,22 +19,18 @@ class PageTest extends TestCase
         ]));
     }
 
-    /**
-     * @expectedException \GuzzleHttp\Exception\GuzzleException
-     */
     public function testEventIdException()
     {
+        $this->expectException(GuzzleException::class);
         $stub = $this->getMockBuilder('Customerio\Client')->disableOriginalConstructor()->getMock();
         $stub->method('post')->willReturn('foo');
         $page = new Page($stub);
         $this->assertEquals('foo', $page->view([]));
     }
 
-    /**
-     * @expectedException \GuzzleHttp\Exception\GuzzleException
-     */
     public function testEventUrlException()
     {
+        $this->expectException(GuzzleException::class);
         $stub = $this->getMockBuilder('Customerio\Client')->disableOriginalConstructor()->getMock();
         $stub->method('post')->willReturn('foo');
         $page = new Page($stub);

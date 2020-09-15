@@ -7,6 +7,7 @@ use GuzzleHttp\Client;
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Middleware;
+use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
 use PHPUnit\Framework\TestCase;
 
@@ -44,7 +45,7 @@ class ClientTest extends TestCase
             'id' => 10,
         ]);
         foreach ($container as $transaction) {
-            /** @var \GuzzleHttp\Psr7\Request $request */
+            /** @var Request $request */
             $request = $transaction['request'];
             $auth = $request->getHeaders()['Authorization'][0];
             switch ($request->getMethod()) {
@@ -57,11 +58,9 @@ class ClientTest extends TestCase
         }
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     */
     public function testBasicClientNoAppKey()
     {
+        $this->expectException(\InvalidArgumentException::class);
         $mock = new MockHandler([
             new Response(200, ['X-Foo' => 'Bar'], "{\"foo\":\"bar\"}"),
         ]);

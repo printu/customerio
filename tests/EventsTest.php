@@ -3,6 +3,7 @@
 namespace Customerio\Tests;
 
 use Customerio\Endpoint\Events;
+use GuzzleHttp\Exception\GuzzleException;
 use PHPUnit\Framework\TestCase;
 
 class EventsTest extends TestCase
@@ -17,11 +18,9 @@ class EventsTest extends TestCase
         ]));
     }
 
-    /**
-     * @expectedException \GuzzleHttp\Exception\GuzzleException
-     */
     public function testEventAnonymousException()
     {
+        $this->expectException(GuzzleException::class);
         $stub = $this->getMockBuilder('Customerio\Client')->disableOriginalConstructor()->getMock();
         $stub->method('post')->willReturn('foo');
         $events = new Events($stub);

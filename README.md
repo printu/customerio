@@ -33,7 +33,7 @@ In your composer.json file:
 ```json
 {
     "require": {
-        "printu/customerio": "~2.2"
+        "printu/customerio": "~3.0"
     }
 }
 ```
@@ -82,6 +82,17 @@ try {
             'email' => 'user@example.com',
             'plan' => 'free',
             'created_at' => time()
+        ]
+    );
+} catch (\GuzzleHttp\Exception\GuzzleException $e) {
+    // Handle the error
+}
+
+// Get customer
+try {
+    $client->customers->get(
+        [
+            'email' => 'user@example.com',        
         ]
     );
 } catch (\GuzzleHttp\Exception\GuzzleException $e) {

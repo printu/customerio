@@ -3,6 +3,7 @@
 namespace Customerio\Tests;
 
 use Customerio\Endpoint\Newsletters;
+use GuzzleHttp\Exception\GuzzleException;
 use PHPUnit\Framework\TestCase;
 
 class NewslettersTest extends TestCase
@@ -46,11 +47,9 @@ class NewslettersTest extends TestCase
         ]));
     }
 
-    /**
-     * @expectedException \GuzzleHttp\Exception\GuzzleException
-     */
     public function testNewslettersGetMissingId()
     {
+        $this->expectException(GuzzleException::class);
         $stub = $this->getMockBuilder('Customerio\Client')->disableOriginalConstructor()->getMock();
         $stub->method('get')->willReturn('foo');
         $newsletter = new Newsletters($stub);
@@ -58,11 +57,9 @@ class NewslettersTest extends TestCase
         ]));
     }
 
-    /**
-     * @expectedException \GuzzleHttp\Exception\GuzzleException
-     */
     public function testNewslettersGetMetricsMissingId()
     {
+        $this->expectException(GuzzleException::class);
         $stub = $this->getMockBuilder('Customerio\Client')->disableOriginalConstructor()->getMock();
         $stub->method('get')->willReturn('foo');
         $newsletter = new Newsletters($stub);
@@ -70,11 +67,9 @@ class NewslettersTest extends TestCase
         ]));
     }
 
-    /**
-     * @expectedException \GuzzleHttp\Exception\GuzzleException
-     */
     public function testNewslettersGeMessagesMissingId()
     {
+        $this->expectException(GuzzleException::class);
         $stub = $this->getMockBuilder('Customerio\Client')->disableOriginalConstructor()->getMock();
         $stub->method('get')->willReturn('foo');
         $newsletter = new Newsletters($stub);
