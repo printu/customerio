@@ -1,10 +1,7 @@
 language: php
-
-sudo: false
-
 php:
-  - 7.3
-  - 7.4
+  - '7.3'
+  - '7.4'
 
 install:
   - composer install --prefer-source
@@ -16,4 +13,4 @@ script:
   - ./vendor/bin/phpunit $PHPUNIT_FLAGS
 
 after_script:
-#  - if [ $TRAVIS_PHP_VERSION = '7.4' ]; then php vendor/bin/test-reporter; fi
+  - if [ $TRAVIS_PHP_VERSION = '7.4' ]; then php vendor/bin/test-reporter; fi
