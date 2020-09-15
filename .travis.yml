@@ -11,6 +11,3 @@ before_script:
 
 script:
   - ./vendor/bin/phpunit $PHPUNIT_FLAGS
-
-after_script:
-  - if [ $TRAVIS_PHP_VERSION = '7.4' ]; then php vendor/bin/test-reporter; fi
