@@ -3,12 +3,13 @@
 namespace Customerio\Tests\Customers;
 
 use Customerio\Endpoint\Customers\Devices;
+use GuzzleHttp\Exception\GuzzleException;
 use PHPUnit\Framework\TestCase;
 
 class DevicesTest extends TestCase
 {
     /**
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
     public function testDeviceCreate()
     {
@@ -23,11 +24,9 @@ class DevicesTest extends TestCase
         ]));
     }
 
-    /**
-     * @expectedException \GuzzleHttp\Exception\GuzzleException
-     */
     public function testDeviceCreateIdMissing()
     {
+        $this->expectException(GuzzleException::class);
         $stub = $this->getMockBuilder('Customerio\Client')->disableOriginalConstructor()->getMock();
         $stub->method('put')->willReturn('foo');
         $customer = new Devices($stub);
@@ -37,11 +36,9 @@ class DevicesTest extends TestCase
         ]));
     }
 
-    /**
-     * @expectedException \GuzzleHttp\Exception\GuzzleException
-     */
     public function testDeviceCreateDeviceIdMissing()
     {
+        $this->expectException(GuzzleException::class);
         $stub = $this->getMockBuilder('Customerio\Client')->disableOriginalConstructor()->getMock();
         $stub->method('put')->willReturn('foo');
         $customer = new Devices($stub);
@@ -51,11 +48,9 @@ class DevicesTest extends TestCase
         ]));
     }
 
-    /**
-     * @expectedException \GuzzleHttp\Exception\GuzzleException
-     */
     public function testDeviceCreatePlatformMissing()
     {
+        $this->expectException(GuzzleException::class);
         $stub = $this->getMockBuilder('Customerio\Client')->disableOriginalConstructor()->getMock();
         $stub->method('put')->willReturn('foo');
         $customer = new Devices($stub);
@@ -66,7 +61,7 @@ class DevicesTest extends TestCase
     }
 
     /**
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
     public function testDeviceUpdate()
     {
@@ -81,7 +76,7 @@ class DevicesTest extends TestCase
     }
 
     /**
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
     public function testDeviceDelete()
     {
@@ -94,11 +89,9 @@ class DevicesTest extends TestCase
         ]));
     }
 
-    /**
-     * @expectedException \GuzzleHttp\Exception\GuzzleException
-     */
     public function testDeviceDeleteIdMissing()
     {
+        $this->expectException(GuzzleException::class);
         $stub = $this->getMockBuilder('Customerio\Client')->disableOriginalConstructor()->getMock();
         $stub->method('delete')->willReturn('foo');
         $customer = new Devices($stub);
@@ -107,11 +100,9 @@ class DevicesTest extends TestCase
         ]));
     }
 
-    /**
-     * @expectedException \GuzzleHttp\Exception\GuzzleException
-     */
     public function testDeviceDeleteDeviceIdMissing()
     {
+        $this->expectException(GuzzleException::class);
         $stub = $this->getMockBuilder('Customerio\Client')->disableOriginalConstructor()->getMock();
         $stub->method('delete')->willReturn('foo');
         $customer = new Devices($stub);

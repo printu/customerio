@@ -3,12 +3,13 @@
 namespace Customerio\Tests;
 
 use Customerio\Endpoint\Campaigns;
+use GuzzleHttp\Exception\GuzzleException;
 use PHPUnit\Framework\TestCase;
 
 class CampaignsTest extends TestCase
 {
     /**
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
     public function testCampaignTrigger()
     {
@@ -18,11 +19,9 @@ class CampaignsTest extends TestCase
         $this->assertEquals('foo', $campaigns->trigger(['id' => 1]));
     }
 
-    /**
-     * @expectedException \GuzzleHttp\Exception\GuzzleException
-     */
     public function testCampaignTriggerIdMissing()
     {
+        $this->expectException(GuzzleException::class);
         $stub = $this->getMockBuilder('Customerio\Client')->disableOriginalConstructor()->getMock();
         $stub->method('post')->willReturn('foo');
         $campaigns = new Campaigns($stub);
@@ -50,11 +49,9 @@ class CampaignsTest extends TestCase
         ]));
     }
 
-    /**
-     * @expectedException \GuzzleHttp\Exception\RequestException
-     */
     public function testCampaignGetMissingId()
     {
+        $this->expectException(\GuzzleHttp\Exception\RequestException::class);
         $stub = $this->getMockBuilder('Customerio\Client')->disableOriginalConstructor()->getMock();
         $stub->method('get')->willReturn('foo');
         $campaigns = new Campaigns($stub);
@@ -81,11 +78,9 @@ class CampaignsTest extends TestCase
         ]));
     }
 
-    /**
-     * @expectedException \GuzzleHttp\Exception\RequestException
-     */
     public function testCampaignGetMetricsMissingId()
     {
+        $this->expectException(\GuzzleHttp\Exception\RequestException::class);
         $stub = $this->getMockBuilder('Customerio\Client')->disableOriginalConstructor()->getMock();
         $stub->method('get')->willReturn('foo');
         $campaigns = new Campaigns($stub);
@@ -103,11 +98,9 @@ class CampaignsTest extends TestCase
         ]));
     }
 
-    /**
-     * @expectedException \GuzzleHttp\Exception\RequestException
-     */
     public function testCampaignGetTriggersMissingId()
     {
+        $this->expectException(\GuzzleHttp\Exception\RequestException::class);
         $stub = $this->getMockBuilder('Customerio\Client')->disableOriginalConstructor()->getMock();
         $stub->method('get')->willReturn('foo');
         $campaigns = new Campaigns($stub);
@@ -125,11 +118,9 @@ class CampaignsTest extends TestCase
         ]));
     }
 
-    /**
-     * @expectedException \GuzzleHttp\Exception\RequestException
-     */
     public function testCampaignGetMessagesMissingId()
     {
+        $this->expectException(\GuzzleHttp\Exception\RequestException::class);
         $stub = $this->getMockBuilder('Customerio\Client')->disableOriginalConstructor()->getMock();
         $stub->method('get')->willReturn('foo');
         $campaigns = new Campaigns($stub);
@@ -147,11 +138,9 @@ class CampaignsTest extends TestCase
         ]));
     }
 
-    /**
-     * @expectedException \GuzzleHttp\Exception\RequestException
-     */
     public function testCampaignGetActionsMissingId()
     {
+        $this->expectException(\GuzzleHttp\Exception\RequestException::class);
         $stub = $this->getMockBuilder('Customerio\Client')->disableOriginalConstructor()->getMock();
         $stub->method('get')->willReturn('foo');
         $campaigns = new Campaigns($stub);
@@ -170,11 +159,9 @@ class CampaignsTest extends TestCase
         ]));
     }
 
-    /**
-     * @expectedException \GuzzleHttp\Exception\RequestException
-     */
     public function testCampaignGetActionMissingId()
     {
+        $this->expectException(\GuzzleHttp\Exception\RequestException::class);
         $stub = $this->getMockBuilder('Customerio\Client')->disableOriginalConstructor()->getMock();
         $stub->method('get')->willReturn('foo');
         $campaigns = new Campaigns($stub);
@@ -183,11 +170,9 @@ class CampaignsTest extends TestCase
         ]));
     }
 
-    /**
-     * @expectedException \GuzzleHttp\Exception\RequestException
-     */
     public function testCampaignGetActionMissingActionId()
     {
+        $this->expectException(\GuzzleHttp\Exception\RequestException::class);
         $stub = $this->getMockBuilder('Customerio\Client')->disableOriginalConstructor()->getMock();
         $stub->method('get')->willReturn('foo');
         $campaigns = new Campaigns($stub);
@@ -207,11 +192,9 @@ class CampaignsTest extends TestCase
         ]));
     }
 
-    /**
-     * @expectedException \GuzzleHttp\Exception\RequestException
-     */
     public function testCampaignGetActionMetricsMissingId()
     {
+        $this->expectException(\GuzzleHttp\Exception\RequestException::class);
         $stub = $this->getMockBuilder('Customerio\Client')->disableOriginalConstructor()->getMock();
         $stub->method('get')->willReturn('foo');
         $campaigns = new Campaigns($stub);
@@ -220,11 +203,9 @@ class CampaignsTest extends TestCase
         ]));
     }
 
-    /**
-     * @expectedException \GuzzleHttp\Exception\RequestException
-     */
     public function testCampaignGetActionMetricsMissingActionId()
     {
+        $this->expectException(\GuzzleHttp\Exception\RequestException::class);
         $stub = $this->getMockBuilder('Customerio\Client')->disableOriginalConstructor()->getMock();
         $stub->method('get')->willReturn('foo');
         $campaigns = new Campaigns($stub);

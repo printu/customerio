@@ -3,6 +3,7 @@
 namespace Customerio\Tests;
 
 use Customerio\Endpoint\Messages;
+use GuzzleHttp\Exception\GuzzleException;
 use PHPUnit\Framework\TestCase;
 
 class MessagesTest extends TestCase
@@ -26,11 +27,9 @@ class MessagesTest extends TestCase
         ]));
     }
 
-    /**
-     * @expectedException \GuzzleHttp\Exception\GuzzleException
-     */
     public function testMessagesGetMissingId()
     {
+        $this->expectException(GuzzleException::class);
         $stub = $this->getMockBuilder('Customerio\Client')->disableOriginalConstructor()->getMock();
         $stub->method('get')->willReturn('foo');
         $messages = new Messages($stub);

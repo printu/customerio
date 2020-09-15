@@ -3,6 +3,7 @@
 namespace Customerio\Tests;
 
 use Customerio\Endpoint\Segments;
+use GuzzleHttp\Exception\GuzzleException;
 use PHPUnit\Framework\TestCase;
 
 class SegmentsTest extends TestCase
@@ -17,11 +18,9 @@ class SegmentsTest extends TestCase
         ]));
     }
 
-    /**
-     * @expectedException \GuzzleHttp\Exception\GuzzleException
-     */
     public function testSegmentsCreateMissingName()
     {
+        $this->expectException(GuzzleException::class);
         $stub = $this->getMockBuilder('Customerio\Client')->disableOriginalConstructor()->getMock();
         $stub->method('post')->willReturn('foo');
         $segments = new Segments($stub);
@@ -78,11 +77,9 @@ class SegmentsTest extends TestCase
         ]));
     }
 
-    /**
-     * @expectedException \GuzzleHttp\Exception\GuzzleException
-     */
     public function testExportsGetMissingId()
     {
+        $this->expectException(GuzzleException::class);
         $stub = $this->getMockBuilder('Customerio\Client')->disableOriginalConstructor()->getMock();
         $stub->method('get')->willReturn('foo');
         $segments = new Segments($stub);
@@ -90,11 +87,9 @@ class SegmentsTest extends TestCase
         ]));
     }
 
-    /**
-     * @expectedException \GuzzleHttp\Exception\GuzzleException
-     */
     public function testExportsGetUsedByMissingId()
     {
+        $this->expectException(GuzzleException::class);
         $stub = $this->getMockBuilder('Customerio\Client')->disableOriginalConstructor()->getMock();
         $stub->method('get')->willReturn('foo');
         $segments = new Segments($stub);
@@ -102,11 +97,9 @@ class SegmentsTest extends TestCase
         ]));
     }
 
-    /**
-     * @expectedException \GuzzleHttp\Exception\GuzzleException
-     */
     public function testExportsGetCustomerCountMissingId()
     {
+        $this->expectException(GuzzleException::class);
         $stub = $this->getMockBuilder('Customerio\Client')->disableOriginalConstructor()->getMock();
         $stub->method('get')->willReturn('foo');
         $segments = new Segments($stub);
@@ -114,11 +107,9 @@ class SegmentsTest extends TestCase
         ]));
     }
 
-    /**
-     * @expectedException \GuzzleHttp\Exception\GuzzleException
-     */
     public function testExportsGetMembershipMissingId()
     {
+        $this->expectException(GuzzleException::class);
         $stub = $this->getMockBuilder('Customerio\Client')->disableOriginalConstructor()->getMock();
         $stub->method('get')->willReturn('foo');
         $segments = new Segments($stub);
@@ -136,11 +127,9 @@ class SegmentsTest extends TestCase
         ]));
     }
 
-    /**
-     * @expectedException \GuzzleHttp\Exception\GuzzleException
-     */
     public function testSegmentsDeleteMissingId()
     {
+        $this->expectException(GuzzleException::class);
         $stub = $this->getMockBuilder('Customerio\Client')->disableOriginalConstructor()->getMock();
         $stub->method('delete')->willReturn('foo');
         $segments = new Segments($stub);
@@ -159,11 +148,9 @@ class SegmentsTest extends TestCase
         ]));
     }
 
-    /**
-     * @expectedException \GuzzleHttp\Exception\GuzzleException
-     */
     public function testSegmentsAddCustomersMissingId()
     {
+        $this->expectException(GuzzleException::class);
         $stub = $this->getMockBuilder('Customerio\Client')->disableOriginalConstructor()->getMock();
         $stub->method('post')->willReturn('foo');
         $segments = new Segments($stub);
@@ -172,11 +159,9 @@ class SegmentsTest extends TestCase
         ]));
     }
 
-    /**
-     * @expectedException \GuzzleHttp\Exception\GuzzleException
-     */
     public function testSegmentsAddCustomersMissingIds()
     {
+        $this->expectException(GuzzleException::class);
         $stub = $this->getMockBuilder('Customerio\Client')->disableOriginalConstructor()->getMock();
         $stub->method('post')->willReturn('foo');
         $segments = new Segments($stub);
@@ -197,11 +182,9 @@ class SegmentsTest extends TestCase
         ]));
     }
 
-    /**
-     * @expectedException \GuzzleHttp\Exception\GuzzleException
-     */
     public function testSegmentsRemoveCustomersMissingId()
     {
+        $this->expectException(GuzzleException::class);
         $stub = $this->getMockBuilder('Customerio\Client')->disableOriginalConstructor()->getMock();
         $stub->method('post')->willReturn('foo');
         $segments = new Segments($stub);
@@ -210,11 +193,9 @@ class SegmentsTest extends TestCase
         ]));
     }
 
-    /**
-     * @expectedException \GuzzleHttp\Exception\GuzzleException
-     */
     public function testSegmentsRemoveCustomersMissingIds()
     {
+        $this->expectException(GuzzleException::class);
         $stub = $this->getMockBuilder('Customerio\Client')->disableOriginalConstructor()->getMock();
         $stub->method('post')->willReturn('foo');
         $segments = new Segments($stub);

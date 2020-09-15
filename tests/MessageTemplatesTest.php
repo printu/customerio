@@ -3,6 +3,7 @@
 namespace Customerio\Tests;
 
 use Customerio\Endpoint\MessageTemplates;
+use GuzzleHttp\Exception\RequestException;
 use PHPUnit\Framework\TestCase;
 
 class MessageTemplatesTest extends TestCase
@@ -27,11 +28,9 @@ class MessageTemplatesTest extends TestCase
         ]));
     }
 
-    /**
-     * @expectedException \GuzzleHttp\Exception\RequestException
-     */
     public function testExportsGetMissingId()
     {
+        $this->expectException(RequestException::class);
         $stub = $this->getMockBuilder('Customerio\Client')->disableOriginalConstructor()->getMock();
         $stub->method('get')->willReturn('foo');
         $template = new MessageTemplates($stub);
@@ -39,11 +38,9 @@ class MessageTemplatesTest extends TestCase
         ]));
     }
 
-    /**
-     * @expectedException \GuzzleHttp\Exception\RequestException
-     */
     public function testExportsGetMetricsMissingId()
     {
+        $this->expectException(RequestException::class);
         $stub = $this->getMockBuilder('Customerio\Client')->disableOriginalConstructor()->getMock();
         $stub->method('get')->willReturn('foo');
         $template = new MessageTemplates($stub);

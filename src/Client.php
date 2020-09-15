@@ -1,10 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Customerio;
 
 use GuzzleHttp\Client as BaseClient;
-use GuzzleHttp\Psr7\Response;
+use GuzzleHttp\Exception\GuzzleException;
 use InvalidArgumentException;
+use Psr\Http\Message\ResponseInterface;
 use function GuzzleHttp\Psr7\stream_for;
 
 class Client
@@ -63,7 +66,7 @@ class Client
      * @param string $apiKey Api Key
      * @param string $siteId Site ID.
      */
-    public function __construct($apiKey, $siteId)
+    public function __construct(string $apiKey, string $siteId)
     {
         $this->setDefaultClient();
         $this->events = new Endpoint\Events($this);
@@ -85,7 +88,7 @@ class Client
     /**
      * @param string $appKey
      */
-    public function setAppAPIKey($appKey)
+    public function setAppAPIKey(string $appKey): void
     {
         $this->appKey = $appKey;
     }
@@ -93,7 +96,7 @@ class Client
     /**
      * Set default client
      */
-    private function setDefaultClient()
+    private function setDefaultClient(): void
     {
         $this->httpClient = new BaseClient();
     }
@@ -102,7 +105,7 @@ class Client
      * Sets GuzzleHttp client.
      * @param BaseClient $client
      */
-    public function setClient($client)
+    public function setClient(BaseClient $client): void
     {
         $this->httpClient = $client;
     }
@@ -112,9 +115,9 @@ class Client
      * @param string $endpoint
      * @param array $params
      * @return mixed
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
-    public function get($endpoint, array $params = [])
+    public function get(string $endpoint, array $params = [])
     {
         $options = $this->getDefaultParams(self::API_ENDPOINT_BETA);
         if (!empty($params)) {
@@ -131,9 +134,9 @@ class Client
      * @param string $endpoint
      * @param array $json
      * @return mixed
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
-    public function post($endpoint, $json)
+    public function post(string $endpoint, array $json)
     {
         $response = $this->request('POST', $endpoint, $json);
 
@@ -145,9 +148,9 @@ class Client
      * @param string $endpoint
      * @param array $json
      * @return mixed
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
-    public function delete($endpoint, $json)
+    public function delete(string $endpoint, array $json)
     {
         $response = $this->request('DELETE', $endpoint, $json);
 
@@ -159,9 +162,9 @@ class Client
      * @param string $endpoint
      * @param array $json
      * @return mixed
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
-    public function put($endpoint, $json)
+    public function put(string $endpoint, array $json)
     {
         $response = $this->request('PUT', $endpoint, $json);
 
@@ -172,10 +175,10 @@ class Client
      * @param string $method
      * @param string $path
      * @param array $json
-     * @return \Psr\Http\Message\ResponseInterface|mixed
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @return ResponseInterface
+     * @throws GuzzleException
      */
-    protected function request($method, $path, $json)
+    protected function request(string $method, string $path, array $json): ResponseInterface
     {
         $apiEndpoint = self::API_ENDPOINT_TRACK;
 
@@ -188,16 +191,15 @@ class Client
         $url = $apiEndpoint.$path;
 
         $options['json'] = $json;
-        $response = $this->httpClient->request($method, $url, $options);
 
-        return $response;
+        return $this->httpClient->request($method, $url, $options);
     }
 
     /**
      * Returns authentication parameters.
      * @return array
      */
-    public function getAuth()
+    public function getAuth(): array
     {
         return [$this->siteId, $this->apiKey];
     }
@@ -205,7 +207,7 @@ class Client
     /**
      * @return string
      */
-    public function getToken()
+    public function getToken(): string
     {
         if (empty($this->appKey)) {
             throw new InvalidArgumentException("App API Key not set!");
@@ -215,15 +217,14 @@ class Client
     }
 
     /**
-     * @param Response $response
+     * @param ResponseInterface $response
      * @return mixed
      */
-    private function handleResponse(Response $response)
+    private function handleResponse(ResponseInterface $response)
     {
         $stream = stream_for($response->getBody());
-        $data = json_decode($stream->getContents());
 
-        return $data;
+        return json_decode($stream->getContents());
     }
 
     /**
@@ -231,13 +232,13 @@ class Client
      * @param $endpoint
      * @return array
      */
-    protected function getDefaultParams($endpoint)
+    protected function getDefaultParams($endpoint): array
     {
         switch ($endpoint) {
             case self::API_ENDPOINT_BETA:
                 return [
                     'headers' => [
-                        'Authorization' => 'Bearer ' . $this->getToken(),
+                        'Authorization' => 'Bearer '.$this->getToken(),
                         'Accept' => 'application/json',
                     ],
                     'connect_timeout' => 2,
