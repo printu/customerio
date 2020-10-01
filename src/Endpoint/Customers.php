@@ -37,6 +37,7 @@ class Customers extends Base
         } // @codeCoverageIgnore
 
         $path = $this->customerPath($options['id']);
+        unset($options['id']);
 
         return $this->client->post($path."/events", $options);
     }
@@ -58,6 +59,7 @@ class Customers extends Base
         } // @codeCoverageIgnore
 
         $path = $this->customerPath($options['id']);
+        unset($options['id']);
 
         return $this->client->put($path, $options);
     }
@@ -75,6 +77,7 @@ class Customers extends Base
         } // @codeCoverageIgnore
 
         $path = $this->customerPath($options['id']);
+        unset($options['id']);
 
         return $this->client->delete($path, []);
     }
