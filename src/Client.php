@@ -92,6 +92,14 @@ class Client
     {
         $this->appKey = $appKey;
     }
+    
+     /**
+     * @param string $siteId
+     */
+    public function setSiteId(string $siteId): void
+    {
+        $this->siteId = $siteId;
+    }
 
     /**
      * Set default client
