@@ -1,7 +1,8 @@
-version: "2"
+version: "3"
 services:
   web:
     build: .
+    container_name: customerio_web
     ports:
       - "80:80"
       - "443:443"
@@ -11,4 +12,12 @@ services:
       - 8.8.4.4
     volumes:
       - .:/var/www/site
-    command: ["./vendor/bin/phpunit"]
+    command: ['./vendor/bin/phpunit']
+
+  composer:
+    image: library/composer:latest
+    container_name: customerio_composer
+    volumes:
+    - .:/app
+    user: 1000:1000
+    command: ["install"]
