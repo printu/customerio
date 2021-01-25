@@ -6,6 +6,7 @@ namespace Customerio;
 
 use GuzzleHttp\Client as BaseClient;
 use GuzzleHttp\Exception\GuzzleException;
+use GuzzleHttp\Psr7\Utils;
 use InvalidArgumentException;
 use Psr\Http\Message\ResponseInterface;
 use function GuzzleHttp\Psr7\stream_for;
@@ -27,6 +28,9 @@ class Client
 
     /** @var string App API key */
     protected $appKey;
+
+    /** @var bool Assoc mode for response */
+    protected $assocResponse;
 
     /** @var Endpoint\Events $events */
     public $events;
@@ -83,6 +87,7 @@ class Client
 
         $this->apiKey = $apiKey;
         $this->siteId = $siteId;
+        $this->assocResponse = false;
     }
 
     /**
@@ -92,13 +97,21 @@ class Client
     {
         $this->appKey = $appKey;
     }
-    
+
      /**
      * @param string $siteId
      */
     public function setSiteId(string $siteId): void
     {
         $this->siteId = $siteId;
+    }
+
+    /**
+     * @param bool $assoc
+     */
+    public function setAssocResponse(bool $assoc): void
+    {
+        $this->assocResponse = $assoc;
     }
 
     /**
@@ -230,9 +243,9 @@ class Client
      */
     private function handleResponse(ResponseInterface $response)
     {
-        $stream = stream_for($response->getBody());
+        $stream = Utils::streamFor($response->getBody());
 
-        return json_decode($stream->getContents());
+        return json_decode($stream->getContents(), $this->assocResponse);
     }
 
     /**
