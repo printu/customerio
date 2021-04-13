@@ -32,7 +32,7 @@ class Customers extends Base
             $this->mockException('User id or email is required!', 'POST');
         } // @codeCoverageIgnore
 
-        $this->setCustomerPathWithIdentifier($options);
+        $path = $this->setCustomerPathWithIdentifier($options);
 
         return $this->client->post($path."/events", $options);
     }
@@ -49,7 +49,7 @@ class Customers extends Base
             $this->mockException('User id or email is required!', 'PUT');
         } // @codeCoverageIgnore
 
-        $this->setCustomerPathWithIdentifier($options);
+        $path = $this->setCustomerPathWithIdentifier($options);
 
         return $this->client->put($path, $options);
     }
@@ -68,7 +68,7 @@ class Customers extends Base
             $this->mockException('User id or email is required!', 'DELETE');
         } // @codeCoverageIgnore
 
-        $this->setCustomerPathWithIdentifier($options);
+        $path = $this->setCustomerPathWithIdentifier($options);
 
         return $this->client->delete($path, []);
     }
@@ -131,7 +131,7 @@ class Customers extends Base
             $this->mockException('User id or email is required!', 'GET');
         } // @codeCoverageIgnore
 
-        $this->setCustomerPathWithIdentifier($options);
+        $path = $this->setCustomerPathWithIdentifier($options);
 
         return $this->client->get($path, $options);
     }
@@ -148,7 +148,7 @@ class Customers extends Base
             $this->mockException('User id or email is required!', 'GET');
         } // @codeCoverageIgnore
 
-        $this->setCustomerPathWithIdentifier($options);
+        $path = $this->setCustomerPathWithIdentifier($options);
 
         return $this->client->get($path, $options);
     }
@@ -165,7 +165,8 @@ class Customers extends Base
             $this->mockException('User id or email is required!', 'GET');
         } // @codeCoverageIgnore
 
-        $this->setCustomerPathWithIdentifier($options);
+        $path = $this->setCustomerPathWithIdentifier($options);
+        
         return $this->client->get($path, $options);
     }
 
@@ -181,7 +182,7 @@ class Customers extends Base
             $this->mockException('User id or email is required!', 'GET');
         } // @codeCoverageIgnore
 
-        $this->setCustomerPathWithIdentifier($options);
+        $path = $this->setCustomerPathWithIdentifier($options);
 
         return $this->client->get($path, $options);
     }
@@ -198,7 +199,7 @@ class Customers extends Base
             $this->mockException('User id or email is required!', 'GET');
         } // @codeCoverageIgnore
 
-        $this->setCustomerPathWithIdentifier($options);
+        $path = $this->setCustomerPathWithIdentifier($options);
         
         return $this->client->post($path, $options);
     }
@@ -215,7 +216,7 @@ class Customers extends Base
             $this->mockException('User id or email is required!', 'GET');
         } // @codeCoverageIgnore
 
-        $this->setCustomerPathWithIdentifier($options);
+        $path = $this->setCustomerPathWithIdentifier($options);
 
         return $this->client->post($path, $options);
     }
@@ -232,5 +233,7 @@ class Customers extends Base
 
         $path = $this->customerPath($options[$customerIdentifierProperty]);
         unset($options[$customerIdentifierProperty]);
+        
+        return $path;
     }
 }
