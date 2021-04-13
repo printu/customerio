@@ -97,7 +97,7 @@ class Client
         $this->appKey = $appKey;
     }
 
-     /**
+    /**
      * @param string $siteId
      */
     public function setSiteId(string $siteId): void
@@ -265,7 +265,6 @@ class Client
                     'connect_timeout' => 2,
                     'timeout' => 5,
                 ];
-                break;
             default:
                 return [
                     'auth' => $this->getAuth(),
