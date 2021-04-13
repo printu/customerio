@@ -50,16 +50,14 @@ class Customers extends Base
      */
     public function add(array $options)
     {
-        if (!isset($options['id'])) {
-            $this->mockException('User id is required!', 'PUT');
+        if (!isset($options['id']) && !isset($options['email'])) {
+            $this->mockException('User id or email is required!', 'PUT');
         } // @codeCoverageIgnore
 
-        if (!isset($options['email'])) {
-            $this->mockException('Email is required!', 'PUT');
-        } // @codeCoverageIgnore
+        $customerIdentifierProperty = isset($options['id']) ? 'id' : 'email';
 
-        $path = $this->customerPath($options['id']);
-        unset($options['id']);
+        $path = $this->customerPath($options[$customerIdentifierProperty]);
+        unset($options[$customerIdentifierProperty]);
 
         return $this->client->put($path, $options);
     }
