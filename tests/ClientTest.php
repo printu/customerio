@@ -28,6 +28,8 @@ class ClientTest extends TestCase
         $http_client = new Client(['handler' => $stack]);
         $client = new CustomerIoClient('u', 'p');
         $client->setAppAPIKey('t');
+        $client->setSiteId('p');
+        $client->setAssocResponse(false);
         $client->setClient($http_client);
         $client->customers->get([
             'email' => 'test@customer.io',
@@ -56,6 +58,50 @@ class ClientTest extends TestCase
                     $this->assertTrue($auth == "Basic cDp1");
             }
         }
+    }
+
+    public function testClientArrayResponse()
+    {
+        $mock = new MockHandler([
+            new Response(200, ['X-Foo' => 'Bar'], "{\"foo\":\"bar\"}"),
+        ]);
+        $container = [];
+        $history = Middleware::history($container);
+        $stack = HandlerStack::create($mock);
+        $stack->push($history);
+        $http_client = new Client(['handler' => $stack]);
+        $client = new CustomerIoClient('u', 'p');
+        $client->setAppAPIKey('t');
+        $client->setAssocResponse(true);
+        $client->setClient($http_client);
+
+        $response = $client->customers->get([
+            'email' => 'test@customer.io',
+        ]);
+
+        $this->assertIsArray($response);
+    }
+
+    public function testClientObjectResponse()
+    {
+        $mock = new MockHandler([
+            new Response(200, ['X-Foo' => 'Bar'], "{\"foo\":\"bar\"}"),
+        ]);
+        $container = [];
+        $history = Middleware::history($container);
+        $stack = HandlerStack::create($mock);
+        $stack->push($history);
+        $http_client = new Client(['handler' => $stack]);
+        $client = new CustomerIoClient('u', 'p');
+        $client->setAppAPIKey('t');
+        $client->setClient($http_client);
+
+        $response = $client->customers->get([
+            'email' => 'test@customer.io',
+        ]);
+
+        $this->assertIsObject($response);
+        $this->assertObjectHasAttribute('foo', $response);
     }
 
     public function testBasicClientNoAppKey()
