@@ -50,8 +50,9 @@ class ClientTest extends TestCase
             /** @var Request $request */
             $request = $transaction['request'];
             $auth = $request->getHeaders()['Authorization'][0];
-            switch ($request->getMethod()) {
-                case 'GET':
+            switch ($request->getUri()->getHost()) {
+                case parse_url(CustomerIoClient::API_ENDPOINT_BETA, PHP_URL_HOST):
+                case parse_url(CustomerIoClient::API_ENDPOINT, PHP_URL_HOST):
                     $this->assertTrue($auth == "Bearer t");
                     break;
                 default:

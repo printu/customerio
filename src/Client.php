@@ -256,6 +256,7 @@ class Client
     {
         switch ($endpoint) {
             case self::API_ENDPOINT_BETA:
+            case self::API_ENDPOINT:
                 return [
                     'headers' => [
                         'Authorization' => 'Bearer '.$this->getToken(),
