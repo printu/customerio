@@ -54,12 +54,17 @@ class Customers extends Base
             $this->mockException('User id or email is required!', 'PUT');
         } // @codeCoverageIgnore
 
+        $this->setCustomerPathWithIdentifier($options);
+
+        return $this->client->put($path, $options);
+    }
+    
+    private function setCustomerPathWithIdentifier(array $options){
+        
         $customerIdentifierProperty = isset($options['id']) ? 'id' : 'email';
 
         $path = $this->customerPath($options[$customerIdentifierProperty]);
         unset($options[$customerIdentifierProperty]);
-
-        return $this->client->put($path, $options);
     }
 
     /**
