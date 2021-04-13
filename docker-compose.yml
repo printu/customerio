@@ -11,4 +11,6 @@ services:
       - 8.8.4.4
     volumes:
       - .:/var/www/site
-    command: ["./vendor/bin/phpunit"]
+    environment:
+      XDEBUG_MODE: coverage
+    command: ["./vendor/bin/phpunit", "--coverage-html", "./build"]
