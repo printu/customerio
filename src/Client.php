@@ -13,7 +13,7 @@ use Psr\Http\Message\ResponseInterface;
 class Client
 {
     const API_ENDPOINT_TRACK = 'https://track.customer.io/api/v1/';
-    const API_ENDPOINT = 'https://api.customer.io/v1/api/';
+    const API_ENDPOINT = 'https://api.customer.io/v1/';
     const API_ENDPOINT_BETA = 'https://beta-api.customer.io/v1/api/';
 
     /** @var BaseClient $httpClient */
@@ -64,6 +64,9 @@ class Client
     /** @var Endpoint\SenderIdentities */
     public $senderIdentities;
 
+    /** @var Endpoint\Send */
+    public $send;
+
     /**
      * Client constructor.
      * @param string $apiKey Api Key
@@ -83,6 +86,7 @@ class Client
         $this->exports = new Endpoint\Exports($this);
         $this->activities = new Endpoint\Activities($this);
         $this->senderIdentities = new Endpoint\SenderIdentities($this);
+        $this->send = new Endpoint\Send($this);
 
         $this->apiKey = $apiKey;
         $this->siteId = $siteId;
