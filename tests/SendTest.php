@@ -2,7 +2,6 @@
 
 namespace Customerio\Tests;
 
-use Customerio\Endpoint\Base;
 use Customerio\Endpoint\Send;
 use GuzzleHttp\Exception\GuzzleException;
 use PHPUnit\Framework\TestCase;
