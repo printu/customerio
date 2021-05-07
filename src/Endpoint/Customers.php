@@ -225,9 +225,9 @@ class Customers extends Base
      /**
      * Set the customer path with the relevant identifier
      * @param array $options
-     * @return void
+     * @return string
      */
-    private function setCustomerPathWithIdentifier(array &$options){
+    private function setCustomerPathWithIdentifier(array &$options): string {
         
         $customerIdentifierProperty = isset($options['id']) ? 'id' : 'email';
 
