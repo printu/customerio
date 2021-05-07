@@ -71,6 +71,7 @@ class ClientTest extends TestCase
         $http_client = new Client(['handler' => $stack]);
         $client = new CustomerIoClient('u', 'p');
         $client->setClient($http_client);
+        $client->setSiteId('1234');
         $client->customers->get([
             'email' => 'test@customer.io',
         ]);
