@@ -2,6 +2,8 @@
 
 namespace Customerio\Endpoint;
 
+use GuzzleHttp\Exception\GuzzleException;
+
 class Exports extends Base
 {
     /**
@@ -9,7 +11,7 @@ class Exports extends Base
      * @see https://learn.customer.io/api/#apibeta-apiexportsexports_list
      * @param array $options
      * @return mixed
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
     public function search(array $options)
     {
@@ -22,7 +24,7 @@ class Exports extends Base
      * @see https://learn.customer.io/api/#apibeta-apiexportsexports_get
      * @param array $options
      * @return mixed
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
     public function get(array $options)
     {
@@ -41,7 +43,7 @@ class Exports extends Base
      * @see https://learn.customer.io/api/#apibeta-apiexportsexports_download
      * @param array $options
      * @return mixed
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
     public function download(array $options)
     {

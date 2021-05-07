@@ -2,6 +2,8 @@
 
 namespace Customerio\Endpoint;
 
+use GuzzleHttp\Exception\GuzzleException;
+
 class Messages extends Base
 {
     /**
@@ -9,7 +11,7 @@ class Messages extends Base
      * @see https://learn.customer.io/api/#apibeta-apimessagesmessages_list
      * @param array $options
      * @return mixed
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
     public function search(array $options)
     {
@@ -22,7 +24,7 @@ class Messages extends Base
      * @see https://learn.customer.io/api/#apibeta-apimessagesmessages_get
      * @param array $options
      * @return mixed
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
     public function get(array $options)
     {

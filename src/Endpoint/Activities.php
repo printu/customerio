@@ -2,7 +2,7 @@
 
 namespace Customerio\Endpoint;
 
-use Customerio\Client;
+use GuzzleHttp\Exception\GuzzleException;
 
 class Activities extends Base
 {
@@ -10,7 +10,7 @@ class Activities extends Base
      * Get data about activities
      * @param array $options
      * @return mixed
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
     public function search(array $options)
     {

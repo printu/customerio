@@ -2,6 +2,8 @@
 
 namespace Customerio\Endpoint;
 
+use GuzzleHttp\Exception\GuzzleException;
+
 class Events extends Base
 {
     /**
@@ -9,7 +11,7 @@ class Events extends Base
      * @see http://customer.io/docs/invitation-emails.html
      * @param array $options
      * @return mixed
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
     public function anonymous(array $options)
     {

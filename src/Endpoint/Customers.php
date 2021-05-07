@@ -2,7 +2,6 @@
 
 namespace Customerio\Endpoint;
 
-use Customerio\Client;
 use GuzzleHttp\Exception\GuzzleException;
 
 class Customers extends Base
@@ -114,7 +113,7 @@ class Customers extends Base
         } // @codeCoverageIgnore
 
         $path = $this->customerPath();
-        $options['endpoint'] = Client::API_ENDPOINT_BETA;
+        $options['endpoint'] = $this->client->getRegion()->betaUri();
 
         return $this->client->post($path, $options);
     }

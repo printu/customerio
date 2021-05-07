@@ -2,7 +2,6 @@
 
 namespace Customerio\Endpoint;
 
-use Customerio\Client;
 use GuzzleHttp\Exception\GuzzleException;
 
 class Send extends Base
@@ -38,7 +37,7 @@ class Send extends Base
             $this->mockException('Email to is required!', 'POST');
         } // @codeCoverageIgnore
 
-        $options['endpoint'] = Client::API_ENDPOINT;
+        $options['endpoint'] = $this->client->getRegion()->apiUri();
 
         return $this->client->post('send/email', $options);
     }
