@@ -61,6 +61,14 @@ Configure your access credentials when creating a client:
 use Customerio\Client;
 
 $client = new Client('YOUR_API_KEY', 'YOUR_SITE_ID');
+
+/*
+ * To authenticate, provide your key as a Bearer token in a HTTP Authorization header.
+ * You can create and manage your API keys by visiting your App API Keys page directly or by clicking the Integrations
+ *  link in the left-hand menu of your Customer.io account and choosing Customer.io API > Manage API Credentials > App API Keys.
+ */
+$client->setAppAPIKey('APP_KEY');
+
 ?>
 ```
 
