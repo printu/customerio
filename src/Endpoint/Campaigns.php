@@ -2,7 +2,7 @@
 
 namespace Customerio\Endpoint;
 
-use Customerio\Client;
+use GuzzleHttp\Exception\GuzzleException;
 
 class Campaigns extends Base
 {
@@ -11,7 +11,7 @@ class Campaigns extends Base
      * @see https://learn.customer.io/api/#apibeta-apicampaignscampaigns_list
      * @param array $options
      * @return mixed
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
     public function search(array $options)
     {
@@ -25,7 +25,7 @@ class Campaigns extends Base
      * @see https://learn.customer.io/api/#apibeta-apicampaignscampaigns_get
      * @param array $options
      * @return mixed
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
     public function get(array $options)
     {
@@ -45,7 +45,7 @@ class Campaigns extends Base
      * @see https://learn.customer.io/api/#apibeta-apicampaignscampaigns_get_triggers_metrics
      * @param array $options
      * @return mixed
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
     public function metrics(array $options)
     {
@@ -71,7 +71,7 @@ class Campaigns extends Base
      * @see https://learn.customer.io/api/#apibeta-apicampaignscampaigns_get_triggers
      * @param array $options
      * @return mixed
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
     public function triggers(array $options)
     {
@@ -91,7 +91,7 @@ class Campaigns extends Base
      * @see https://learn.customer.io/documentation/api-triggered-data-format.html
      * @param array $options
      * @return mixed
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
     public function trigger(array $options)
     {
@@ -102,7 +102,7 @@ class Campaigns extends Base
         $path = $this->campaignPath($options['id'], ['triggers']);
         unset($options['id']);
 
-        $options['endpoint'] = Client::API_ENDPOINT;
+        $options['endpoint'] = $this->client->getRegion()->apiUri();
 
         return $this->client->post($path, $options);
     }
@@ -112,7 +112,7 @@ class Campaigns extends Base
      * @see https://learn.customer.io/api/#apibeta-apicampaignscampaigns_messages
      * @param array $options
      * @return mixed
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
     public function messages(array $options)
     {
@@ -131,7 +131,7 @@ class Campaigns extends Base
      * @see https://customer.io/docs/api/#apibeta-apicampaignscampaigns_index_actions
      * @param array $options
      * @return mixed
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
     public function actions(array $options)
     {
@@ -150,7 +150,7 @@ class Campaigns extends Base
      * @see https://customer.io/docs/api/#apibeta-apicampaignscampaigns_get_action
      * @param array $options
      * @return mixed
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
     public function getAction(array $options)
     {
@@ -174,7 +174,7 @@ class Campaigns extends Base
      * @see https://customer.io/docs/api/#apibeta-apicampaignscampaign_action_metrics
      * @param array $options
      * @return mixed
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
     public function getActionMetrics(array $options)
     {

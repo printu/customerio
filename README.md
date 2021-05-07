@@ -2,7 +2,7 @@
 
 PHP bindings for the Customer.io API.
 
-[API Documentation](https://learn.customer.io/api/)
+[API Documentation](https://customer.io/docs/api/)
 
 [![Build Status](https://travis-ci.org/printu/customerio.svg?branch=master)](https://travis-ci.org/printu/customerio)
 [![Code Climate](https://codeclimate.com/github/printu/customerio/badges/gpa.svg)](https://codeclimate.com/github/printu/customerio)
@@ -68,6 +68,17 @@ $client = new Client('YOUR_API_KEY', 'YOUR_SITE_ID');
  *  link in the left-hand menu of your Customer.io account and choosing Customer.io API > Manage API Credentials > App API Keys.
  */
 $client->setAppAPIKey('APP_KEY');
+
+?>
+```
+
+Change region to EU
+
+```php
+<?php
+use Customerio\Client;
+
+$client = new Client('YOUR_API_KEY', 'YOUR_SITE_ID', ['region' => 'eu']);
 
 ?>
 ```

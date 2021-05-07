@@ -2,6 +2,8 @@
 
 namespace Customerio\Endpoint;
 
+use GuzzleHttp\Exception\GuzzleException;
+
 class Page extends Base
 {
     /**
@@ -9,7 +11,7 @@ class Page extends Base
      * @see https://customer.io/docs/pageviews.html
      * @param array $options
      * @return mixed
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
     public function view(array $options)
     {

@@ -3,6 +3,7 @@
 namespace Customerio\Endpoint\Customers;
 
 use Customerio\Endpoint\Base;
+use GuzzleHttp\Exception\GuzzleException;
 
 class Devices extends Base
 {
@@ -10,7 +11,7 @@ class Devices extends Base
      * Add new device
      * @param array $options
      * @return mixed
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
     public function add(array $options)
     {
@@ -35,7 +36,7 @@ class Devices extends Base
      * Delete device
      * @param array $options
      * @return mixed
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
     public function delete(array $options)
     {
@@ -56,7 +57,7 @@ class Devices extends Base
      * Update device
      * @param array $options
      * @return mixed
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
     public function update(array $options)
     {

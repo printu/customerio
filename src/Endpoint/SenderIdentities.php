@@ -2,13 +2,15 @@
 
 namespace Customerio\Endpoint;
 
+use GuzzleHttp\Exception\GuzzleException;
+
 class SenderIdentities extends Base
 {
     /**
      * Get sender identities data
      * @param array $options
      * @return mixed
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
     public function search(array $options)
     {
@@ -21,7 +23,7 @@ class SenderIdentities extends Base
      * Get sender identity data
      * @param array $options
      * @return mixed
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
     public function get(array $options)
     {
@@ -39,7 +41,7 @@ class SenderIdentities extends Base
      * Get sender identity usage data.
      * @param array $options
      * @return mixed
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
     public function usedBy(array $options)
     {

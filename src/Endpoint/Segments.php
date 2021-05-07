@@ -2,7 +2,7 @@
 
 namespace Customerio\Endpoint;
 
-use Customerio\Client;
+use GuzzleHttp\Exception\GuzzleException;
 
 class Segments extends Base
 {
@@ -12,7 +12,7 @@ class Segments extends Base
      * @see https://customer.io/docs/api/#apibeta-apisegmentssegment_create
      * @param array $options
      * @return mixed
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
     public function create(array $options)
     {
@@ -22,7 +22,7 @@ class Segments extends Base
 
         $path = $this->segmentsPath();
         $json = ['segment' => $options];
-        $json['endpoint'] = Client::API_ENDPOINT_BETA;
+        $json['endpoint'] = $this->client->getRegion()->betaUri();
 
         return $this->client->post($path, $json);
     }
@@ -32,7 +32,7 @@ class Segments extends Base
      * @see https://learn.customer.io/api/#apibeta-apisegmentssegments_list
      * @param array $options
      * @return mixed
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
     public function search(array $options)
     {
@@ -46,7 +46,7 @@ class Segments extends Base
      * @see https://learn.customer.io/api/#apibeta-apisegmentssegments_get
      * @param array $options
      * @return mixed
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
     public function get(array $options)
     {
@@ -65,7 +65,7 @@ class Segments extends Base
      * @see https://learn.customer.io/api/#apibeta-apisegmentssegments_used_by
      * @param array $options
      * @return mixed
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
     public function usedBy(array $options)
     {
@@ -84,7 +84,7 @@ class Segments extends Base
      * @see https://learn.customer.io/api/#apibeta-apisegmentssegments_customer_count
      * @param array $options
      * @return mixed
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
     public function customerCount(array $options)
     {
@@ -103,7 +103,7 @@ class Segments extends Base
      * @see https://learn.customer.io/api/#apibeta-apisegmentssegments_customer_count
      * @param array $options
      * @return mixed
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
     public function membership(array $options)
     {
@@ -122,7 +122,7 @@ class Segments extends Base
      * @see https://customer.io/docs/api/#apibeta-apisegmentssegment_delete
      * @param array $options
      * @return mixed
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
     public function delete(array $options)
     {
@@ -132,7 +132,7 @@ class Segments extends Base
 
         $path = $this->segmentsPath($options['id']);
         unset($options['id']);
-        $options['endpoint'] = Client::API_ENDPOINT_BETA;
+        $options['endpoint'] = $this->client->getRegion()->betaUri();
 
         return $this->client->delete($path, $options);
     }
@@ -142,7 +142,7 @@ class Segments extends Base
      * @see https://customer.io/docs/api/#apitracksegmentsadd_customers
      * @param array $options
      * @return mixed
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
     public function addCustomers(array $options)
     {
@@ -165,7 +165,7 @@ class Segments extends Base
      * @see https://customer.io/docs/api/#apitracksegmentsremove_customers
      * @param array $options
      * @return mixed
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
     public function removeCustomers(array $options)
     {

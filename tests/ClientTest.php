@@ -3,6 +3,7 @@
 namespace Customerio\Tests;
 
 use Customerio\Client as CustomerIoClient;
+use Customerio\Region\InvalidRegionException;
 use GuzzleHttp\Client;
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
@@ -13,7 +14,7 @@ use PHPUnit\Framework\TestCase;
 
 class ClientTest extends TestCase
 {
-    public function testBasicClient()
+    public function testBasicClientUs()
     {
         $mock = new MockHandler([
             new Response(200, ['X-Foo' => 'Bar'], "{\"foo\":\"bar\"}"),
@@ -41,7 +42,7 @@ class ClientTest extends TestCase
         $client->customers->event([
             'id' => 10,
             'name' => 'test-event',
-            'endpoint' => CustomerIoClient::API_ENDPOINT,
+            'endpoint' => $client->getRegion()->apiUri(),
         ]);
         $client->customers->delete([
             'id' => 10,
@@ -51,8 +52,57 @@ class ClientTest extends TestCase
             $request = $transaction['request'];
             $auth = $request->getHeaders()['Authorization'][0];
             switch ($request->getUri()->getHost()) {
-                case parse_url(CustomerIoClient::API_ENDPOINT_BETA, PHP_URL_HOST):
-                case parse_url(CustomerIoClient::API_ENDPOINT, PHP_URL_HOST):
+                case parse_url($client->getRegion()->betaUri(), PHP_URL_HOST):
+                case parse_url($client->getRegion()->apiUri(), PHP_URL_HOST):
+                    $this->assertTrue($auth == "Bearer t");
+                    break;
+                default:
+                    $this->assertTrue($auth == "Basic cDp1");
+            }
+        }
+    }
+
+    public function testBasicClientEu()
+    {
+        $mock = new MockHandler([
+            new Response(200, ['X-Foo' => 'Bar'], "{\"foo\":\"bar\"}"),
+            new Response(200, ['X-Foo' => 'Bar'], "{\"foo\":\"bar\"}"),
+            new Response(200, ['X-Foo' => 'Bar'], "{\"foo\":\"bar\"}"),
+            new Response(200, ['X-Foo' => 'Bar'], "{\"foo\":\"bar\"}"),
+        ]);
+        $container = [];
+        $history = Middleware::history($container);
+        $stack = HandlerStack::create($mock);
+        $stack->push($history);
+        $http_client = new Client(['handler' => $stack]);
+        $client = new CustomerIoClient('u', 'p');
+        $client->setAppAPIKey('t');
+        $client->setSiteId('p');
+        $client->setAssocResponse(false);
+        $client->setClient($http_client);
+        $client->setRegion('eu');
+        $client->customers->get([
+            'email' => 'test@customer.io',
+        ]);
+        $client->customers->add([
+            'id' => 10,
+            'email' => 'test@customer.io',
+        ]);
+        $client->customers->event([
+            'id' => 10,
+            'name' => 'test-event',
+            'endpoint' => $client->getRegion()->apiUri(),
+        ]);
+        $client->customers->delete([
+            'id' => 10,
+        ]);
+        foreach ($container as $transaction) {
+            /** @var Request $request */
+            $request = $transaction['request'];
+            $auth = $request->getHeaders()['Authorization'][0];
+            switch ($request->getUri()->getHost()) {
+                case parse_url($client->getRegion()->betaUri(), PHP_URL_HOST):
+                case parse_url($client->getRegion()->apiUri(), PHP_URL_HOST):
                     $this->assertTrue($auth == "Bearer t");
                     break;
                 default:
@@ -122,5 +172,48 @@ class ClientTest extends TestCase
         $client->customers->get([
             'email' => 'test@customer.io',
         ]);
+    }
+
+    public function testRegionEu()
+    {
+        $mock = new MockHandler([
+            new Response(200, ['X-Foo' => 'Bar'], "{\"foo\":\"bar\"}"),
+        ]);
+        $container = [];
+        $history = Middleware::history($container);
+        $stack = HandlerStack::create($mock);
+        $stack->push($history);
+        $http_client = new Client(['handler' => $stack]);
+        $client = new CustomerIoClient('u', 'p');
+        $client->setClient($http_client);
+        $client->setSiteId('1234');
+        $client->setAppAPIKey('t');
+        $client->setRegion('eu');
+        $response = $client->customers->get([
+            'email' => 'test@customer.io',
+        ]);
+        $this->assertIsObject($response);
+    }
+
+    public function testRegionUnknown()
+    {
+        $this->expectException(InvalidRegionException::class);
+        $mock = new MockHandler([
+            new Response(200, ['X-Foo' => 'Bar'], "{\"foo\":\"bar\"}"),
+        ]);
+        $container = [];
+        $history = Middleware::history($container);
+        $stack = HandlerStack::create($mock);
+        $stack->push($history);
+        $http_client = new Client(['handler' => $stack]);
+        $client = new CustomerIoClient('u', 'p');
+        $client->setClient($http_client);
+        $client->setSiteId('1234');
+        $client->setAppAPIKey('t');
+        $client->setRegion('au');
+        $response = $client->customers->get([
+            'email' => 'test@customer.io',
+        ]);
+        $this->assertIsObject($response);
     }
 }

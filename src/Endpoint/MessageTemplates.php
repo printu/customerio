@@ -2,6 +2,8 @@
 
 namespace Customerio\Endpoint;
 
+use GuzzleHttp\Exception\GuzzleException;
+
 class MessageTemplates extends Base
 {
     /**
@@ -9,7 +11,7 @@ class MessageTemplates extends Base
      * @see https://learn.customer.io/api/#apibeta-apimsg_templatesmsg_templates_get
      * @param array $options
      * @return mixed
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
     public function get(array $options)
     {
@@ -28,7 +30,7 @@ class MessageTemplates extends Base
      * @see https://learn.customer.io/api/#apibeta-apimsg_templatesmsg_templates_get_metrics
      * @param array $options
      * @return mixed
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
     public function metrics(array $options)
     {

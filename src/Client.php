@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Customerio;
 
+use Customerio\Region\RegionInterface;
 use GuzzleHttp\Client as BaseClient;
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Psr7\Utils;
@@ -12,10 +13,6 @@ use Psr\Http\Message\ResponseInterface;
 
 class Client
 {
-    const API_ENDPOINT_TRACK = 'https://track.customer.io/api/v1/';
-    const API_ENDPOINT = 'https://api.customer.io/v1/';
-    const API_ENDPOINT_BETA = 'https://beta-api.customer.io/v1/api/';
-
     /** @var BaseClient $httpClient */
     private $httpClient;
 
@@ -27,6 +24,9 @@ class Client
 
     /** @var string App API key */
     protected $appKey;
+
+    /** @var RegionInterface */
+    protected $region;
 
     /** @var bool Assoc mode for response */
     protected $assocResponse;
@@ -71,8 +71,9 @@ class Client
      * Client constructor.
      * @param string $apiKey Api Key
      * @param string $siteId Site ID.
+     * @param array $options client options
      */
-    public function __construct(string $apiKey, string $siteId)
+    public function __construct(string $apiKey, string $siteId, array $options = [])
     {
         $this->setDefaultClient();
         $this->events = new Endpoint\Events($this);
@@ -91,6 +92,8 @@ class Client
         $this->apiKey = $apiKey;
         $this->siteId = $siteId;
         $this->assocResponse = false;
+
+        $this->region = Region::factory($options['region'] ?? 'us');
     }
 
     /**
@@ -107,6 +110,22 @@ class Client
     public function setSiteId(string $siteId): void
     {
         $this->siteId = $siteId;
+    }
+
+    /**
+     * @param string $region
+     */
+    public function setRegion(string $region): void
+    {
+        $this->region = Region::factory($region);
+    }
+
+    /**
+     * @return RegionInterface
+     */
+    public function getRegion(): RegionInterface
+    {
+        return $this->region;
     }
 
     /**
@@ -143,12 +162,14 @@ class Client
      */
     public function get(string $endpoint, array $params = [])
     {
-        $options = $this->getDefaultParams(self::API_ENDPOINT_BETA);
+        $apiEndpoint = $this->getRegion()->betaUri();
+
+        $options = $this->getDefaultParams($apiEndpoint);
         if (!empty($params)) {
             $options['query'] = $params;
         }
 
-        $response = $this->httpClient->request('GET', self::API_ENDPOINT_BETA.$endpoint, $options);
+        $response = $this->httpClient->request('GET', $apiEndpoint.$endpoint, $options);
 
         return $this->handleResponse($response);
     }
@@ -204,7 +225,7 @@ class Client
      */
     protected function request(string $method, string $path, array $json): ResponseInterface
     {
-        $apiEndpoint = self::API_ENDPOINT_TRACK;
+        $apiEndpoint = $this->region->trackUri();
 
         if (isset($json['endpoint'])) {
             $apiEndpoint = $json['endpoint'];
@@ -259,8 +280,8 @@ class Client
     protected function getDefaultParams($endpoint): array
     {
         switch ($endpoint) {
-            case self::API_ENDPOINT_BETA:
-            case self::API_ENDPOINT:
+            case $this->region->apiUri():
+            case $this->region->betaUri():
                 return [
                     'headers' => [
                         'Authorization' => 'Bearer '.$this->getToken(),
