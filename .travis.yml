@@ -8,6 +8,7 @@ install:
   - composer install --prefer-source
 
 before_script:
+  - export XDEBUG_MODE=coverage
   - if [ $TRAVIS_PHP_VERSION = '8.0' ]; then PHPUNIT_FLAGS="--coverage-clover ./build/logs/clover.xml"; fi
 
 script:
