@@ -25,7 +25,6 @@ class CustomersTest extends TestCase
 
     public function testUserCreateIdMissing()
     {
-        $this->expectException(GuzzleException::class);
         $stub = $this->getMockBuilder('Customerio\Client')->disableOriginalConstructor()->getMock();
         $stub->method('put')->willReturn('foo');
         $customer = new Customers($stub);
@@ -36,12 +35,21 @@ class CustomersTest extends TestCase
 
     public function testUserCreateEmailMissing()
     {
-        $this->expectException(GuzzleException::class);
         $stub = $this->getMockBuilder('Customerio\Client')->disableOriginalConstructor()->getMock();
         $stub->method('put')->willReturn('foo');
         $customer = new Customers($stub);
         $this->assertEquals('foo', $customer->add([
             'id' => 1,
+        ]));
+    }
+
+    public function testUserCreateEmailAndIdMissing()
+    {
+        $this->expectException(GuzzleException::class);
+        $stub = $this->getMockBuilder('Customerio\Client')->disableOriginalConstructor()->getMock();
+        $stub->method('put')->willReturn('foo');
+        $customer = new Customers($stub);
+        $this->assertEquals('foo', $customer->add([
         ]));
     }
 
@@ -112,9 +120,7 @@ class CustomersTest extends TestCase
         $stub = $this->getMockBuilder('Customerio\Client')->disableOriginalConstructor()->getMock();
         $stub->method('post')->willReturn('foo');
         $customer = new Customers($stub);
-        $this->assertEquals('foo', $customer->event([
-            'id' => 1,
-        ]));
+        $this->assertEquals('foo', $customer->event([]));
     }
 
     public function testCustomerGet()
@@ -123,7 +129,7 @@ class CustomersTest extends TestCase
         $stub->method('get')->willReturn('foo');
         $customer = new Customers($stub);
         $this->assertEquals('foo', $customer->get([
-            'email' => 'user@example.com'
+            'email' => 'user@example.com',
         ]));
     }
 
@@ -143,7 +149,7 @@ class CustomersTest extends TestCase
         $stub->method('post')->willReturn('foo');
         $customer = new Customers($stub);
         $this->assertEquals('foo', $customer->search([
-            'filter' => []
+            'filter' => [],
         ]));
     }
 
@@ -154,7 +160,7 @@ class CustomersTest extends TestCase
         $stub->method('post')->willReturn('foo');
         $customer = new Customers($stub);
         $this->assertEquals('foo', $customer->search([
-            'start' => 1
+            'start' => 1,
         ]));
     }
 
@@ -164,7 +170,7 @@ class CustomersTest extends TestCase
         $stub->method('get')->willReturn('foo');
         $customer = new Customers($stub);
         $this->assertEquals('foo', $customer->attributes([
-            'id' => 1
+            'id' => 1,
         ]));
     }
 
@@ -184,7 +190,7 @@ class CustomersTest extends TestCase
         $stub->method('get')->willReturn('foo');
         $customer = new Customers($stub);
         $this->assertEquals('foo', $customer->segments([
-            'id' => 1
+            'id' => 1,
         ]));
     }
 
@@ -204,7 +210,7 @@ class CustomersTest extends TestCase
         $stub->method('get')->willReturn('foo');
         $customer = new Customers($stub);
         $this->assertEquals('foo', $customer->messages([
-            'id' => 1
+            'id' => 1,
         ]));
     }
 
@@ -224,7 +230,7 @@ class CustomersTest extends TestCase
         $stub->method('get')->willReturn('foo');
         $customer = new Customers($stub);
         $this->assertEquals('foo', $customer->activities([
-            'id' => 1
+            'id' => 1,
         ]));
     }
 
@@ -244,7 +250,7 @@ class CustomersTest extends TestCase
         $stub->method('post')->willReturn('foo');
         $customer = new Customers($stub);
         $this->assertEquals('foo', $customer->suppress([
-            'id' => 1
+            'id' => 1,
         ]));
     }
 
@@ -264,7 +270,7 @@ class CustomersTest extends TestCase
         $stub->method('post')->willReturn('foo');
         $customer = new Customers($stub);
         $this->assertEquals('foo', $customer->unsuppress([
-            'id' => 1
+            'id' => 1,
         ]));
     }
 
