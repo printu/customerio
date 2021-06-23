@@ -18,9 +18,11 @@ class DevicesTest extends TestCase
         $customer = new Devices($stub);
         $this->assertEquals('foo', $customer->add([
             'id' => 1,
-            'device_id' => 'hash',
-            'platform' => 'ios',
-            'last_used' => 1514764800
+            'device' => [
+                'id' => 'hash',
+                'platform' => 'ios',
+                'last_used' => 1514764800
+            ]
         ]));
     }
 
@@ -31,8 +33,10 @@ class DevicesTest extends TestCase
         $stub->method('put')->willReturn('foo');
         $customer = new Devices($stub);
         $this->assertEquals('foo', $customer->add([
-            'device_id' => 'hash',
-            'platform' => 'ios',
+            'device' => [
+                'id' => 'hash',
+                'platform' => 'ios',
+            ]
         ]));
     }
 
@@ -44,7 +48,9 @@ class DevicesTest extends TestCase
         $customer = new Devices($stub);
         $this->assertEquals('foo', $customer->add([
             'id' => 1234,
-            'platform' => 'ios',
+            'device' => [
+                'platform' => 'ios',
+            ]
         ]));
     }
 
@@ -56,7 +62,9 @@ class DevicesTest extends TestCase
         $customer = new Devices($stub);
         $this->assertEquals('foo', $customer->add([
             'id' => 1234,
-            'device_id' => 'hash',
+            'device' => [
+                'id' => 'hash',
+            ]
         ]));
     }
 
@@ -70,8 +78,10 @@ class DevicesTest extends TestCase
         $customer = new Devices($stub);
         $this->assertEquals('foo', $customer->update([
             'id' => 1,
-            'device_id' => 'hash',
-            'platform' => 'ios',
+            'device' => [
+                'id' => 'hash',
+                'platform' => 'ios',
+            ]
         ]));
     }
 
