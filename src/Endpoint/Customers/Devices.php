@@ -19,12 +19,12 @@ class Devices extends Base
             $this->mockException('User id is required!', 'PUT');
         } // @codeCoverageIgnore
 
-        if (!isset($options['device_id'])) {
+        if (!isset($options['device']['id'])) {
             $this->mockException('Device id is required!', 'PUT');
         } // @codeCoverageIgnore
 
-        if (!isset($options['platform'])) {
-            $this->mockException('Platform is required!', 'PUT');
+        if (!isset($options['device']['platform'])) {
+            $this->mockException('Device platform is required!', 'PUT');
         } // @codeCoverageIgnore
 
         $path = $this->customerPath($options['id'], ['devices']);
