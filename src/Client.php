@@ -67,6 +67,9 @@ class Client
     /** @var Endpoint\Send */
     public $send;
 
+    /** @var Endpoint\Collections */
+    public $collection;
+
     /**
      * Client constructor.
      * @param string $apiKey Api Key
@@ -88,6 +91,7 @@ class Client
         $this->activities = new Endpoint\Activities($this);
         $this->senderIdentities = new Endpoint\SenderIdentities($this);
         $this->send = new Endpoint\Send($this);
+        $this->collection = new Endpoint\Collections($this);
 
         $this->apiKey = $apiKey;
         $this->siteId = $siteId;
@@ -171,6 +175,10 @@ class Client
 
         $response = $this->httpClient->request('GET', $apiEndpoint.$endpoint, $options);
 
+        if (isset($params['raw'])) {
+            return (string)$response->getBody();
+        }
+
         return $this->handleResponse($response);
     }
 
@@ -235,7 +243,9 @@ class Client
         $options = $this->getDefaultParams($apiEndpoint);
         $url = $apiEndpoint.$path;
 
-        $options['json'] = $json;
+        if (!empty($json)) {
+            $options['json'] = $json;
+        }
 
         return $this->httpClient->request($method, $url, $options);
     }
