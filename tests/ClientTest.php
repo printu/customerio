@@ -21,6 +21,7 @@ class ClientTest extends TestCase
             new Response(200, ['X-Foo' => 'Bar'], "{\"foo\":\"bar\"}"),
             new Response(200, ['X-Foo' => 'Bar'], "{\"foo\":\"bar\"}"),
             new Response(200, ['X-Foo' => 'Bar'], "{\"foo\":\"bar\"}"),
+            new Response(200, ['X-Foo' => 'Bar'], "{\"foo\":\"bar\"}"),
         ]);
         $container = [];
         $history = Middleware::history($container);
@@ -34,6 +35,9 @@ class ClientTest extends TestCase
         $client->setClient($http_client);
         $client->customers->get([
             'email' => 'test@customer.io',
+        ]);
+        $client->collection->content([
+            'collection_id' => 1,
         ]);
         $client->customers->add([
             'id' => 10,

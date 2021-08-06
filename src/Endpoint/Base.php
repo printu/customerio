@@ -102,6 +102,16 @@ class Base
     }
 
     /**
+     * @param int|null $id
+     * @param array $extras
+     * @return string
+     */
+    protected function collectionsPath(?int $id = null, array $extras = []): string
+    {
+        return $this->generatePath('collections', $id, $extras);
+    }
+
+    /**
      * @param null $id
      * @param array $extra
      * @return string
