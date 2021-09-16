@@ -227,12 +227,12 @@ class Customers extends Base
      * @return string
      */
     private function setCustomerPathWithIdentifier(array &$options): string {
-        
         $customerIdentifierProperty = isset($options['cio_id']) ? 'cio_id' : (isset($options['id']) ? 'id' : 'email');
+        $customerIdentifierPrefix = isset($options['cio_id']) ? 'cio_' : '';
 
-        $path = $this->customerPath($options[$customerIdentifierProperty]);
+        $path = $this->customerPath($customerIdentifierPrefix .$options[$customerIdentifierProperty]);
         unset($options[$customerIdentifierProperty]);
-        
+
         return $path;
     }
 }
