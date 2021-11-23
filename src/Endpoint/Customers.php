@@ -27,8 +27,8 @@ class Customers extends Base
      */
     public function event(array $options)
     {
-        if (!isset($options['id']) && !isset($options['email'])) {
-            $this->mockException('User id or email is required!', 'POST');
+        if (!isset($options['id']) && !isset($options['email']) && !isset($options['cio_id'])) {
+            $this->mockException('User id, email or cio_id is required!', 'POST');
         } // @codeCoverageIgnore
 
         $path = $this->setCustomerPathWithIdentifier($options);
@@ -44,7 +44,7 @@ class Customers extends Base
      */
     public function add(array $options)
     {
-        if (!isset($options['id']) && !isset($options['email'])) {
+        if (!isset($options['id']) && !isset($options['email']) && !isset($options['cio_id'])) {
             $this->mockException('User id or email is required!', 'PUT');
         } // @codeCoverageIgnore
 
@@ -52,8 +52,7 @@ class Customers extends Base
 
         return $this->client->put($path, $options);
     }
-    
-    
+
 
     /**
      * Delete customer
@@ -63,7 +62,7 @@ class Customers extends Base
      */
     public function delete(array $options)
     {
-        if (!isset($options['id']) && !isset($options['email'])) {
+        if (!isset($options['id']) && !isset($options['email']) && !isset($options['cio_id'])) {
             $this->mockException('User id or email is required!', 'DELETE');
         } // @codeCoverageIgnore
 
@@ -130,7 +129,7 @@ class Customers extends Base
             $this->mockException('User id or email is required!', 'GET');
         } // @codeCoverageIgnore
 
-        $path = $this->setCustomerPathWithIdentifier($options);
+        $path = $this->setCustomerPathWithIdentifier($options, ['attributes']);
 
         return $this->client->get($path, $options);
     }
@@ -147,7 +146,7 @@ class Customers extends Base
             $this->mockException('User id or email is required!', 'GET');
         } // @codeCoverageIgnore
 
-        $path = $this->setCustomerPathWithIdentifier($options);
+        $path = $this->setCustomerPathWithIdentifier($options, ['segments']);
 
         return $this->client->get($path, $options);
     }
@@ -164,8 +163,8 @@ class Customers extends Base
             $this->mockException('User id or email is required!', 'GET');
         } // @codeCoverageIgnore
 
-        $path = $this->setCustomerPathWithIdentifier($options);
-        
+        $path = $this->setCustomerPathWithIdentifier($options, ['messages']);
+
         return $this->client->get($path, $options);
     }
 
@@ -177,11 +176,11 @@ class Customers extends Base
      */
     public function activities(array $options)
     {
-       if (!isset($options['id']) && !isset($options['email'])) {
+        if (!isset($options['id']) && !isset($options['email'])) {
             $this->mockException('User id or email is required!', 'GET');
         } // @codeCoverageIgnore
 
-        $path = $this->setCustomerPathWithIdentifier($options);
+        $path = $this->setCustomerPathWithIdentifier($options, ['activities']);
 
         return $this->client->get($path, $options);
     }
@@ -198,8 +197,8 @@ class Customers extends Base
             $this->mockException('User id or email is required!', 'GET');
         } // @codeCoverageIgnore
 
-        $path = $this->setCustomerPathWithIdentifier($options);
-        
+        $path = $this->setCustomerPathWithIdentifier($options, ['suppress']);
+
         return $this->client->post($path, $options);
     }
 
@@ -211,28 +210,30 @@ class Customers extends Base
      */
     public function unsuppress(array $options)
     {
-       if (!isset($options['id']) && !isset($options['email'])) {
+        if (!isset($options['id']) && !isset($options['email'])) {
             $this->mockException('User id or email is required!', 'GET');
         } // @codeCoverageIgnore
 
-        $path = $this->setCustomerPathWithIdentifier($options);
+        $path = $this->setCustomerPathWithIdentifier($options, ['unsuppress']);
 
         return $this->client->post($path, $options);
     }
-    
-    
-     /**
+
+
+    /**
      * Set the customer path with the relevant identifier
      * @param array $options
+     * @param array $params
      * @return string
      */
-    private function setCustomerPathWithIdentifier(array &$options): string {
-        
-        $customerIdentifierProperty = isset($options['id']) ? 'id' : 'email';
+    private function setCustomerPathWithIdentifier(array &$options, array $params = []): string
+    {
+        $customerIdentifierProperty = isset($options['cio_id']) ? 'cio_id' : (isset($options['id']) ? 'id' : 'email');
+        $customerIdentifierPrefix = isset($options['cio_id']) ? 'cio_' : '';
 
-        $path = $this->customerPath($options[$customerIdentifierProperty]);
+        $path = $this->customerPath($customerIdentifierPrefix.$options[$customerIdentifierProperty], $params);
         unset($options[$customerIdentifierProperty]);
-        
+
         return $path;
     }
 }
