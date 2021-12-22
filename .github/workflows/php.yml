@@ -51,3 +51,7 @@ jobs:
         uses: paambaati/codeclimate-action@v3.0.0
         env:
           CC_TEST_REPORTER_ID: aa35d8bb9e77ff095a71b1b8c71888fcb4ae153d3a0c29f1e637a8af514feb7e
+        with:
+          debug: true
+          coverageLocations: |
+            ${{github.workspace}}/build/logs/clover.xml:clover
