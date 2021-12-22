@@ -1,0 +1,47 @@
+name: PHP Composer
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+    name: CustomerIoBuild
+    runs-on: ${{ matrix.operating-system }}
+    strategy:
+      matrix:
+        operating-system: [ubuntu-latest]
+        php-versions: ['7.4', '8.0', '8.1']
+
+    steps:
+      - name: Set default PHP version ${{ matrix.php-versions }}
+        run: sudo ln -snf /usr/bin/php${{ matrix.php-versions }} /usr/bin/php
+
+      - name: Display current PHP version
+        run: php --version
+
+      - uses: actions/checkout@v2
+
+      - name: Validate composer.json and composer.lock
+        run: composer validate
+
+      - name: Cache Composer packages
+        id: composer-cache
+        uses: actions/cache@v2
+        with:
+          path: vendor
+          key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-php-
+
+      - name: Install dependencies
+        if: steps.composer-cache.outputs.cache-hit != 'true'
+        run: composer install --prefer-dist --no-progress --no-suggest
+
+      - name: Prepare for Quality
+        run: /bin/sh -c 'mkdir -p ${{ github.workspace }}/build/logs && touch ${{ github.workspace }}/build/logs/checkstyle.xml'
+
+      - name: Run PHPUnit
+        run: php -dxdebug.mode=coverage ${{ github.workspace }}/vendor/bin/phpunit
