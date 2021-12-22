@@ -1,13 +1,32 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" bootstrap="tests/bootstrap.php" colors="true" convertNoticesToExceptions="true" convertWarningsToExceptions="true" convertErrorsToExceptions="true" verbose="true" xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd">
-  <coverage>
-    <include>
-      <directory suffix=".php">src</directory>
-    </include>
-  </coverage>
-  <testsuites>
-    <testsuite name="main">
-      <directory>tests</directory>
+<?xml version="1.0"?>
+<phpunit
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        colors="true"
+        stopOnError="true"
+        stopOnFailure="true"
+        bootstrap="./vendor/autoload.php"
+        xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd"
+>
+    <coverage>
+        <include>
+            <directory suffix=".php">./src</directory>
+        </include>
+        <report>
+            <clover outputFile="./build/logs/clover.xml"/>
+            <html outputDirectory="./build/coverage" lowUpperBound="35" highLowerBound="70"/>
+        </report>
+    </coverage>
+    <testsuite name="Unit test suite">
+        <directory>./tests</directory>
     </testsuite>
-  </testsuites>
+    <php>
+        <ini name="error_reporting" value="32767"/>
+        <ini name="display_errors" value="1"/>
+        <ini name="display_startup_errors" value="1"/>
+    </php>
+    <logging>
+        <junit outputFile="./build/logs/junit.xml"/>
+        <testdoxHtml outputFile="./build/logs/testdox.html"/>
+        <testdoxText outputFile="./build/logs/testdox.txt"/>
+    </logging>
 </phpunit>
