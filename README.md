@@ -4,7 +4,7 @@ PHP bindings for the Customer.io API.
 
 [API Documentation](https://customer.io/docs/api/)
 
-[![Actions Status](https://github.com/printu/customerio/workflows/PHP%20Composer/badge.svg?branch=master)](https://github.com/DragonBe/vies/actions)
+[![Actions Status](https://github.com/printu/customerio/workflows/PHP%20Composer/badge.svg?branch=master)](https://github.com/printu/customerio/actions)
 [![Code Climate](https://codeclimate.com/github/printu/customerio/badges/gpa.svg)](https://codeclimate.com/github/printu/customerio)
 [![Test Coverage](https://codeclimate.com/github/printu/customerio/badges/coverage.svg)](https://codeclimate.com/github/printu/customerio/coverage)
 
