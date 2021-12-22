@@ -32,9 +32,9 @@ jobs:
         uses: actions/cache@v2
         with:
           path: vendor
-          key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
+          key: ${{ runner.os }}-php${{ matrix.php-versions }}-${{ hashFiles('**/composer.lock') }}
           restore-keys: |
-            ${{ runner.os }}-php-
+            ${{ runner.os }}-php${{ matrix.php-versions }}-
 
       - name: Install dependencies
         if: steps.composer-cache.outputs.cache-hit != 'true'
@@ -46,7 +46,8 @@ jobs:
       - name: Run PHPUnit
         run: php -dxdebug.mode=coverage ${{ github.workspace }}/vendor/bin/phpunit
 
-      - name: Test & publish code coverage
+      - name: Publish code coverage
+        if: ${{ matrix.php-versions }} == '8.1'
         uses: paambaati/codeclimate-action@v3.0.0
         env:
           CC_TEST_REPORTER_ID: aa35d8bb9e77ff095a71b1b8c71888fcb4ae153d3a0c29f1e637a8af514feb7e
