@@ -244,6 +244,11 @@ class Client
         $url = $apiEndpoint.$path;
 
         if (!empty($json)) {
+            if (!empty($json['query'])) {
+                $options['query'] = $json['query'];
+                unset($json['query']);
+            }
+
             $options['json'] = $json;
         }
 
