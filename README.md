@@ -2,7 +2,7 @@
 
 PHP bindings for the Customer.io API.
 
-[API Documentation](https://customer.io/docs/api/)
+[API Documentation](https://www.customer.io/docs/api/)
 
 [![Actions Status](https://github.com/printu/customerio/workflows/PHP%20Composer/badge.svg?branch=master)](https://github.com/printu/customerio/actions)
 [![Code Climate](https://codeclimate.com/github/printu/customerio/badges/gpa.svg)](https://codeclimate.com/github/printu/customerio)
@@ -20,10 +20,6 @@ Behavioral Tracking API is used to identify and track customer data with Custome
 https://api.customer.io/v1/api/ \
 API allows you to read data from your Customer.io account for use in custom workflows in your backend system or for reporting purposes.
 
-**API (BETA)**
-
-https://beta-api.customer.io/v1/api/ \
-Beta API features should be used with caution, and should be expected to change with little notice. Please refer to [this](https://customer.io/docs/api/#apitrackintroduction) documentation for available endpoints.
 ## Installation
 
 The API client can be installed via [Composer](https://github.com/composer/composer).
