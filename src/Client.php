@@ -166,7 +166,7 @@ class Client
      */
     public function get(string $endpoint, array $params = [])
     {
-        $apiEndpoint = $this->getRegion()->betaUri();
+        $apiEndpoint = $this->getRegion()->apiUri();
 
         $options = $this->getDefaultParams($apiEndpoint);
         if (!empty($params)) {
@@ -291,7 +291,6 @@ class Client
     {
         switch ($endpoint) {
             case $this->region->apiUri():
-            case $this->region->betaUri():
                 return [
                     'headers' => [
                         'Authorization' => 'Bearer '.$this->getToken(),

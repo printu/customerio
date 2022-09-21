@@ -56,7 +56,6 @@ class ClientTest extends TestCase
             $request = $transaction['request'];
             $auth = $request->getHeaders()['Authorization'][0];
             switch ($request->getUri()->getHost()) {
-                case parse_url($client->getRegion()->betaUri(), PHP_URL_HOST):
                 case parse_url($client->getRegion()->apiUri(), PHP_URL_HOST):
                     $this->assertTrue($auth == "Bearer t");
                     break;
@@ -105,7 +104,6 @@ class ClientTest extends TestCase
             $request = $transaction['request'];
             $auth = $request->getHeaders()['Authorization'][0];
             switch ($request->getUri()->getHost()) {
-                case parse_url($client->getRegion()->betaUri(), PHP_URL_HOST):
                 case parse_url($client->getRegion()->apiUri(), PHP_URL_HOST):
                     $this->assertTrue($auth == "Bearer t");
                     break;

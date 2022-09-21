@@ -15,9 +15,4 @@ class RegionUs implements RegionInterface
     {
         return 'https://api.customer.io/v1/';
     }
-
-    public function betaUri(): string
-    {
-        return 'https://beta-api.customer.io/v1/api/';
-    }
 }

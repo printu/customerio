@@ -22,7 +22,7 @@ class Segments extends Base
 
         $path = $this->segmentsPath();
         $json = ['segment' => $options];
-        $json['endpoint'] = $this->client->getRegion()->betaUri();
+        $json['endpoint'] = $this->client->getRegion()->apiUri();
 
         return $this->client->post($path, $json);
     }
@@ -132,7 +132,7 @@ class Segments extends Base
 
         $path = $this->segmentsPath($options['id']);
         unset($options['id']);
-        $options['endpoint'] = $this->client->getRegion()->betaUri();
+        $options['endpoint'] = $this->client->getRegion()->apiUri();
 
         return $this->client->delete($path, $options);
     }
