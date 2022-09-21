@@ -166,7 +166,7 @@ class Client
      */
     public function get(string $endpoint, array $params = [])
     {
-        $apiEndpoint = $this->getRegion()->betaUri();
+        $apiEndpoint = $this->getRegion()->apiUri();
 
         $options = $this->getDefaultParams($apiEndpoint);
         if (!empty($params)) {
@@ -244,6 +244,11 @@ class Client
         $url = $apiEndpoint.$path;
 
         if (!empty($json)) {
+            if (!empty($json['query'])) {
+                $options['query'] = $json['query'];
+                unset($json['query']);
+            }
+
             $options['json'] = $json;
         }
 
@@ -291,7 +296,6 @@ class Client
     {
         switch ($endpoint) {
             case $this->region->apiUri():
-            case $this->region->betaUri():
                 return [
                     'headers' => [
                         'Authorization' => 'Bearer '.$this->getToken(),

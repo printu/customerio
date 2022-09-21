@@ -56,7 +56,6 @@ class ClientTest extends TestCase
             $request = $transaction['request'];
             $auth = $request->getHeaders()['Authorization'][0];
             switch ($request->getUri()->getHost()) {
-                case parse_url($client->getRegion()->betaUri(), PHP_URL_HOST):
                 case parse_url($client->getRegion()->apiUri(), PHP_URL_HOST):
                     $this->assertTrue($auth == "Bearer t");
                     break;
@@ -105,7 +104,6 @@ class ClientTest extends TestCase
             $request = $transaction['request'];
             $auth = $request->getHeaders()['Authorization'][0];
             switch ($request->getUri()->getHost()) {
-                case parse_url($client->getRegion()->betaUri(), PHP_URL_HOST):
                 case parse_url($client->getRegion()->apiUri(), PHP_URL_HOST):
                     $this->assertTrue($auth == "Bearer t");
                     break;
@@ -219,5 +217,41 @@ class ClientTest extends TestCase
             'email' => 'test@customer.io',
         ]);
         $this->assertIsObject($response);
+    }
+
+    public function testRequestParams()
+    {
+        $mock = new MockHandler([
+            new Response(200, ['X-Foo' => 'Bar'], "{\"foo\":\"bar\"}"),
+        ]);
+        $container = [];
+        $history = Middleware::history($container);
+        $stack = HandlerStack::create($mock);
+        $stack->push($history);
+        $http_client = new Client(['handler' => $stack]);
+        $client = new CustomerIoClient('u', 'p');
+        $client->setAppAPIKey('t');
+        $client->setSiteId('p');
+        $client->setAssocResponse(false);
+        $client->setClient($http_client);
+        $client->setRegion('eu');
+        $client->customers->search([
+            'query' => [
+                'limit' => 5,
+            ],
+            'filter' => [
+                "attribute" => [
+                    "field" => "email",
+                    "operator" => "exists",
+                ],
+            ],
+        ]);
+        foreach ($container as $transaction) {
+            /** @var Request $request */
+            $request = $transaction['request'];
+            $query = $request->getUri()->getQuery();
+
+            $this->assertEquals('limit=5', $query);
+        }
     }
 }

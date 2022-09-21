@@ -19,11 +19,4 @@ interface RegionInterface
      * @return string
      */
     public function apiUri(): string;
-
-    /**
-     * API (BETA)
-     *
-     * @return string
-     */
-    public function betaUri(): string;
 }

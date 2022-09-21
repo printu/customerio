@@ -58,7 +58,7 @@ class Collections extends Base
         } // @codeCoverageIgnore
 
         $path = $this->collectionsPath();
-        $options['endpoint'] = $this->client->getRegion()->betaUri();
+        $options['endpoint'] = $this->client->getRegion()->apiUri();
 
         return $this->client->post($path, $options);
     }
@@ -78,7 +78,7 @@ class Collections extends Base
 
         $path = $this->collectionsPath($options['collection_id']);
         unset($options['collection_id']);
-        $options['endpoint'] = $this->client->getRegion()->betaUri();
+        $options['endpoint'] = $this->client->getRegion()->apiUri();
 
         return $this->client->delete($path, $options);
     }
@@ -98,7 +98,7 @@ class Collections extends Base
 
         $path = $this->collectionsPath($options['collection_id']);
         unset($options['collection_id']);
-        $options['endpoint'] = $this->client->getRegion()->betaUri();
+        $options['endpoint'] = $this->client->getRegion()->apiUri();
 
         return $this->client->put($path, $options);
     }
@@ -142,7 +142,7 @@ class Collections extends Base
 
         $path = $this->collectionsPath($options['collection_id'], ['content']);
         $options = $options['data'];
-        $options['endpoint'] = $this->client->getRegion()->betaUri();
+        $options['endpoint'] = $this->client->getRegion()->apiUri();
 
         return $this->client->put($path, $options);
     }

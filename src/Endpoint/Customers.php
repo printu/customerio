@@ -112,7 +112,7 @@ class Customers extends Base
         } // @codeCoverageIgnore
 
         $path = $this->customerPath();
-        $options['endpoint'] = $this->client->getRegion()->betaUri();
+        $options['endpoint'] = $this->client->getRegion()->apiUri();
 
         return $this->client->post($path, $options);
     }
