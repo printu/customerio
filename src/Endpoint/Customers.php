@@ -219,6 +219,24 @@ class Customers extends Base
         return $this->client->post($path, $options);
     }
 
+    /**
+     * Merge duplicate people
+     * @param array $options
+     * @return mixed
+     * @throws GuzzleException
+     */
+    public function merge(array $options)
+    {
+        if (!isset($options['primary']['id']) && !isset($options['primary']['email']) && !isset($options['primary']['cio_id'])) {
+            $this->mockException('Primary user id, email or cio_id is required!', 'POST');
+        } // @codeCoverageIgnore
+
+        if (!isset($options['secondary']['id']) && !isset($options['secondary']['email']) && !isset($options['secondary']['cio_id'])) {
+            $this->mockException('Secondary user id, email or cio_id is required!', 'POST');
+        } // @codeCoverageIgnore
+
+        return $this->client->post('merge_customers', $options);
+    }
 
     /**
      * Set the customer path with the relevant identifier
