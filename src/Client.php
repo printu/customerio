@@ -316,67 +316,67 @@ class Client
         }
     }
 
-    public function getEvents(): Endpoint\Events
+    public function events(): Endpoint\Events
     {
         return $this->events;
     }
 
-    public function getCustomers(): Endpoint\Customers
+    public function customers(): Endpoint\Customers
     {
         return $this->customers;
     }
 
-    public function getPage(): Endpoint\Page
+    public function page(): Endpoint\Page
     {
         return $this->page;
     }
 
-    public function getCampaigns(): Endpoint\Campaigns
+    public function campaigns(): Endpoint\Campaigns
     {
         return $this->campaigns;
     }
 
-    public function getMessages(): Endpoint\Messages
+    public function messages(): Endpoint\Messages
     {
         return $this->messages;
     }
 
-    public function getMessageTemplates(): Endpoint\MessageTemplates
+    public function messageTemplates(): Endpoint\MessageTemplates
     {
         return $this->messageTemplates;
     }
 
-    public function getNewsletters(): Endpoint\Newsletters
+    public function newsletters(): Endpoint\Newsletters
     {
         return $this->newsletters;
     }
 
-    public function getSegments(): Endpoint\Segments
+    public function segments(): Endpoint\Segments
     {
         return $this->segments;
     }
 
-    public function getExports(): Endpoint\Exports
+    public function exports(): Endpoint\Exports
     {
         return $this->exports;
     }
 
-    public function getActivities(): Endpoint\Activities
+    public function activities(): Endpoint\Activities
     {
         return $this->activities;
     }
 
-    public function getSenderIdentities(): Endpoint\SenderIdentities
+    public function senderIdentities(): Endpoint\SenderIdentities
     {
         return $this->senderIdentities;
     }
 
-    public function getSend(): Endpoint\Send
+    public function send(): Endpoint\Send
     {
         return $this->send;
     }
 
-    public function getCollection(): Endpoint\Collections
+    public function collection(): Endpoint\Collections
     {
         return $this->collection;
     }
