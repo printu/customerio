@@ -315,4 +315,69 @@ class Client
                 ];
         }
     }
+
+    public function events(): Endpoint\Events
+    {
+        return $this->events;
+    }
+
+    public function customers(): Endpoint\Customers
+    {
+        return $this->customers;
+    }
+
+    public function page(): Endpoint\Page
+    {
+        return $this->page;
+    }
+
+    public function campaigns(): Endpoint\Campaigns
+    {
+        return $this->campaigns;
+    }
+
+    public function messages(): Endpoint\Messages
+    {
+        return $this->messages;
+    }
+
+    public function messageTemplates(): Endpoint\MessageTemplates
+    {
+        return $this->messageTemplates;
+    }
+
+    public function newsletters(): Endpoint\Newsletters
+    {
+        return $this->newsletters;
+    }
+
+    public function segments(): Endpoint\Segments
+    {
+        return $this->segments;
+    }
+
+    public function exports(): Endpoint\Exports
+    {
+        return $this->exports;
+    }
+
+    public function activities(): Endpoint\Activities
+    {
+        return $this->activities;
+    }
+
+    public function senderIdentities(): Endpoint\SenderIdentities
+    {
+        return $this->senderIdentities;
+    }
+
+    public function send(): Endpoint\Send
+    {
+        return $this->send;
+    }
+
+    public function collection(): Endpoint\Collections
+    {
+        return $this->collection;
+    }
 }
