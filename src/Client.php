@@ -158,6 +158,15 @@ class Client
     }
 
     /**
+     * Get current Guzzle client
+     * @return BaseClient
+     */
+    public function getClient(): BaseClient
+    {
+        return $this->httpClient;
+    }
+
+    /**
      * Sends GET request to Customer.io API.
      * @param string $endpoint
      * @param array $params
