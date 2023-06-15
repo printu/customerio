@@ -19,7 +19,7 @@ class Region
             case 'eu':
                 return new RegionEu();
             default:
-                throw new InvalidRegionException("Unknown region: ${region}");
+                throw new InvalidRegionException("Unknown region: {$region}");
         }
     }
 }
