@@ -154,7 +154,7 @@ class ClientTest extends TestCase
         ]);
 
         $this->assertIsObject($response);
-        $this->assertObjectHasAttribute('foo', $response);
+        $this->assertTrue(property_exists($response, 'foo'));
     }
 
     public function testBasicClientNoAppKey()
