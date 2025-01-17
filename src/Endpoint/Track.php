@@ -6,6 +6,13 @@ use GuzzleHttp\Exception\GuzzleException;
 
 class Track extends Base
 {
+    /**
+     * Make a single request
+     * @see https://docs.customer.io/api/track/#operation/entity
+     * @param array $options
+     * @return mixed
+     * @throws GuzzleException
+     */
     public function entity(array $options)
     {
         if (!isset($options['type'])) {
@@ -26,6 +33,13 @@ class Track extends Base
         return $this->client->post($path, $options);
     }
 
+    /**
+     * Send multiple requests
+     * @see https://docs.customer.io/api/track/#operation/batch
+     * @param array $options
+     * @return mixed
+     * @throws GuzzleException
+     */
     public function batch(array $options)
     {
         if (!isset($options['batch'])) {
