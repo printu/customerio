@@ -13,7 +13,7 @@ class Track extends Base
         } // @codeCoverageIgnore
 
         if (!isset($options['action'])) {
-            $this->mockException('An event action  is required!', 'POST');
+            $this->mockException('An event action is required!', 'POST');
         } // @codeCoverageIgnore
 
         if (!isset($options['identifiers'])) {
@@ -24,7 +24,6 @@ class Track extends Base
         $options['endpoint'] = $this->client->getRegion()->trackUri('v2');
 
         return $this->client->post($path, $options);
-
     }
 
     public function batch(array $options)
