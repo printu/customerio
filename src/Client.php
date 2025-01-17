@@ -70,6 +70,9 @@ class Client
     /** @var Endpoint\Collections */
     public $collection;
 
+    /** @var Endpoint\Track */
+    public $track;
+
     /**
      * Client constructor.
      * @param string $apiKey Api Key
@@ -92,6 +95,7 @@ class Client
         $this->senderIdentities = new Endpoint\SenderIdentities($this);
         $this->send = new Endpoint\Send($this);
         $this->collection = new Endpoint\Collections($this);
+        $this->track = new Endpoint\Track($this);
 
         $this->apiKey = $apiKey;
         $this->siteId = $siteId;

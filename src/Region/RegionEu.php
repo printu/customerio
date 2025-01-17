@@ -6,9 +6,9 @@ namespace Customerio\Region;
 
 class RegionEu implements RegionInterface
 {
-    public function trackUri(): string
+    public function trackUri(string $version = 'v1'): string
     {
-        return 'https://track-eu.customer.io/api/v1/';
+        return 'https://track-eu.customer.io/api/'.$version.'/';
     }
 
     public function apiUri(): string
