@@ -11,7 +11,7 @@ interface RegionInterface
      *
      * @return string
      */
-    public function trackUri(): string;
+    public function trackUri(string $version = 'v1'): string;
 
     /**
      * API
