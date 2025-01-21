@@ -409,7 +409,6 @@ This new approach provides a more intuitive way to interact with your data by fo
 In theory, all v1 operations can be done with v2 but the v2 API does not support all v1 operations yet.
 
 For more details, see the [Track V2 API documentation](https://docs.customer.io/api/track/#tag/track_v2).
-```
 
 ## License
 
