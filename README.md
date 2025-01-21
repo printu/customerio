@@ -257,6 +257,160 @@ try {
 
 See [here](https://learn.customer.io/documentation/api-triggered-data-format.html) for more examples of API Triggered Broadcasts
 
+## V2 Track API
+
+The Track API allows you to send entity-based operations to Customer.io. You can use it for both single operations and batch operations.
+
+> Note: The `identify` action is used to create or update an entity.
+
+### Single Entity Operation
+
+#### Create or update a person entity.
+
+```php
+<?php
+// Single entity operation
+try {
+    $client->track->entity([
+        'type' => 'person',
+        'action' => 'identify',
+        'identifiers' => [
+            'id' => '123' // or 'email' => 'test@example.com' or 'cio_id' => 'cio_123'
+        ],
+        'attributes' => [
+            'name' => 'John Doe',
+            'plan' => 'premium',
+            'test_attribute' => null, // pass null to remove the attribute from the entity
+            'last_activity_at' => time()
+        ]
+    ]);
+} catch (\GuzzleHttp\Exception\GuzzleException $e) {
+    // Handle the error
+}
+```
+
+#### Create or update an object entity.
+
+```php
+<?php
+// Create or update an object
+try {
+    $client->track->entity([
+        'type' => 'object',
+        'action' => 'identify',
+        'identifiers' => [
+            'object_type_id' => 'product',
+            'object_id' => 'SKU-123'
+        ],
+        'attributes' => [
+            'name' => 'Awesome Product',
+            'price' => 99.99,
+            'category' => 'Electronics'
+        ]
+    ]);
+} catch (\GuzzleHttp\Exception\GuzzleException $e) {
+    // Handle the error
+}
+```
+
+#### Delete an entity
+
+```php
+<?php
+// Delete an entity
+try {
+    $client->track->entity([
+        'type' => 'person',
+        'action' => 'delete',
+        'identifiers' => [
+            'id' => '123'
+        ]
+    ]);
+} catch (\GuzzleHttp\Exception\GuzzleException $e) {
+    // Handle the error
+}
+```
+
+#### Add relationships to a person
+
+```php
+<?php
+// Add relationships to a person entity
+try {
+    $client->track->entity([
+        'type' => 'person',
+        'action' => 'add_relationships',
+        'identifiers' => [
+            'id' => '123'
+        ],
+        'cio_relationships' => [
+            'identifiers' => [
+                'object_type_id' => 'product',
+                'object_id' => 'SKU-123'
+            ],
+            'relationship_attributes' => [
+                'role' => 'client',
+                'created_at' => '2024-01-01T10:12:00Z'
+            ]
+        ]
+    ]);
+} catch (\GuzzleHttp\Exception\GuzzleException $e) {
+    // Handle the error
+}
+```
+
+### Batch Operations
+
+```php
+<?php
+// Batch multiple operations
+try {
+    $client->track->batch([
+        'batch' => [
+            [
+                'type' => 'person',
+                'action' => 'identify',
+                'identifiers' => ['id' => '123'],
+                'attributes' => ['name' => 'John Doe']
+            ],
+            [
+                'type' => 'person',
+                'action' => 'event',
+                'identifiers' => ['id' => '123'],
+                'name' => 'purchased',
+                'timestamp' => time(),
+                'attributes' => ['product_id' => 'SKU-123']
+            ],
+            [
+                'type' => 'object',
+                'action' => 'identify',
+                'identifiers' => [
+                    'object_type_id' => 'product',
+                    'object_id' => 'SKU-123'
+                ],
+                'attributes' => ['in_stock' => true]
+            ]
+        ]
+    ]);
+} catch (\GuzzleHttp\Exception\GuzzleException $e) {
+    // Handle the error
+}
+```
+
+### Main differences with V1
+
+The Track V2 API introduces an entity-centric approach, contrasting with V1's action-based model. The key difference lies in the request structure:
+
+- V1 API: Actions come first (identify, track event) through the endpoint followed by the target entity you provide.
+- V2 API: The target entity type comes first (person, object) followed by the action to perform.
+
+This new approach provides a more intuitive way to interact with your data by focusing first on what entity you're working with before specifying what you want to do with it. It also allows the API to have only two endpoint for all operations.
+
+In theory, all v1 operations can be done with v2 but the v2 API does not support all v1 operations yet.
+
+For more details, see the [Track V2 API documentation](https://docs.customer.io/api/track/#tag/track_v2).
+```
+
 ## License
 
 MIT license. See the [LICENSE](LICENSE) file for more details.
