@@ -41,4 +41,30 @@ class Send extends Base
 
         return $this->client->post('send/email', $options);
     }
+
+    /**
+     * Send a transactional SMS
+     * @see https://docs.customer.io/integrations/api/app/#operation/sendSMS
+     * @param array $options
+     * @return mixed
+     * @throws GuzzleException
+     */
+    public function sms(array $options)
+    {
+        if (!isset($options['transactional_message_id'])) {
+            $this->mockException('SMS transactional_message_id is required!', 'POST');
+        } // @codeCoverageIgnore
+
+        if (!isset($options['identifiers'])) {
+            $this->mockException('SMS identifiers is required!', 'POST');
+        } // @codeCoverageIgnore
+
+        if (!isset($options['to'])) {
+            $this->mockException('SMS to is required!', 'POST');
+        } // @codeCoverageIgnore
+
+        $options['endpoint'] = $this->client->getRegion()->apiUri();
+
+        return $this->client->post('send/sms', $options);
+    }
 }

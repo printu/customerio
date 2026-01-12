@@ -111,4 +111,75 @@ class SendTest extends TestCase
             ],
         ]));
     }
+
+    public function testSendSmsWithId()
+    {
+        $stub = $this->getMockBuilder('Customerio\Client')->disableOriginalConstructor()->getMock();
+        $stub->method('post')->willReturn('foo');
+        $page = new Send($stub);
+        $this->assertEquals('foo', $page->sms([
+            'transactional_message_id' => 2,
+            'to' => '+15551234567',
+            'identifiers' => [
+                'id' => 12,
+            ],
+        ]));
+    }
+
+    public function testSendSmsWithMessageData()
+    {
+        $stub = $this->getMockBuilder('Customerio\Client')->disableOriginalConstructor()->getMock();
+        $stub->method('post')->willReturn('foo');
+        $page = new Send($stub);
+        $this->assertEquals('foo', $page->sms([
+            'transactional_message_id' => 2,
+            'to' => '+15551234567',
+            'identifiers' => [
+                'id' => 12,
+            ],
+            'message_data' => [
+                'name' => 'John Doe',
+            ],
+        ]));
+    }
+
+    public function testSendSmsMissingTransactionalMessageId()
+    {
+        $this->expectException(GuzzleException::class);
+        $stub = $this->getMockBuilder('Customerio\Client')->disableOriginalConstructor()->getMock();
+        $stub->method('post')->willReturn('foo');
+        $page = new Send($stub);
+        $this->assertEquals('foo', $page->sms([
+            'to' => '+15551234567',
+            'identifiers' => [
+                'id' => 12,
+            ],
+        ]));
+    }
+
+    public function testSendSmsMissingTo()
+    {
+        $this->expectException(GuzzleException::class);
+        $stub = $this->getMockBuilder('Customerio\Client')->disableOriginalConstructor()->getMock();
+        $stub->method('post')->willReturn('foo');
+        $page = new Send($stub);
+        $this->assertEquals('foo', $page->sms([
+            'transactional_message_id' => 2,
+            'identifiers' => [
+                'id' => 12,
+            ],
+        ]));
+    }
+
+    public function testSendSmsMissingIdentifiers()
+    {
+        $this->expectException(GuzzleException::class);
+        $stub = $this->getMockBuilder('Customerio\Client')->disableOriginalConstructor()->getMock();
+        $stub->method('post')->willReturn('foo');
+        $page = new Send($stub);
+        $this->assertEquals('foo', $page->sms([
+            'transactional_message_id' => 2,
+            'to' => '+15551234567',
+        ]));
+    }
 }
