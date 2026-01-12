@@ -11,25 +11,24 @@ jobs:
     name: CustomerIoBuild
     runs-on: ${{ matrix.operating-system }}
     strategy:
+      fail-fast: false
       matrix:
-        operating-system: [ubuntu-20.04]
-        php-versions: ['7.4', '8.0', '8.1', '8.2', '8.3']
+        operating-system: [ubuntu-latest]
+        php-versions: ['7.4', '8.0', '8.1', '8.2', '8.3', '8.4']
 
     steps:
-      - name: Set default PHP version ${{ matrix.php-versions }}
-        run: sudo ln -snf /usr/bin/php${{ matrix.php-versions }} /usr/bin/php
+      - uses: actions/checkout@v6
 
-      - name: Display current PHP version
-        run: php --version
-
-      - uses: actions/checkout@v2
+      - uses: "shivammathur/setup-php@v2"
+        with:
+          php-version: "${{ matrix.php-versions }}"
 
       - name: Validate composer.json and composer.lock
         run: composer validate
 
       - name: Cache Composer packages
         id: composer-cache
-        uses: actions/cache@v3
+        uses: actions/cache@v5
         with:
           path: vendor
           key: ${{ runner.os }}-php${{ matrix.php-versions }}-${{ hashFiles('**/composer.lock') }}
@@ -45,12 +44,3 @@ jobs:
 
       - name: Run PHPUnit
         run: php -dxdebug.mode=coverage ${{ github.workspace }}/vendor/bin/phpunit
-
-      - name: Publish code coverage
-        if: ${{ matrix.php-versions == '8.3' }}
-        uses: paambaati/codeclimate-action@v3.0.0
-        env:
-          CC_TEST_REPORTER_ID: aa35d8bb9e77ff095a71b1b8c71888fcb4ae153d3a0c29f1e637a8af514feb7e
-        with:
-          coverageLocations: |
-            ${{github.workspace}}/build/logs/clover.xml:clover
