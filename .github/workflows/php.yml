@@ -19,6 +19,9 @@ jobs:
       - name: Set default PHP version ${{ matrix.php-versions }}
         run: sudo ln -snf /usr/bin/php${{ matrix.php-versions }} /usr/bin/php
 
+      - run: |
+          ls -la /usr/bin
+
       - name: Display current PHP version
         run: php --version
 
