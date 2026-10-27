@@ -257,6 +257,60 @@ try {
 
 See [here](https://learn.customer.io/documentation/api-triggered-data-format.html) for more examples of API Triggered Broadcasts
 
+#### Objects
+
+```php
+<?php
+// List object types
+try {
+    $types = $client->objects->types();
+} catch (\GuzzleHttp\Exception\GuzzleException $e) {
+    // Handle the error
+}
+
+// Find objects by filter
+try {
+    $objects = $client->objects->search([
+        'object_type_id' => '1',
+        'filter' => [
+            'and' => [
+                [
+                    'object_attribute' => [
+                        'field' => 'name',
+                        'operator' => 'exists',
+                        'type_id' => '1'
+                    ]
+                ]
+            ]
+        ]
+    ]);
+} catch (\GuzzleHttp\Exception\GuzzleException $e) {
+    // Handle the error
+}
+
+// Get object relationships
+try {
+    $relationships = $client->objects->relationships([
+        'object_type_id' => '1',
+        'object_id' => 'company-123'
+    ]);
+} catch (\GuzzleHttp\Exception\GuzzleException $e) {
+    // Handle the error
+}
+
+// Get object attributes
+try {
+    $attributes = $client->objects->attributes([
+        'object_type_id' => '1',
+        'object_id' => 'company-123'
+    ]);
+} catch (\GuzzleHttp\Exception\GuzzleException $e) {
+    // Handle the error
+}
+```
+
+Check for other available methods [here](https://docs.customer.io/integrations/api/app/tag/objects/)
+
 ## V2 Track API
 
 The Track API allows you to send entity-based operations to Customer.io. You can use it for both single operations and batch operations.

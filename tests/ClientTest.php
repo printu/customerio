@@ -254,4 +254,52 @@ class ClientTest extends TestCase
             $this->assertEquals('limit=5', $query);
         }
     }
+
+    public function testObjectsRequests()
+    {
+        $mock = new MockHandler([
+            new Response(200, ['Content-Type' => 'application/json'], "{\"types\":[{\"id\":\"1\"}]}"),
+            new Response(200, ['Content-Type' => 'application/json'], "{\"identifiers\":[]}"),
+            new Response(200, ['Content-Type' => 'application/json'], "{\"cio_relationships\":[]}"),
+            new Response(200, ['Content-Type' => 'application/json'], "{\"object\":{\"attributes\":{}}}"),
+        ]);
+        $container = [];
+        $history = Middleware::history($container);
+        $stack = HandlerStack::create($mock);
+        $stack->push($history);
+        $http_client = new Client(['handler' => $stack]);
+        $client = new CustomerIoClient('u', 'p');
+        $client->setAppAPIKey('test-key');
+        $client->setClient($http_client);
+
+        $client->objects->types();
+        $client->objects->search([
+            'object_type_id' => '1',
+            'filter' => ['and' => []],
+        ]);
+        $client->objects->relationships([
+            'object_type_id' => '1',
+            'object_id' => 'acme',
+            'limit' => 10,
+        ]);
+        $client->objects->attributes([
+            'object_type_id' => '1',
+            'object_id' => 'acme',
+        ]);
+
+        $this->assertCount(4, $container);
+
+        $this->assertEquals('GET', $container[0]['request']->getMethod());
+        $this->assertEquals('/v1/object_types', $container[0]['request']->getUri()->getPath());
+
+        $this->assertEquals('POST', $container[1]['request']->getMethod());
+        $this->assertEquals('/v1/objects', $container[1]['request']->getUri()->getPath());
+
+        $this->assertEquals('GET', $container[2]['request']->getMethod());
+        $this->assertEquals('/v1/objects/1/acme/relationships', $container[2]['request']->getUri()->getPath());
+        $this->assertEquals('limit=10', $container[2]['request']->getUri()->getQuery());
+
+        $this->assertEquals('GET', $container[3]['request']->getMethod());
+        $this->assertEquals('/v1/objects/1/acme/attributes', $container[3]['request']->getUri()->getPath());
+    }
 }

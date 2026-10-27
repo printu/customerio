@@ -122,6 +122,43 @@ class Base
     }
 
     /**
+     * @param null $typeId
+     * @param null $id
+     * @param array $extra
+     * @return string
+     */
+    public function objectsPath($typeId = null, $id = null, array $extra = []): string
+    {
+        $path = [
+            'objects',
+        ];
+
+        if ($typeId !== null && $typeId !== '') {
+            $path[] = (string)$typeId;
+        }
+
+        if ($id !== null && $id !== '') {
+            $path[] = (string)$id;
+        }
+
+        if (!empty($extra)) {
+            $path = array_merge($path, $extra);
+        }
+
+        return implode('/', $path);
+    }
+
+    /**
+     * @param null $id
+     * @param array $extra
+     * @return string
+     */
+    public function objectTypesPath($id = null, array $extra = []): string
+    {
+        return $this->generatePath('object_types', $id, $extra);
+    }
+
+    /**
      * @param $prefix
      * @param null $id
      * @param array $extra
